@@ -1,0 +1,130 @@
+.PLANX, .cont {
+    justify-content: center;
+    align-items: center;
+    font-family: 'Pacifico', cursive;
+    font-size: 90px;
+    background: linear-gradient(to bottom, #3C8CCC, #95C0E3);
+}
+
+.carousel-item{
+    max-height: 800px;
+}
+#logInWeb{
+    padding: 20px 40px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    width: 500px;
+    height: 500px;
+    position: absolute;
+    right: 35%;
+    top: 25%;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    font-family: 'Jaldi', sans-serif;
+    font-size: 20px;
+    color: white;
+    backdrop-filter: blur(20px);
+    background-color: rgba(255, 255, 255, 0.1);
+
+}
+#logBut{
+    height: 50px;
+    border-radius: 5px;
+    margin: 10px 0;
+    border: none;
+}
+.form-floating input {
+    backdrop-filter: blur(100px);
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+}
+#registerWeb{
+    padding: 20px 40px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    width: 500px;
+    height: 700px;
+    position: absolute;
+    right: 35%;
+    top: 28%;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+
+    font-size: 15px;
+    color: white;
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.form-control:focus {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px);
+}
+.form-floating {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px; /* Adjust as needed */
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.password-toggle img {
+    width: 30px;
+    height: 30px;
+}
+.rowHead{
+    display: flex;
+    flex-direction: row;
+    font-family: 'Arima Madurai', sans-serif;
+    color: white;
+    justify-content: left;
+    align-content: start;
+    text-align: left;
+    height: 120px;
+    font-size: 20px;
+
+
+}
+.rowHead li{
+    margin: 50px 20px;
+}
+
+
+.headOut{
+    position: fixed;
+    background-color: transparent;
+    border: transparent solid 4px;
+    transition: background-color 0.5s ease;
+    top: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
+    width: 100vw;
+}
+.headOut.scrolled {
+    transition: background-color 0.5s ease;
+    background: linear-gradient(#95C0E3, antiquewhite);
+
+}
+.section1{
+    align-items: center;
+    text-align: center;
+}
+#OpenLog, #OpenReg{
+    position: absolute;
+    top:35%;
+    width: 120px;
+}
+#OpenLog{
+    right: 13%;
+}
+#OpenReg{
+
+    right: 5%;
+}
