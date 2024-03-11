@@ -33,6 +33,7 @@
                             <label for="registerUsername" style="font-family: Playfair Display">Username</label>
                             <input type="text" class="htmlForm-control loginTextField" name="registerUsername" placeholder="Enter your email" required />
                         </div>
+                        <div>test</div>
                         <div class="loginInput">
                             <label for="registerEmail" style="font-family: Playfair Display">Email</label>
                             <input type="email" class="htmlForm-control loginTextField" name="registerEmail" placeholder="Enter your email" required />
