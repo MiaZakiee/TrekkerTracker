@@ -10,8 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=ssPlayfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
 </head>
 
-<!-- <body class="loginBody" style="align-items: center; background-position: 50% 60%; background-size: 77%;background-image: url('https://images.unsplash.com/photo-1543797414-a0c3ad076f7c?q=80&w=1933&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"> -->
-
 <body class="loginBody">
     <main class="loginMain">
         <div class="loginLeft">
@@ -33,7 +31,6 @@
                             <label for="registerUsername" style="font-family: Playfair Display">Username</label>
                             <input type="text" class="htmlForm-control loginTextField" name="registerUsername" placeholder="Enter your email" required />
                         </div>
-                        <div>test</div>
                         <div class="loginInput">
                             <label for="registerEmail" style="font-family: Playfair Display">Email</label>
                             <input type="email" class="htmlForm-control loginTextField" name="registerEmail" placeholder="Enter your email" required />
@@ -57,8 +54,6 @@
 </body>
 
 </html>
-
-
 <?php
 include 'register.php'
 ?>
