@@ -11,8 +11,8 @@ if (isset($_POST['loginButton'])) {
     $pword = hash('sha256', $_POST['loginPassword']);
 
     //Check tbluseraccount if username is already existing. Save info if false. Prompt msg if true.
-    $sqlEmail = "Select * from tbluseraccount where registerUsername='" . $uname . "'";
-    $sqlUser = "Select * from tbluseraccount where registerEmail='" . $uname . "'";
+    $sqlEmail = "SELECT * FROM tbluseraccount WHERE registerUsername='" . $uname . "'";
+    $sqlUser = "SELECT * FROM tbluseraccount WHERE registerEmail='" . $uname . "'";
     $userResultA = mysqli_query($connection, $sqlEmail);
     $userResultA = mysqli_query($connection, $sqlUser);
     $userExists = $userResultA > 0;
