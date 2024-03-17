@@ -134,6 +134,55 @@ input.invalidInput:focus {
 .regField {
     width: 50%;
 }
+
+.modalBox {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    display: none;
+}   
+
+.modalContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 300px;
+    height: 300px;
+    background-color: white;
+    margin: 10% 38%;
+
+    box-shadow: 2px 2px #181818;
+}
+
+.modalLogo {
+    height: 100px;
+    width: 100px;
+    color: #87D185;
+}
+
+.modalMessage {
+    color: #262C57;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.regSuc {
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.welcome {
+    font-size: 15px;
+}
+
 /* Contact Us */
 header {
     display: flex;
@@ -187,5 +236,3 @@ header {
     flex-direction: row;
     gap: 20px;
 }
-
-/* Register */

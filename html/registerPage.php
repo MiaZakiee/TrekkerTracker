@@ -23,8 +23,8 @@
                         <div class="loginInput">
                             <label for="registerName" style="font-family: Playfair Display">Name</label>
                             <div class="registerNames">
-                                <input type="text" class="htmlForm-control loginTextField regField" name="registerFname" placeholder="First name" autocomplete="given-name" required />
-                                <input type="text" class="htmlForm-control loginTextField regField" name="registerLname" placeholder="Last name" autocomplete="family-name" required />
+                                <input type="text" class="htmlForm-control loginTextField regField" name="registerFname" id="registerFname" placeholder="First name" autocomplete="given-name" required />
+                                <input type="text" class="htmlForm-control loginTextField regField" name="registerLname" id="registerLname" placeholder="Last name" autocomplete="family-name" required />
                             </div>
                         </div>
                         <div class="loginInput">
@@ -65,6 +65,18 @@
         </div>
         <img src="images/wallpaperflare.com_wallpaper.jpg" alt="test" class="coolPic">
     </main>
+    <div class="modalBox">
+        <div class="modalContent">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle modalLogo" viewBox="0 0 16 16">
+                <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0" />
+                <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
+            </svg>
+            <div class="modalMessage">
+                <p class="regSuc">Registration Complete</p>
+                <p class="welcome">Welcome to TrekkerTracker!</p>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
