@@ -5,8 +5,6 @@ include("connect.php");
 <?php
 
 if (isset($_POST['loginButton'])) {
-    //retrieve data from form and save the value to a variable
-    //for tbluserprofile
     $uname = $_POST['loginUsername'];
     $pword = hash('sha256', $_POST['loginPassword']);
 
@@ -14,14 +12,14 @@ if (isset($_POST['loginButton'])) {
     $sqlEmail = "SELECT * FROM tbluseraccount WHERE registerUsername='" . $uname . "'";
     $sqlUser = "SELECT * FROM tbluseraccount WHERE registerEmail='" . $uname . "'";
     $userResultA = mysqli_query($connection, $sqlEmail);
-    $userResultA = mysqli_query($connection, $sqlUser);
-    $userExists = $userResultA > 0;
-    $emailExists = $userResultB > 0;
+    $userResultB = mysqli_query($connection, $sqlUser);
+    $userExists = mysqli_num_rows($userResultB) != 0;
+    $emailExists = mysqli_num_rows($userResultA) != 0;
 
     if ($userExists || $emailExists) {
-        $sqlPass = "Select * from tbluseraccount where registerPassword='" . $pword . "'";
+        $sqlPass = "SELECT * FROM tbluseraccount WHERE (registerUsername='" . $uname . "' OR registerEmail='" . $uname . "') AND registerPassword='" . $pword . "'";
         $passResult = mysqli_query($connection, $sqlPass);
-        $passExists = $passResult > 0;
+        $passExists = mysqli_num_rows($passResult) != 0;
 
         if ($passExists) {
             echo "<script language='javascript'>
@@ -29,16 +27,27 @@ if (isset($_POST['loginButton'])) {
                     </script>";
         } else {
             echo "<script language='javascript'>
-                            alert('Invalid password');
-                    </script>";
+                            let logPassword = document.querySelector('#loginPassword');
+                            let message = document.querySelector('.invalidInput_Password');
+                            logPassword.classList.add('invalidInput');
+                            logPassword.style.display = 'inline';
+                            message.style.display = 'inline';
+                            let logEmail = document.querySelector('#loginUsername');
+                            logEmail.value = '" . $uname . "';
+                        </script>";
         }
     } else {
         echo "<script language='javascript'>
-                        alert('Invalid username');
-                  </script>";
+                        let logEmail = document.querySelector('#loginUsername');
+                        let message = document.querySelector('.invalidInput_Login');
+                        logEmail.classList.add('invalidInput');
+                        logEmail.style.display = 'inline';
+                        message.style.display = 'inline';
+                    </script>";
     }
 
     // User does not exist
     // Incorrect password
+    // TODO NEED USERTYPE GENDER???????????????????????
 }
 ?>

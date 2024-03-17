@@ -97,6 +97,43 @@
     margin: 0;
 }
 
+.invalidInput_Username {
+    color: #e03424;
+    display: none;
+}
+
+.invalidInput_Email {
+    color: #e03424;
+    display: none;
+}
+
+.invalidInput_Login {
+    color: #e03424;
+    display: none;
+}
+
+.invalidInput_Password {
+    color: #e03424;
+    display: none;
+}
+
+input.invalidInput {
+    border: solid 2px #e03424;
+    color: #181818;
+}
+
+input.invalidInput:focus {
+    outline: solid 2px #e03424;
+}
+
+.registerNames {
+    display: flex;
+    gap: 10px;
+}
+
+.regField {
+    width: 50%;
+}
 /* Contact Us */
 header {
     display: flex;
@@ -152,12 +189,3 @@ header {
 }
 
 /* Register */
-
-.registerNames {
-    display: flex;
-    gap: 10px;
-}
-
-.regField {
-    width: 50%;
-}
