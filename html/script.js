@@ -30,6 +30,29 @@ $("#OpenReg").click(function(){
     window.location.href = "registerPage.php";
 
 });
+function openModal(modalId) {
+    let modal = document.getElementById(modalId);
+    modal.style.display = "block";
+    setTimeout(function() {
+        closeModal(modalId);
+    }, 2000);
+}
+
+function closeModal(modalId) {
+    let modal = document.getElementById(modalId);
+    modal.style.display = "none";
+}
+
+// Close the modal when clicking outside of it
+window.onclick = function(event) {
+    let modals = document.getElementsByClassName("modal");
+    for (let i = 0; i < modals.length; i++) {
+        if (event.target === modals[i]) {
+            modals[i].style.display = "none";
+        }
+    }
+}
+
 
 
 

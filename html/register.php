@@ -6,37 +6,38 @@ include("connect.php");
 <?php
 
 if (isset($_POST['registerBtn'])) {
-    //retrieve data from form and save the value to a variable
-    //for tbluserprofile
+    // Retrieve data from form
     $fname = $_POST['registerFname'];
     $lname = $_POST['registerLname'];
-    // echo "<script language='javascript'>
-    //     alert('hi nin');
-    // </script>";
-    //for tbluseraccount
     $email = $_POST['registerEmail'];
     $uname = $_POST['registerUsername'];
-    $pword = $_POST['registerPassword'];
+    // Hash the password using SHA256
+    $pword = hash('sha256', $_POST['registerPassword']);
 
-    //save data to tbluserprofile
-    $sql1 = "Insert into tbluserprofile(registerFname,registerLname) values('" . $fname . "','" . $lname . "')";
-    mysqli_query($connection, $sql1);
+    // Insert user profile data
+    $sql1 = "INSERT INTO tbluserprofile (firstname, lastname) VALUES (?, ?)";
+    $stmt1 = mysqli_prepare($connection, $sql1);
+    mysqli_stmt_bind_param($stmt1, "ss", $fname, $lname);
+    mysqli_stmt_execute($stmt1);
 
-    //Check tbluseraccount if username is already existing. Save info if false. Prompt msg if true.
-    $sql2 = "Select * from tbluseraccount where registerUsername='" . $uname . "'";
-    $result = mysqli_query($connection, $sql2);
+    // Check if username already exists
+    $sql2 = "SELECT * FROM tbluseraccount WHERE username = ?";
+    $stmt2 = mysqli_prepare($connection, $sql2);
+    mysqli_stmt_bind_param($stmt2, "s", $uname);
+    mysqli_stmt_execute($stmt2);
+    $result = mysqli_stmt_get_result($stmt2);
     $row = mysqli_num_rows($result);
 
     if ($row == 0) {
-        $sql = "Insert into tbluseraccount(registerEmail,registerUsername,registerPassword) values('" . $email . "','" . $uname . "','" . $pword . "')";
-        mysqli_query($connection, $sql);
-        echo "<script language='javascript'>
-        alert('New record saved.');
-        </script>";
+        // Insert user account data
+        $sql = "INSERT INTO tbluseraccount (emailadd, username, password) VALUES (?, ?, ?)";
+        $stmt = mysqli_prepare($connection, $sql);
+        mysqli_stmt_bind_param($stmt, "sss", $email, $uname, $pword);
+        mysqli_stmt_execute($stmt);
+        echo "<script>openModal('newRegisAlert')</script>";
     } else {
-        echo "<script language='javascript'>
-                        alert('Username already existing');
-                  </script>";
+        echo "<script>openModal('AlreadyUserAlert');</script>";
     }
 }
+
 ?>

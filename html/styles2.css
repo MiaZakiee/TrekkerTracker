@@ -161,3 +161,50 @@ header {
 .regField {
     width: 50%;
 }
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+
+.modal-content {
+    text-align: center;
+
+    background-color: #fefefe;
+    position: absolute;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    width: 30%;
+    top:0;
+    transform: translateY(-200%);
+    max-width: 400px;
+    justify-content: center;
+}
+
+.close {
+    width: 60px;
+    height: 30px;
+    color: #aaa;
+    border: none;
+    background-color: #3C8CCC;
+    float: right;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    background-color: whitesmoke;
+    text-decoration: none;
+    cursor: pointer;
+}
