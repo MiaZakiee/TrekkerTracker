@@ -6,6 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <title>TrekkerTrackerTravels</title>
+    <link rel="stylesheet" href="styles.css">
 
 </head>
 <body>
@@ -39,7 +40,92 @@
 
 <div class ="section1">
     <h1>Destinations To Go TO</h1>
+    <form method="POST">
+        <div  style="display: flex; flex-direction: row;">
+            <div class = "Bookings">
+            <label for = "Origin">From</label>
+                <div class="btn-group">
+                    <button class="btn btn-lg dropdown-toggle" name = "Origin" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Origin
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Cebu</a></li>
+                        <li><a class="dropdown-item" href="#">Manila</a></li>
+                        <li><a class="dropdown-item" href="#">Davao</a></li>
+                        <li><a class="dropdown-item" href="#">Tokyo</a></li>
+                        <li><a class="dropdown-item" href="#">Seoul</a></li>
+                        <li><a class="dropdown-item" href="#">Jakarta</a></li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class = "Bookings">
+                <label for = "Destination">To</label>
+                <div class="btn-group">
+                    <button class="btn btn-lg dropdown-toggle" name = "Destination" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Destination
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Cebu</a></li>
+                        <li><a class="dropdown-item" href="#">Manila</a></li>
+                        <li><a class="dropdown-item" href="#">Davao</a></li>
+                        <li><a class="dropdown-item" href="#">Tokyo</a></li>
+                        <li><a class="dropdown-item" href="#">Seoul</a></li>
+                        <li><a class="dropdown-item" href="#">Jakarta</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class = "Bookings">
+                <label for = "Chartered">Charter Flight?</label>
+                <input type="checkbox" class="btn-check" id="Chartered" name = "Chartered" autocomplete="off">
+                <label class="btn btn-outline-primary" for="Chartered">No</label>
+            </div>
+            <div class = "Bookings">
+                <label for = "Accommodation">Seat Class</label>
+                <div class="btn-group">
+                    <button class="btn btn-lg dropdown-toggle" name = "Accommodation" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Accommodation
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">First Class</a></li>
+                        <li><a class="dropdown-item" href="#">Business Class</a></li>
+                        <li><a class="dropdown-item" href="#">Premium Economy Class</a></li>
+                        <li><a class="dropdown-item" href="#">Economy</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class = "Bookings">
+                <label for = "RTrip">Round Trip?</label>
+                <input type="checkbox" class="btn-check" id="RTrip" name = "RTrip" autocomplete="off">
+                <label class="btn btn-outline-primary" for="RTrip">No</label>
+            </div>
+            <div class = "Bookings">
+                <label for = "Departure">Departure Date</label>
+                <input type="text" style = "background-color: white;" class="form-control" id="DateInput" placeholder="Click to Select Date" readonly>
+
+
+            </div>
+        </div>
+    </form>
     <img src="https://cdn.dribbble.com/userupload/12509456/file/original-a39fd72dbec559ebf98cdc389b6cce23.png?resize=752x">
+</div>
+<!-- DatePicker Modal -->
+<div class="modal fade" id="datePickerModal"  tabindex="-1" aria-labelledby="datePickerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header" >
+            <h5 style = "margin-left: 175px;" class="modal-title" id="datePickerModalLabel">Select a Date</h5>
+            <button  type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span  aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div style="margin-left: 120px;" class="modal-body">
+            <div  class="datepicker" id="eventDatePicker"></div>
+        </div>
+     </div>
+    </div>
 </div>
 </body>
 <script src = "script.js"></script>

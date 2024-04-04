@@ -128,4 +128,13 @@
 
     right: 5%;
 }
+.Bookings{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
 
+.modal-footer, .modal-body{
+    align-content: center;
+    font-family: 'Open Sans', sans-serif;
+}
