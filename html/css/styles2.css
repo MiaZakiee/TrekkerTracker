@@ -15,7 +15,7 @@
     justify-content: center;
     align-items: center;
     /* align-content: center; */
-    width: 100%;
+    width: 50%;
     height: 100vh;
     /* margin-top: 1in; */
 }
@@ -83,7 +83,6 @@
 .coolPic {
     height: 100dvh;
     width: 100dvh;
-    display: none;
 }
 
 /* Register */
@@ -233,14 +232,4 @@ header {
     display: flex;
     flex-direction: row;
     gap: 20px;
-}
-
-@media only screen and (min-width: 1440px) {
-    .coolPic {
-        display: block;
-    }
-
-    .loginLeft {
-        width: 50%;
-    }
 }
