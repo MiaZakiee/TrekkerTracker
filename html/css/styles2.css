@@ -233,3 +233,23 @@ header {
     flex-direction: row;
     gap: 20px;
 }
+
+.contactUsMain{
+    display: grid;
+}
+
+.findUs {
+    display: flex;
+    justify-self: center;
+    align-items: center;
+}
+
+.hell {
+    height: 500px;
+    width: 500px;
+}
+
+.locInfo {
+    display: flex;
+    flex-direction: column;
+}
