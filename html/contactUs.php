@@ -7,20 +7,37 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="./css/styles2.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <header>
-        <div class="LogoTitle">
-            <p class="title">TrekkerTracker</p>
-        </div>
-        <div class="navbar">
-            <h3>Destinations</h3>
-            <h3>Booking</h3>
-            <h3>About Us</h3>
-            <h3>Contact Us</h3>
-            <!-- Settings??? -->
-        </div>
+    <header class="headerContainer">
+        <nav class="navbar navbar-expand-lg ">
+            <div class="container-fluid">
+                <div class="contactUsLogo">
+                    <img src="./images/logo.png" alt="logo" style="height: 80px; width: 80px;">
+                    <label style="font-family: Signika">TrekkerTracker</label>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Destinations</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Booking</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contact Us</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </header>
     <main class="contactUsMain">
         <div class="getInTouch">

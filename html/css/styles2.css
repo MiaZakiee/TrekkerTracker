@@ -245,11 +245,21 @@ header {
 }
 
 .hell {
-    height: 500px;
-    width: 500px;
+    height: 400px;
+    width: 400px;
 }
 
 .locInfo {
     display: flex;
     flex-direction: column;
+}
+
+.contactUsLogo {
+    font-size: 30px;
+}
+
+.headerContainer {
+    width: 100%;
+    padding: 0;
+    justify-content: center;
 }
