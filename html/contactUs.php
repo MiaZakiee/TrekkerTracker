@@ -14,30 +14,9 @@
 
 <body>
     <header class="headerContainer">
-        <nav class="navbar navbar-expand-lg ">
-            <div class="container-fluid">
-                <div class="contactUsLogo">
-                    <img src="./images/logo.png" alt="logo" style="height: 80px; width: 80px;">
-                    <label style="font-family: Signika">TrekkerTracker</label>
-                </div>
-                <div class="collapse navbar-collapse" id="navbarText">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Destinations</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Booking</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Contact Us</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+      <?php
+        echo file_get_contents("./includes/header.php");
+      ?>
     </header>
     <main class="contactUsMain">
         <div class="getInTouch">

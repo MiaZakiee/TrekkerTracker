@@ -216,7 +216,7 @@ header {
 }
 
 .contactUsRight {
-    padding-right: 3em;
+
 }
 
 .contactCard {
@@ -258,8 +258,12 @@ header {
     font-size: 30px;
 }
 
+.headerContent {
+    flex-grow: 0;
+}
+
 .headerContainer {
     width: 100%;
     padding: 0;
-    justify-content: center;
+    display: inline;
 }
