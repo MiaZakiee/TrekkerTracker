@@ -254,8 +254,7 @@ header {
     font-size: 30px;
 }
 
-.yawaKayawa {
-    background-color: pink !important;
+.dashboardBody {
+    overflow: scroll;
 }
-
 

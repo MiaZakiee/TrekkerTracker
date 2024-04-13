@@ -1,3 +1,13 @@
+<?php
+include("connect.php");
+?>
+
+<?php
+include("connect.php");
+
+$sql = "SELECT * from tblflights";
+$result = mysqli_query($connection, $sql);
+?>
 <!doctype html>
 <html lang="en" data-bs-theme="dark">
 
@@ -92,6 +102,7 @@
     </style>
     <!-- Custom styles for this template -->
     <link href="./css/sidebars.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles2.css">
 </head>
 
 <body>
@@ -180,15 +191,22 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>1,001</td>
-                            <td>Cebu Pacific</td>
-                            <td>CEB</td>
-                            <td>NRT</td>
-                            <td>13/4/2024 8:00</td>
-                            <td>13/4/2024 11:00</td>
-                            <td>69</td>
-                            <td>Available</td>
+                            <?php
+                            while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                                <td><?php echo $row['flightId']; ?></td>
+                                <td><?php echo $row['airline']; ?></td>
+                                <td><?php echo $row['origin']; ?></td>
+                                <td><?php echo $row['destination']; ?></td>
+                                <td><?php echo $row['departureDT']; ?></td>
+                                <td><?php echo $row['arrivalDT']; ?></td>
+                                <td><?php echo $row['totalPassengers']; ?></td>
+                                <td><?php echo $row['totalPassengers'] >=  $row['seatingCapacity'] ? 'FULL' : 'AVAILABLE'; ?></td>
                         </tr>
+                    <?php
+                            }
+
+                    ?>
 
                     </tbody>
                 </table>
