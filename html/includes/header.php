@@ -2,53 +2,42 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&display=swap" rel="stylesheet">
+  <title>Document</title>
 </head>
 <header class="headerContainer">
-      <nav class="navbar navbar-expand-lg bg-body-tertiary"> 
-        <div class="container-fluid ">
-          <!-- TODO LEAD TO HOMEPAGE -->
-          <div class="">
-            <img src="./images/logo.png" alt="logo" style="height: 80px; width: 80px;">
-            <a class="navbar-brand" href="#" style="font-family: Signika">TrekkerTracker</a>
-          </div>
-      
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse headerContent" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link" href="#">Bookings</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Destinations</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">About us</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Contact us</a>
-              </li>
-              <!-- <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Bookings</a></li>
-                  <li><a class="dropdown-item" href="#">Destinations</a></li>
-                  <li><a class="dropdown-item" href="#">About us</a></li>
-                  <li><a class="dropdown-item" href="#">Contact us</a></li>
-                </ul>
-              </li> -->
-            </ul>
-      
-          </div>
-        </div>
-      </nav>
-    </header>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid ">
+      <!-- TODO LEAD TO HOMEPAGE -->
+      <div class="">
+        <img src="./images/logo.png" alt="logo" style="height: 80px; width: 80px;">
+        <a class="navbar-brand" href="#" style="font-family: Signika">TrekkerTracker</a>
+      </div>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse headerContent" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Bookings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Destinations</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact us</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
 
 </html>
 

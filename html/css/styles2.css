@@ -215,10 +215,6 @@ header {
     padding: 0 3em;
 }
 
-.contactUsRight {
-
-}
-
 .contactCard {
     padding-right: 20px;
 }
@@ -258,12 +254,8 @@ header {
     font-size: 30px;
 }
 
-.headerContent {
-    flex-grow: 0;
+.yawaKayawa {
+    background-color: pink !important;
 }
 
-.headerContainer {
-    width: 100%;
-    padding: 0;
-    display: inline;
-}
+
