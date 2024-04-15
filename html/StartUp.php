@@ -1,4 +1,4 @@
-    <html lang="en">
+<html lang="en">
 
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -6,11 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <title>TrekkerTrackerTravels</title>
-    <link href="./css/styles.css" rel="stylesheet">
-    <!-- Bootstrap Datepicker CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-    <!-- Bootstrap Datepicker JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="./css/styles.css">
 
 </head>
 
@@ -45,74 +41,74 @@
 
     <div class="section1">
         <h1>Destinations To Go TO</h1>
-        <form method="POST" action = "process_booking.php">
-
-            <div class="containBooking">
-                <div class="Bookings" style="padding-left: 30px;">
-                    <label for="Chartered">Charter Flight?</label>
-                    <input type="checkbox" class="btn-check" id="Chartered" name="Chartered" autocomplete="off">
-                    <label class="btn btn-outline-primary" for="Chartered" id="chartered?">No</label>
-                </div>
-
+        <form method="POST">
+            <div style="display: flex; flex-direction: row;">
                 <div class="Bookings">
                     <label for="Origin">From</label>
-                    <select name="Origin" id="Origin">
+                    <div class="btn-group">
+                        <button class="btn btn-lg dropdown-toggle" name="Origin" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Origin
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Cebu</a></li>
+                            <li><a class="dropdown-item" href="#">Manila</a></li>
+                            <li><a class="dropdown-item" href="#">Davao</a></li>
+                            <li><a class="dropdown-item" href="#">Tokyo</a></li>
+                            <li><a class="dropdown-item" href="#">Seoul</a></li>
+                            <li><a class="dropdown-item" href="#">Jakarta</a></li>
 
-
-                            <option>Cebu</option>
-                            <option>Manila</option>
-                            <option>Davao</option>
-                            <option>Tokyo</option>
-                            <option>Seoul</option>
-                            <option>Jakarta</option>
-
-
-                    </select>
+                        </ul>
+                    </div>
                 </div>
-
                 <div class="Bookings">
                     <label for="Destination">To</label>
-                    <select name="Destination" id="Destination">
+                    <div class="btn-group">
+                        <button class="btn btn-lg dropdown-toggle" name="Destination" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Destination
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Cebu</a></li>
+                            <li><a class="dropdown-item" href="#">Manila</a></li>
+                            <li><a class="dropdown-item" href="#">Davao</a></li>
+                            <li><a class="dropdown-item" href="#">Tokyo</a></li>
+                            <li><a class="dropdown-item" href="#">Seoul</a></li>
+                            <li><a class="dropdown-item" href="#">Jakarta</a></li>
+                        </ul>
+                    </div>
 
-
-                        <option>Cebu</option>
-                        <option>Manila</option>
-                        <option>Davao</option>
-                        <option>Tokyo</option>
-                        <option>Seoul</option>
-                        <option>Jakarta</option>
-
-
-                    </select>
                 </div>
-
-
+                <div class="Bookings">
+                    <label for="Chartered">Charter Flight?</label>
+                    <input type="checkbox" class="btn-check" id="Chartered" name="Chartered" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="Chartered">No</label>
+                </div>
                 <div class="Bookings">
                     <label for="Accommodation">Seat Class</label>
-                    <select name="Accommodation" id="Accommodation">
+                    <div class="btn-group">
+                        <button class="btn btn-lg dropdown-toggle" name="Accommodation" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Accommodation
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">First Class</a></li>
+                            <li><a class="dropdown-item" href="#">Business Class</a></li>
+                            <li><a class="dropdown-item" href="#">Premium Economy Class</a></li>
+                            <li><a class="dropdown-item" href="#">Economy</a></li>
+                        </ul>
+                    </div>
 
-                            <option>First Class</option>
-                            <option>Business Class</option>
-                            <option>Premium Economy Class</option>
-                            <option>Economy/option>
-
-                    </select>
-                    <button type="submit" class="btn btn-info btn-lg" id="Booked" style="margin-top: 50px;">Book!</button>
                 </div>
-
                 <div class="Bookings">
                     <label for="RTrip">Round Trip?</label>
                     <input type="checkbox" class="btn-check" id="RTrip" name="RTrip" autocomplete="off">
-                    <label class="btn btn-outline-primary" id="rtrip?" for="RTrip">No</label>
+                    <label class="btn btn-outline-primary" for="RTrip">No</label>
                 </div>
                 <div class="Bookings">
-                    <label for="DateInput">Departure Date</label>
-                    <input type="text" style="background-color: white;" class="form-control" name = "DateInput1" id="DateInput1" placeholder="Click to Select Date">
+                    <label for="Departure">Departure Date</label>
+                    <input type="text" style="background-color: white;" class="form-control" id="DateInput" placeholder="Click to Select Date" readonly>
+
 
                 </div>
-
             </div>
-
         </form>
         <img src="https://cdn.dribbble.com/userupload/12509456/file/original-a39fd72dbec559ebf98cdc389b6cce23.png?resize=752x">
     </div>
@@ -127,16 +123,12 @@
                     </button>
                 </div>
                 <div style="margin-left: 120px;" class="modal-body">
-
-                    <div class="datepicker" id="eventDatePicker_DateInput1"></div>
-
-                    <div class="datepicker" id="eventDatePicker_DateInput2"></div>
-
+                    <div class="datepicker" id="eventDatePicker"></div>
                 </div>
             </div>
         </div>
     </div>
 </body>
-<script src="./script/script.js"></script>
+<script src="script.js"></script>
 
 </html>
