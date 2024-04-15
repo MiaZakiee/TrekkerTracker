@@ -1,6 +1,5 @@
 <?php
 include("connect.php");
-//global $connection;
 ?>
 
 <?php
@@ -9,34 +8,65 @@ if (isset($_POST['registerBtn'])) {
     // Retrieve data from form
     $fname = $_POST['registerFname'];
     $lname = $_POST['registerLname'];
+
+    //for tbluseraccount
     $email = $_POST['registerEmail'];
     $uname = $_POST['registerUsername'];
-    // Hash the password using SHA256
     $pword = hash('sha256', $_POST['registerPassword']);
 
-    // Insert user profile data
-    $sql1 = "INSERT INTO tbluserprofile (firstname, lastname) VALUES (?, ?)";
-    $stmt1 = mysqli_prepare($connection, $sql1);
-    mysqli_stmt_bind_param($stmt1, "ss", $fname, $lname);
-    mysqli_stmt_execute($stmt1);
+    //Check tbluseraccount if username is already existing. Save info if false. Prompt msg if true.
+    $sqlUser = "SELECT * FROM tbluseraccount WHERE user_username='" . $uname . "'";
+    $sqlEmail = "SELECT * FROM tbluseraccount WHERE user_email='" . $email . "'";
+    $userResult = mysqli_query($connection, $sqlUser);
+    $emailResult = mysqli_query($connection, $sqlEmail);
+    $userRes = mysqli_num_rows($userResult) == 0;
+    $emailRes = mysqli_num_rows($emailResult) == 0;
 
-    // Check if username already exists
-    $sql2 = "SELECT * FROM tbluseraccount WHERE username = ?";
-    $stmt2 = mysqli_prepare($connection, $sql2);
-    mysqli_stmt_bind_param($stmt2, "s", $uname);
-    mysqli_stmt_execute($stmt2);
-    $result = mysqli_stmt_get_result($stmt2);
-    $row = mysqli_num_rows($result);
-
-    if ($row == 0) {
-        // Insert user account data
-        $sql = "INSERT INTO tbluseraccount (emailadd, username, password) VALUES (?, ?, ?)";
-        $stmt = mysqli_prepare($connection, $sql);
-        mysqli_stmt_bind_param($stmt, "sss", $email, $uname, $pword);
-        mysqli_stmt_execute($stmt);
-        echo "<script>openModal('newRegisAlert')</script>";
+    if ($userRes && $emailRes) {
+        $sql = "Insert into tbluseraccount(user_email,user_username,user_password) values('" . $email . "','" . $uname . "','" . $pword . "')";
+        $sql2 = "Insert into tbluserprofile(user_fname,user_lname) values('" . $fname . "','" . $lname . "')";
+        mysqli_query($connection, $sql);
+        mysqli_query($connection, $sql2);
+        echo "<script language='javascript'>
+                        document.querySelector('.modalBox').style.display = 'inline';
+                        setTimeout(20000);
+                        setTimeout(() =>location.replace('./StartUp.php'), 1300);
+                        
+                    </script>";
     } else {
-        echo "<script>openModal('AlreadyUserAlert');</script>";
+        if (!$userRes) {
+            echo "<script language='javascript'>
+                            let regUser = document.querySelector('#registerUsername');
+                            let regMessage = document.querySelector('.invalidInput_Username');
+                            regUser.classList.add('invalidInput');
+                            regUser.style.display = 'inline';
+                            regMessage.style.display = 'inline';
+
+                            document.querySelector('#registerFname').value = '" . $fname . "';
+                            document.querySelector('#registerLname').value = '" . $lname . "';
+                            document.querySelector('#registerEmail').value = '" . $email . "';
+                        </script>";
+        }
+        if (!$emailRes) {
+            echo "<script language='javascript'>
+                            let regEmail = document.querySelector('#registerEmail');
+                            let message = document.querySelector('.invalidInput_Email');
+                            regEmail.classList.add('invalidInput');
+                            regEmail.style.display = 'inline';
+                            message.style.display = 'inline';
+
+                            document.querySelector('#registerFname').value = '" . $fname . "';
+                            document.querySelector('#registerLname').value = '" . $lname . "';
+                            document.querySelector('#registerUsername').value = '" . $uname . "';
+                        </script>";
+        }
+
+        if (!$userRes && !$emailRes) {
+            echo "<script language='javascript'>
+                            document.querySelector('#registerEmail').value = '';
+                            document.querySelector('#registerUsername').value = '';
+                        </script>";
+        }
     }
 }
 

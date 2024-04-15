@@ -11,32 +11,104 @@ $(document).ready(function (){
         }
     });
 
-    //DatePicker!
-    let today = new Date();
-    today.setDate(today.getDate() + 1);
-    let tomorrow = today.toISOString().split('T')[0];
+
+    $("#Chartered").click(function (){
+        let tmp = $("#chartered\\?").text();
+        if(tmp === "No") {
+            $("#chartered\\?").text("Yes");
+
+        }
+        else
+            $("#chartered\\?").text("No");
 
 
-    $('#eventDatePicker').datepicker({
-        format: 'yyyy-mm-dd',
-        autoclose: true,
-        inline: true,
-        startDate: tomorrow
     });
 
+    $("#RTrip").click(function (){
+        let tmp = $("#rtrip\\?").text();
+        if(tmp === "No") {
+            $("#rtrip\\?").text("Yes");
+            let str = '<div id="dateInputContainer">' +
+                '<label for="DateInput2">Return Date</label>' +
+                '<input type="text" style="background-color: white;" class="form-control" id="DateInput2" placeholder="Click to Select Date">' +
+                '</div>';
+            $('#DateInput1').after(str);
+        } else {
+            $("#rtrip\\?").text("No");
+            $('#dateInputContainer').remove();
+        }
 
-// Handle date selection and update the visible input field
-    $('#eventDatePicker').on('changeDate', function (e) {
-        $('#DateInput').val(
-            e.format('MM dd, yyyy') // Format the selected date
-        );
-        $('#datePickerModal').modal('hide');
+    });
+    $('#DateInput1').click(function () {
+        $('#eventDatePicker_DateInput2').hide();
+        $('#eventDatePicker_DateInput1').show();
+        initializeDatepicker('DateInput1', 'today');
+    });
+    $(document).on('click', '#DateInput2', function() {
+        $('#eventDatePicker_DateInput1').hide();
+        $('#eventDatePicker_DateInput2').show();
+        initializeDatepicker('DateInput2', 'tomorrow');
     });
 
-// Show the modal when the visible input field is clicked
-    $('#DateInput').on('click', function () {
+    function initializeDatepicker(inputId, scene) {
+        let today = new Date();
+        today.setDate(today.getDate() + 1);
+        let tomorrow = today.toISOString().split('T')[0];
+        let startDate = (scene === "tomorrow") ? tomorrow : today;
+        let datePickerId = '#eventDatePicker_' + inputId;
+        $(datePickerId).datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            inline: true,
+            startDate: startDate
+
+        });
+
+
+        $(datePickerId).on('changeDate', function (e) {
+            console.log("Input ID:", inputId); // Log the inputId
+            if (inputId === 'DateInput1') {
+                $('#DateInput1').val(e.format('MM dd, yyyy'));
+            } else if (inputId === 'DateInput2') {
+                $('#DateInput2').val(e.format('MM dd, yyyy'));
+            }
+            $('#datePickerModal').modal('hide');
+        });
+
+        // Show the modal when the input field is clicked
         $('#datePickerModal').modal('show');
+
+    }
+
+    const dropdownButtons = document.querySelectorAll('.btn-group .btn.btn-lg.dropdown-toggle');
+
+    dropdownButtons.forEach(button => {
+        const dropdownMenu = button.nextElementSibling; // Get the dropdown menu for this button
+
+        dropdownMenu.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', function() {
+                button.textContent = this.textContent; // Update button text with selected item text
+            });
+        });
     });
+
+    function validateForm() {
+        // Get the form elements
+        let origin = document.getElementById("Origin").selectedOptions[0].text;
+        let destination = document.getElementById("Destination").selectedOptions[0].text;
+        let accommodation = document.getElementById("Accommodation").selectedOptions[0].text;
+        let departureDate = document.getElementById("DateInput1").value;
+
+        // Check if any of the required fields are empty
+        console.log("Origin: "+ origin);
+        document.getElementById("Booked").disabled = origin === "" || destination === "" || accommodation === "" || departureDate === "";
+    }
+
+    // Add event listeners to form elements to trigger validation on change
+    document.getElementById("Origin").addEventListener("change", validateForm);
+    document.getElementById("Destination").addEventListener("change", validateForm);
+    document.getElementById("Accommodation").addEventListener("change", validateForm);
+    document.getElementById("DateInput1").addEventListener("change", validateForm);
 
 });
 function togglePass() {
@@ -51,33 +123,15 @@ function togglePass() {
 $("#OpenLog").click(function (){
     window.location.href = "loginPage.php";
 });
+
+
+
 $("#OpenReg").click(function(){
 
     window.location.href = "registerPage.php";
 
 });
-function openModal(modalId) {
-    let modal = document.getElementById(modalId);
-    modal.style.display = "block";
-    setTimeout(function() {
-        closeModal(modalId);
-    }, 2000);
-}
 
-function closeModal(modalId) {
-    let modal = document.getElementById(modalId);
-    modal.style.display = "none";
-}
-
-// Close the modal when clicking outside of it
-window.onclick = function(event) {
-    let modals = document.getElementsByClassName("modal");
-    for (let i = 0; i < modals.length; i++) {
-        if (event.target === modals[i]) {
-            modals[i].style.display = "none";
-        }
-    }
-}
 
 
 
