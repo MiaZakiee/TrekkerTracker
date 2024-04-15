@@ -144,14 +144,14 @@
                         Generate flights
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="#" class="nav-link link-body-emphasis">
                         <svg class="bi pe-none me-2" width="16" height="16">
                             <use xlink:href="#people-circle" />
                         </svg>
                         Settings? not sure yet
                     </a>
-                </li>
+                </li> -->
             </ul>
             <hr>
             <div class="dropdown">
@@ -159,7 +159,7 @@
                     <strong>Nino Cabiltes</strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow">
-                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                    <li><a class="dropdown-item" href="./loginPage.php">Sign out</a></li>
                 </ul>
             </div>
         </div>
@@ -240,10 +240,6 @@
 
 <?php
 include("connect.php");
-?>
-
-<?php
-include("connect.php");
 
 if (isset($_POST['generateFlights'])) {
     // Retrieve the arrays of airlines and locations
@@ -263,10 +259,13 @@ if (isset($_POST['generateFlights'])) {
     $startTime = strtotime('00:00');
     $endTime = strtotime('24:00');
 
+    // Get the current date
+    $currentDate = date('Y-m-d', strtotime('+1 day')); // Start from the day after the current date
+
     // Loop for each day
     for ($i = 0; $i < $span; $i++) {
         // Select random duration for flight
-        $randTime = rand(0, 4);
+        $randTime = rand(1, 4);
 
         // Loop for generating flights within a day
         $flightTime = $startTime; // Initialize flight time as start time
@@ -280,17 +279,22 @@ if (isset($_POST['generateFlights'])) {
 
             // Convert flight time to readable format
             $departureDT = date('Y-m-d H:i:s', $flightTime);
+            echo $departureDT;
 
             // Add random duration to flight time
             $flightTime += $randTime * 3600; // Convert hours to seconds
 
             // Convert flight time to readable format
             $arrivalDT = date('Y-m-d H:i:s', $flightTime);
+            echo $arrivalDT;
 
             // Insert flight into the database
-            $sql = "INSERT INTO tblflights (airline, origin, destination, departureDT, arrivalDT, seatingCapacity, totalPassengers) VALUES ('" . $airlines[array_rand($airlines)] . "', '" . $locations[$randLocA] . "', '" . $locations[$randLocB] . "', '$departureDT', '$arrivalDT', 100, 0)";
+            $sql = "INSERT INTO tblflights (airline, origin, destination, departureDT, arrivalDT, seatingCapacity, totalPassengers) VALUES ('" . $airlines[array_rand($airlines)] . "', '" . $locations[$randLocA] . "', '" . $locations[$randLocB] . "', '$currentDate $departureDT', '$currentDate $arrivalDT', 100, 0)";
             mysqli_query($connection, $sql);
         }
+        // Increment current date for the next day
+        $currentDate = date('Y-m-d', strtotime($currentDate . ' +1 day'));
     }
 }
+
 ?>

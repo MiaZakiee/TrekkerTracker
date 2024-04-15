@@ -11,11 +11,9 @@
 </head>
 
 <body class="loginBody">
-    <header class="headerContainer">
-        <?php
-        include("includes/header.php");
-        ?>
-    </header>
+    <!-- <header class="headerContainer">
+
+    </header> -->
     <main class="loginMain">
         <div class="loginLeft">
             <div class="login">

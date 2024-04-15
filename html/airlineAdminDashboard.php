@@ -7,6 +7,14 @@ include("connect.php");
 
 $sql = "SELECT * from tblflights";
 $result = mysqli_query($connection, $sql);
+
+session_start();
+if (!$_SESSION['loggedIn']) {
+    echo "<script language='javascript'>
+        location.replace('./StartUp.php');
+                    // setTimeout(() =>location.replace('./airlineAdminDashboard.php'), 1300);
+        </script>";
+}
 ?>
 <!doctype html>
 <html lang="en" data-bs-theme="dark">
@@ -154,14 +162,14 @@ $result = mysqli_query($connection, $sql);
                         Generate flights
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="#" class="nav-link link-body-emphasis">
                         <svg class="bi pe-none me-2" width="16" height="16">
                             <use xlink:href="#people-circle" />
                         </svg>
                         Settings? not sure yet
                     </a>
-                </li>
+                </li> -->
             </ul>
             <hr>
             <div class="dropdown">
@@ -169,7 +177,7 @@ $result = mysqli_query($connection, $sql);
                     <strong>Nino Cabiltes</strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow">
-                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                    <li><a class="dropdown-item" href="./loginPage.php">Sign out</a></li>
                 </ul>
             </div>
         </div>
