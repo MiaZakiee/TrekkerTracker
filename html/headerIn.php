@@ -1,5 +1,5 @@
 
-<link rel='stylesheet' href='styles.css'>
+<link href="./css/styles.css" rel="stylesheet">
 <header class="p-3">
     <div class="container">
 
