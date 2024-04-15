@@ -52,7 +52,7 @@ $(document).ready(function (){
 
     function initializeDatepicker(inputId, scene) {
         let today = new Date();
-        today.setDate(today.getDate() + 1);
+        today.setDate(today.getDate());
         let tomorrow = today.toISOString().split('T')[0];
         let startDate = (scene === "tomorrow") ? tomorrow : today;
         let datePickerId = '#eventDatePicker_' + inputId;
