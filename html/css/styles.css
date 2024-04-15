@@ -128,38 +128,3 @@
 
     right: 5%;
 }
-.Bookings{
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    margin-right: 150px;
-    font-size: 20px;
-}
-
-.modal-footer, .modal-body{
-    align-content: center;
-    font-family: 'Open Sans', sans-serif;
-}
-.containBooking{
-    position:absolute;
-    top: 550px;
-    left:40px;
-    background-color: antiquewhite;
-    border: 3px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    font-family: 'Jaldi', sans-serif;
-    height: 200px;
-    max-width: 115em ;
-    display: flex;
-    flex-direction: row;
-    color: black;
-    font-weight: bold;
-    justify-content: center;
-    align-items: flex-start;
-}
-.btn-group{
-    border: #AACAF4 solid 2px;
-    background-color: #D7E6FA;
-}
-
-
