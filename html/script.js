@@ -11,6 +11,32 @@ $(document).ready(function (){
         }
     });
 
+    //DatePicker!
+    let today = new Date();
+    today.setDate(today.getDate() + 1);
+    let tomorrow = today.toISOString().split('T')[0];
+
+
+    $('#eventDatePicker').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        inline: true,
+        startDate: tomorrow
+    });
+
+
+// Handle date selection and update the visible input field
+    $('#eventDatePicker').on('changeDate', function (e) {
+        $('#DateInput').val(
+            e.format('MM dd, yyyy') // Format the selected date
+        );
+        $('#datePickerModal').modal('hide');
+    });
+
+// Show the modal when the visible input field is clicked
+    $('#DateInput').on('click', function () {
+        $('#datePickerModal').modal('show');
+    });
 
 });
 function togglePass() {
