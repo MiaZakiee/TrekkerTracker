@@ -215,6 +215,10 @@ header {
     padding: 0 3em;
 }
 
+.contactUsRight {
+    padding-right: 3em;
+}
+
 .contactCard {
     padding-right: 20px;
 }
@@ -229,32 +233,3 @@ header {
     flex-direction: row;
     gap: 20px;
 }
-
-.contactUsMain{
-    display: grid;
-}
-
-.findUs {
-    display: flex;
-    justify-self: center;
-    align-items: center;
-}
-
-.hell {
-    height: 400px;
-    width: 400px;
-}
-
-.locInfo {
-    display: flex;
-    flex-direction: column;
-}
-
-.contactUsLogo {
-    font-size: 30px;
-}
-
-.dashboardBody {
-    overflow: scroll;
-}
-
