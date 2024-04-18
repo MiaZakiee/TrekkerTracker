@@ -4,7 +4,7 @@
 
     <?php
 
-    if (isset($_POST['loginButton'])) {
+    if (($_POST['loginButton'])) {
         $uname = $_POST['loginUsername'];
         $pword = hash('sha256', $_POST['loginPassword']);
 
@@ -27,16 +27,23 @@
                 $row = mysqli_fetch_assoc($passResult);
                 $userType = $row['user_type'];
 
-                $_SESSION['fname'] = $row['$fname'];
-                $_SESSION['lname'] = $row['$lname'];
+                // GET fname and lname
+                $sessionID = $row["user_id"];
+                $sqlname = "SELECT * FROM tbluserprofile WHERE user_id='" . $sessionID . "'";
+                // $sqlname = "SELECT * FROM tbluserprofile WHERE user_id=='" . $sessionID . "'";
+                $namequery = mysqli_query($connection, $sqlname);
+                $namerow = mysqli_fetch_assoc($namequery);
 
-                session_commit();
+                $_SESSION["fname"] = $namerow["user_fname"];
+                $_SESSION["lname"] = $namerow["user_lname"];
 
                 if ($userType == 3) {
+                    $_SESSION["airlineID"] = $sessionID;
                     echo "<script language='javascript'>
                     setTimeout(() =>location.replace('./airlineAdminDashboard.php'), 1300);
                 </script>";
                 } else {
+                    $_SESSION["guestID"] = $sessionID;
                     echo "<script language='javascript'>
                     setTimeout(() =>location.replace('./StartUp.php'), 1300);
                 </script>";

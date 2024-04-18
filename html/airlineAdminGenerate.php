@@ -12,86 +12,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-
-        .b-example-divider {
-            width: 100%;
-            height: 3rem;
-            background-color: rgba(0, 0, 0, .1);
-            border: solid rgba(0, 0, 0, .15);
-            border-width: 1px 0;
-            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-        }
-
-        .b-example-vr {
-            flex-shrink: 0;
-            width: 1.5rem;
-            height: 100vh;
-        }
-
-        .bi {
-            vertical-align: -.125em;
-            fill: currentColor;
-        }
-
-        .nav-scroller {
-            position: relative;
-            z-index: 2;
-            height: 2.75rem;
-            overflow-y: hidden;
-        }
-
-        .nav-scroller .nav {
-            display: flex;
-            flex-wrap: nowrap;
-            padding-bottom: 1rem;
-            margin-top: -1px;
-            overflow-x: auto;
-            text-align: center;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .btn-bd-primary {
-            --bd-violet-bg: #712cf9;
-            --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
-            --bs-btn-font-weight: 600;
-            --bs-btn-color: var(--bs-white);
-            --bs-btn-bg: var(--bd-violet-bg);
-            --bs-btn-border-color: var(--bd-violet-bg);
-            --bs-btn-hover-color: var(--bs-white);
-            --bs-btn-hover-bg: #6528e0;
-            --bs-btn-hover-border-color: #6528e0;
-            --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-            --bs-btn-active-color: var(--bs-btn-hover-color);
-            --bs-btn-active-bg: #5a23c8;
-            --bs-btn-active-border-color: #5a23c8;
-        }
-
-        .bd-mode-toggle {
-            z-index: 1500;
-        }
-
-        .bd-mode-toggle .dropdown-menu .active .bi {
-            display: block !important;
-        }
-    </style>
     <!-- Custom styles for this template -->
     <link href="./css/sidebars.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles2.css">
 
 </head>
 
@@ -166,46 +89,27 @@
         <div class="dashboardBody container-fluid">
             <h2>Generate Flights</h2>
             <form action="" method="post">
-                <div class="">
-                    <div class="yawaKayawa">
-                        <label for="airlines">Enter Airline/s</label>
-                        <div id="airlineFields">
-                            <input type="text" class="form-control dynamicField" name="airline[]">
-                        </div>
-                        <a type="button" onclick="addAirlineField()">Add More</a>
-                    </div>
-                    <div class="">
-                        <label for="locations">Enter Location/s</label>
-                        <div id="locationFields">
-                            <input type="text" class="form-control dynamicField" name="location[]">
-                        </div>
-                        <a type="button" onclick="addLocationFields()">Add More</a>
-                    </div>
+                <div class="d-flex flex-row">
+                    <input type="text" class="form-control" value="Origin">
+                    <input type="text" class="form-control" value="Destination">
                 </div>
+                <h3>Airlines Present</h3>
+                <div class="d-flex flex-row">
+                    <input type="checkbox" name="" id="">
+                    <label for="">Cebu Pacific</label>
 
-                <label for="daySpan">Enter day span</label>
-                <input type="number" class="form-control" name="daySpan" id="daySpan">
+                    <input type="checkbox" name="" id="">
+                    <label for="">Air Asia</label>
 
-                <input type="submit" name="generateFlights" value="Generate Flights">
-                <!-- need airlines  -->
-                <!-- hardcode seating capacity because why the fuck not? -->
-                <!-- not accurate time just randomly generate 1-4 hrs -->
-                <!-- randomly choose between provided places -->
+                    <input type="checkbox" name="" id="">
+                    <label for="">Philippine Airlines</label>
 
-                <!-- NEEDED INPUT -->
-                <!-- AIRLINES
-                     DESTINATIONS/ORIGINS
-                    NUMBER OF DATES -->
+                    <input type="checkbox" name="" id="">
+                    <label for="">AirSwift</label>
 
-                <!-- RANDOMLY GENERATE FLIGHT FROM A to B
-                     FLIGHT DURATION WILL NOT BE ACCURATE AND WILL COME FROM RANDOM NUMBER -->
-                <!-- NEXT FLIGHT OF SAME ORIGIN AND PLACE WILL BE IN THE NEXT SAME TIME AS FLIGHT + 1 HOUR -->
-                <!-- Repeat Pattern for number of dates -->
-                <!-- Use actual dates bitch fuck -->
-
-                <?php
-                // echo "yawa ka"
-                ?>
+                    <input type="checkbox" name="" id="">
+                    <label for="">Royal Air Philippines</label>
+                </div>
             </form>
         </div>
     </main>
@@ -289,7 +193,7 @@ if (isset($_POST['generateFlights'])) {
             echo $arrivalDT;
 
             // Insert flight into the database
-            $sql = "INSERT INTO tblflights (airline, origin, destination, departureDT, arrivalDT, seatingCapacity, totalPassengers) VALUES ('" . $airlines[array_rand($airlines)] . "', '" . $locations[$randLocA] . "', '" . $locations[$randLocB] . "', '$currentDate $departureDT', '$currentDate $arrivalDT', 100, 0)";
+            $sql = "INSERT INTO tblflights (airline, origin, destination, departureDT, arrivalDT, seatingCapacity, totalPassengers) VALUES ('" . $airlines[array_rand($airlines)] . "', '" . $locations[$randLocA] . "', '" . $locations[$randLocB] . "', '$departureDT', '$arrivalDT', 100, 0)";
             mysqli_query($connection, $sql);
         }
         // Increment current date for the next day
