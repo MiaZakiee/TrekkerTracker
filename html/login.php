@@ -25,7 +25,7 @@ if (isset($_POST['loginButton'])) {
         // TODO password match, redirect user to landing page
         if ($passExists) {
             echo "<script language='javascript'>
-                        setTimeout(() =>location.replace('./StartUp.php'), 1300);
+                        setTimeout(() =>location.replace('./index.php'), 1300);
                     </script>";
         } else {
             // Password does not match
