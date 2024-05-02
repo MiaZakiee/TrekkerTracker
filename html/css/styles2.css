@@ -103,7 +103,7 @@
     display: none;
 }
 
-.invalidInput_Login {
+.invalidInput_Login  {
     color: #e03424;
     display: none;
 }
@@ -112,6 +112,13 @@
     color: #e03424;
     display: none;
 }
+
+.invalidInput_Banned {
+    color: #e03424;
+    display: none;
+}
+
+
 
 input.invalidInput {
     border: solid 2px #e03424;
@@ -344,4 +351,8 @@ header {
 
 .tblContent {
     width: 200px;
+}
+
+.originDestination {
+    /* gap: 50px; */
 }

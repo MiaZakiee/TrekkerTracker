@@ -88,27 +88,52 @@
         </div>
         <div class="dashboardBody container-fluid">
             <h2>Generate Flights</h2>
-            <form action="" method="post">
-                <div class="d-flex flex-row">
-                    <input type="text" class="form-control" value="Origin">
-                    <input type="text" class="form-control" value="Destination">
+            <form action="" method="post" class="m-5 mt-3">
+                <!-- TODO: fucking yawa use javascript and get all country -->
+                <div class="d-flex flex-row gap-5 mb-3" >
+                    <div class="d-flex flex-column">
+                        <h3>Origin</h3>
+                        <div class="d-flex flex-row gap-2">
+                            <input type="text" class="form-control" value="Country">
+                            <input type="text" class="form-control" value="City">
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <h3>Destination</h3>
+                        <div class="d-flex flex-row gap-2">
+                            <input type="text" class="form-control" value="Country">
+                            <input type="text" class="form-control" value="City">
+                        </div>
+                    </div>
                 </div>
-                <h3>Airlines Present</h3>
-                <div class="d-flex flex-row">
-                    <input type="checkbox" name="" id="">
-                    <label for="">Cebu Pacific</label>
-
-                    <input type="checkbox" name="" id="">
-                    <label for="">Air Asia</label>
-
-                    <input type="checkbox" name="" id="">
-                    <label for="">Philippine Airlines</label>
-
-                    <input type="checkbox" name="" id="">
-                    <label for="">AirSwift</label>
-
-                    <input type="checkbox" name="" id="">
-                    <label for="">Royal Air Philippines</label>
+                <hr>
+                <h2>Departure and Arrival</h2>
+                <div class="d-flex flex-row gap-5 mb-3" >
+                    <!-- Flights must be at least one hour -->
+                    <div class="d-flex flex-column">
+                        <div class="d-flex flex-row gap-2">
+                            <input type="text" class="form-control" value="Date">
+                            <input type="text" class="form-control" value="Time">
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <div class="d-flex flex-row gap-2">
+                            <input type="text" class="form-control" value="Date">
+                            <input type="text" class="form-control" value="Time">
+                        </div>
+                    </div>
+                </div>
+                <h4>Flight duration: 69</h4>
+                <hr>
+                <h2>Booking class and Pricing</h2>
+                <div class="d-flex flex-row gap-5 mb-3" >
+                    <!-- Flights must be at least one hour -->
+                    <div class="d-flex flex-column">
+                        <div class="d-flex flex-row gap-2">
+                            <input type="text" class="form-control" value="Date">
+                            <input type="text" class="form-control" value="Time">
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
@@ -202,3 +227,44 @@ if (isset($_POST['generateFlights'])) {
 }
 
 ?>
+
+
+<!-- DIRECT -->
+
+origin
+destination
+
+time =0
+duration = rand(1,4)
+
+while (time < 24) {
+    print random(airline)
+    departure = time
+    arrival = time + duration
+    
+    time += duration
+}
+
+<!-- 
+<!-- Connecting -->
+origin
+connectingDest
+
+time =0
+duration = rand(1,4)
+
+while (time < 24) {
+    random(airline)
+    departure = time
+    arrival = time + duration
+    
+    time += duration
+}
+<!-- TO DESTINATION -->
+while (time < 24) {
+    random(airline)
+    departure = time
+    arrival = time + duration
+    
+    time += duration
+} -->

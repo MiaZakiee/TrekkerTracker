@@ -42,6 +42,6 @@
     <img src="https://cdn.dribbble.com/userupload/12509456/file/original-a39fd72dbec559ebf98cdc389b6cce23.png?resize=752x">
 </div>
 </body>
-<script src = "script.js"></script>
+<script src = "./script/script.js"></script>
 
 </html>
