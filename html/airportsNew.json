@@ -1,0 +1,72 @@
+{
+    "Southeast Asia": {
+      "Philippines": {
+        "Manila": { "airport": "Ninoy Aquino International Airport", "code": "MNL" },
+        "Cebu": { "airport": "Mactan-Cebu International Airport", "code": "CEB" },
+        "Davao": { "airport": "Francisco Bangoy International Airport", "code": "DVO" },
+        "Leyte": { "airport": "Daniel Z. Romualdez Airport", "code": "TAC" },
+        "Cagayan de Oro": { "airport": "Laguindingan Airport", "code": "CGY" },
+        "El Nido": { "airport": "El Nido Airport", "code": "ENI" },
+        "Aklan": { "airport": "Kalibo International Airport", "code": "KLO" },
+        "Siargao": { "airport": "Sayak Airport", "code": "IAO" }
+      },
+      "Indonesia": {
+        "Jakarta": { "airport": "Soekarno-Hatta International Airport", "code": "CGK" },
+        "Denpasar": { "airport": "Ngurah Rai International Airport", "code": "DPS" }
+      },    
+      "Vietnam": {
+        "Hanoi": { "airport": "Noi Bai International Airport", "code": "HAN" },
+        "Ho Chi Minh City": { "airport": "Tan Son Nhat International Airport", "code": "SGN" }
+      },
+      "Laos": {
+        "Vientiane": { "airport": "Wattay International Airport", "code": "VTE" },
+        "Luang Prabang": { "airport": "Luang Prabang International Airport", "code": "LPQ" }
+      },
+      "Singapore": {
+        "Singapore": { "airport": "Changi Airport", "code": "SIN" }
+      },
+      "Thailand": {
+        "Bangkok": { "airport": "Suvarnabhumi Airport", "code": "BKK" },
+        "Phuket": { "airport": "Phuket International Airport", "code": "HKT" }
+      }
+    },
+    "Rest of the World": {
+      "China": {
+        "Beijing": { "airport": "Beijing Capital International Airport", "code": "PEK" },
+        "Shanghai": { "airport": "Shanghai Pudong International Airport", "code": "PVG" }
+      },
+      "Korea": {
+        "Seoul": { "airport": "Incheon International Airport", "code": "ICN" },
+        "Busan": { "airport": "Gimhae International Airport", "code": "PUS" }
+      },
+      "Australia": {
+        "Melbourne": { "airport": "Melbourne Airport", "code": "MEL" },
+        "Sydney": { "airport": "Sydney Airport", "code": "SYD" }
+      },
+      "USA": {
+        "Washington D.C.": { "airport": "Washington Dulles International Airport", "code": "IAD" },
+        "New York": { "airport": "John F. Kennedy International Airport", "code": "JFK" }
+      },
+      "Dubai": {
+        "Dubai": { "airport": "Dubai International Airport", "code": "DXB" },
+        "Abu Dhabi": { "airport": "Abu Dhabi International Airport", "code": "AUH" }
+      },
+      "Japan": {
+        "Tokyo": { "airport": "Tokyo Haneda Airport", "code": "HND" },
+        "Osaka": { "airport": "Kansai International Airport", "code": "KIX" }
+      },
+      "UK": {
+        "London": { "airport": "Heathrow Airport", "code": "LHR" },
+        "Manchester": { "airport": "Manchester Airport", "code": "MAN" }
+      },
+      "South Africa": {
+        "Pretoria/Johannesburg": { "airport": "O.R. Tambo International Airport", "code": "JNB" },
+        "Cape Town": { "airport": "Cape Town International Airport", "code": "CPT" }
+      },
+      "Mexico": {
+        "Mexico City": { "airport": "Benito Juárez International Airport", "code": "MEX" },
+        "Cancun": { "airport": "Cancun International Airport", "code": "CUN" }
+      }
+    }
+  }
+  

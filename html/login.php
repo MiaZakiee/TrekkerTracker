@@ -1,58 +1,85 @@
 <?php
-include("connect.php");
-?>
+include 'connect.php';
 
-<?php
-
+// handles login button
 if (isset($_POST['loginButton'])) {
+    // fetches username and hashed password
     $uname = $_POST['loginUsername'];
-    $pword = hash('sha256', $_POST['loginPassword']);
+    $pass = hash('sha256', $_POST['loginPassword']);
 
-    // Checks if user or email exisits within db
-    $sqlEmail = "SELECT * FROM tbluseraccount WHERE user_username='" . $uname . "'";
-    $sqlUser = "SELECT * FROM tbluseraccount WHERE user_email='" . $uname . "'";
-    $userResultA = mysqli_query($connection, $sqlEmail);
-    $userResultB = mysqli_query($connection, $sqlUser);
-    $userExists = mysqli_num_rows($userResultB) != 0;
-    $emailExists = mysqli_num_rows($userResultA) != 0;
+    // checks if user exists
+    $sqlEmail = "SELECT * FROM tbluseraccount WHERE username='$uname' OR email='$uname'";
+    $result = mysqli_query($connection, $sqlEmail);
+    $userExists = mysqli_num_rows($result);
 
-    if ($userExists || $emailExists) {
-        // if user exists, check if password matches with user
-        $sqlPass = "SELECT * FROM tbluseraccount WHERE (user_username='" . $uname . "' OR user_email='" . $uname . "') AND user_password='" . $pword . "'";
-        $passResult = mysqli_query($connection, $sqlPass);
-        $passExists = mysqli_num_rows($passResult) != 0;
+    if ($userExists) {
+        $row = mysqli_fetch_assoc($result);
+        $userType = $row['user_type'];
+        $passCheck = $row['password'];
+        $isBanned = ($row['isBanned'] == 1);
 
-        // TODO password match, redirect user to landing page
-        if ($passExists) {
-            echo "<script language='javascript'>
-                        setTimeout(() =>location.replace('./StartUp.php'), 1300);
+        // gets session details
+        $sessionID = $row['user_id'];
+        $sqlname = "SELECT * FROM tbluserprofile where user_id='$sessionID'";
+        $sessionName = mysqli_query($connection, $sqlname);
+        $namerow = mysqli_fetch_assoc($sessionName);
+
+        $_SESSION['fname'] = $namerow['fname'];
+        $_SESSION['lname'] = $namerow['lname'];
+
+        // checks if password is valid
+        if ($pass == $passCheck) {
+            // leads user based on their account type
+            if ($userType == 1) {
+                $_SESSION['adminID'] = $sessionID;
+                echo "<script language='javascript'>
+                        location.replace('./AdminDashboard.php');
                     </script>";
+            }
+            else if ($userType == 2) {
+                $_SESSION['airlineID'] = $sessionID;
+                echo "<script language='javascript'>
+                        location.replace('./airlineAdminDashboard.php');
+                    </script>";
+            } else {
+                $_SESSION['userID'] = $sessionID;
+                if ($isBanned) {
+                    // TODO add shit here yk
+                    echo "<script language='javascript'>
+                        let logPassword = document.querySelector('#loginPassword');
+                        let message = document.querySelector('.invalidInput_Banned');
+                        logPassword.classList.add('invalidInput');
+                        logPassword.style.display = 'inline';
+                        message.style.display = 'inline';
+                        
+                        let logEmail = document.querySelector('#loginUsername');
+                        logEmail.value = '" . $uname . "';
+                    </script>";
+                } else {
+                    echo "<script language='javascript'>
+                        location.replace('./index.php');
+                    </script>";
+                }
+
+            }
         } else {
             // Password does not match
             echo "<script language='javascript'>
-                            let logPassword = document.querySelector('#loginPassword');
-                            let message = document.querySelector('.invalidInput_Password');
-                            logPassword.classList.add('invalidInput');
-                            logPassword.style.display = 'inline';
-                            message.style.display = 'inline';
-                            
-                            let logEmail = document.querySelector('#loginUsername');
-                            logEmail.value = '" . $uname . "';
-                        </script>";
+                 let message = document.querySelector('.invalidInput_Password');
+                 message.style.display = 'inline';
+                 
+                 let logEmail = document.querySelector('#loginUsername');
+                 logEmail.value = '" . $uname . "';
+             </script>";
         }
     } else {
         // Username is not found
         echo "<script language='javascript'>
-                        let logEmail = document.querySelector('#loginUsername');
-                        let message = document.querySelector('.invalidInput_Login');
-                        logEmail.classList.add('invalidInput');
-                        logEmail.style.display = 'inline';
-                        message.style.display = 'inline';
-                    </script>";
+                            let logEmail = document.querySelector('#loginUsername');
+                            let message = document.querySelector('.invalidInput_Login');
+                            logEmail.classList.add('invalidInput');
+                            logEmail.style.display = 'inline';
+                            message.style.display = 'inline';
+                        </script>";
     }
-
-    // User does not exist
-    // Incorrect password
-    // TODO NEED GENDER???????????????????????
 }
-?>
