@@ -1,7 +1,7 @@
 <?php
 include("connect.php");
 
-$sql = "SELECT * from tblflights";
+$sql = "SELECT * from tblbookingsystem";
 $result = mysqli_query($connection, $sql);
 
 session_start();
@@ -110,14 +110,13 @@ if (!isset($_SESSION['airlineID'])) {
                 <table class="table table-striped table-sm flightsTbl">
                     <thead>
                         <tr>
-                            <th scope="col">Flight Id</th>
-                            <th scope="col">Airline</th>
+                            <th scope="col">Booking Id</th>
                             <th scope="col">Origin</th>
                             <th scope="col">Destination</th>
                             <th scope="col">Departure</th>
                             <th scope="col">Arrival</th>
-                            <th scope="col">Total Passengers</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Seating class</th>
+                            <th scope="col">Chartered Flight</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -125,14 +124,13 @@ if (!isset($_SESSION['airlineID'])) {
                             <?php
                             while ($row = mysqli_fetch_assoc($result)) {
                             ?>
-                                <td class=""><?php echo $row['flightId']; ?></td>
-                                <td class=""><?php echo $row['airline']; ?></td>
-                                <td class=""><?php echo $row['origin']; ?></td>
-                                <td class=""><?php echo $row['destination']; ?></td>
-                                <td class="tblContent"><?php echo $row['departureDT']; ?></td>
-                                <td class="tblContent"><?php echo $row['arrivalDT']; ?></td>
-                                <td class=""><?php echo $row['totalPassengers']; ?></td>
-                                <td class=""><?php echo $row['totalPassengers'] >=  $row['seatingCapacity'] ? 'FULL' : 'AVAILABLE'; ?></td>
+                                <td class=""><?php echo $row['booking_id']; ?></td>
+                                <td class=""><?php echo $row['Origin']; ?></td>
+                                <td class=""><?php echo $row['Destination']; ?></td>
+                                <td class=""><?php echo $row['Date']; ?></td>
+                                <td class="tblContent"><?php echo $row['Date']; ?></td>
+                                <td class="tblContent"><?php echo $row['Seat_Accomodation']; ?></td>
+                                <td class=""><?php echo $row['CharterFlight']; ?></td>
                         </tr>
                     <?php
                             }

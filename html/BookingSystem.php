@@ -55,7 +55,7 @@ if (isset($successMessage)) {
 
         $sql_date_format = $date_object->format('Y-m-d'); // Adjust format if needed
         echo $origin." " . $destination." ".$accommodation.' '.$formatted_date;
-        $sql = "INSERT INTO bookingsystem (origin, destination, seat_accomodation, charterflight, date) VALUES ('" . $origin . "', '" . $destination . "', '" . $accommodation . "', 0, '" . $sql_date_format  . "')";
+        $sql = "INSERT INTO tblbookingsystem (origin, destination, seat_accomodation, charterflight, date) VALUES ('" . $origin . "', '" . $destination . "', '" . $accommodation . "', 0, '" . $sql_date_format  . "')";
         mysqli_query($connection, $sql);
 
     }
