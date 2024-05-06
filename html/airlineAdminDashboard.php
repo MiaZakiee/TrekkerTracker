@@ -5,7 +5,7 @@ $sql = "SELECT * from tblbookingsystem";
 $result = mysqli_query($connection, $sql);
 
 session_start();
-if (!isset($_SESSION['airlineID'])) {
+if (!isset($_SESSION['adminID'])) {
     echo "<script>
     location.replace('./index.php')   
     </script>";
@@ -66,29 +66,31 @@ if (!isset($_SESSION['airlineID'])) {
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li>
-                    <a href="./airlineAdminDashboard.php" class="nav-link active" aria-current="page">
+                    <a href="./AdminDashboard.php" class="nav-link link-body-emphasis">
                         <svg class="bi pe-none me-2" width="16" height="16">
                             <use xlink:href="#speedometer2" />
                         </svg>
-                        Dashboard
+                        User Accounts
                     </a>
                 </li>
                 <li>
-                    <a href="./airlineAdminGenerate.php" class="nav-link link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16">
-                            <use xlink:href="#grid" />
-                        </svg>
-                        Generate flights
+                    <a href="./airlineAdminDashboard.php" class="nav-link active" aria-current="page">
+                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+                        Flights
                     </a>
                 </li>
-                <!-- <li>
-                    <a href="#" class="nav-link link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16">
-                            <use xlink:href="#people-circle" />
-                        </svg>
-                        Settings? not sure yet
+                <li>
+                    <a href="./UserReports.php" class="nav-link link-body-emphasis">
+                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+                        User reports
                     </a>
-                </li> -->
+                </li>
+                <li>
+                    <a href="./FlightReports.php" class="nav-link link-body-emphasis">
+                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+                    Flight Reports
+                    </a>
+                </li>
             </ul>
             <hr>
             <div class="dropdown">
