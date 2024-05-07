@@ -26,9 +26,6 @@ if (isset($_POST['loginButton'])) {
             echo "<script language='javascript'>
                         setTimeout(() =>location.replace('./index.php'), 1300);
                     </script>";
-                }
-
-            }
         } else {
             // Password does not match
             echo "<script language='javascript'>
