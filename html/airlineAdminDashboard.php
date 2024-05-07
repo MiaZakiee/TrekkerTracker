@@ -112,13 +112,14 @@ if (!isset($_SESSION['adminID'])) {
                 <table class="table table-striped table-sm flightsTbl">
                     <thead>
                         <tr>
-                            <th scope="col">Booking Id</th>
+                            <th scope="col">Flight ID</th>
+                            <th scope="col">Airline</th>
                             <th scope="col">Origin</th>
                             <th scope="col">Destination</th>
                             <th scope="col">Departure</th>
                             <th scope="col">Arrival</th>
-                            <th scope="col">Seating class</th>
                             <th scope="col">Chartered Flight</th>
+                            <th scope="col">Status</th>
                         </tr>
                     </thead>
                     <tbody>

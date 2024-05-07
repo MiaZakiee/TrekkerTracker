@@ -81,7 +81,7 @@
                     <p style="font-family: Playfair Display">Don't Have an Account? <a href="registerPage.php" style="color: black; text-decoration: none;">Register Here!</a></p>
                 </div>
             </div>
-            <img src="images/wallpaperflare.com_wallpaper.jpg" alt="tets" class="coolPic">
+            <img src="./images/bg.jpg" alt="tets" class="coolPic">
         </main>
     </body>
     </html>

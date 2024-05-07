@@ -135,26 +135,16 @@ if (!isset($_SESSION['adminID'])) {
                                 <td class=""><?php echo $rowUser['email']; ?></td>
                                 <td class="">
                                 <?php
-                                    switch ($rowUser['user_type']) {
-                                        case 1:
-                                            // admin
-                                            $user_type = 'Admin';
-                                            break;
-                                        case 2:
-                                            // airline admin
-                                            $user_type = 'Airline Admin';
-                                            break;
-                                        case 3:
-                                            // user
-                                            $user_type = 'User';
-                                            break;
-                                    }
-                                    echo $user_type;
+                                    echo $rowUser['user_type'] == 0 ? 'Admin' : 'User';
+                                    $user_type = $rowUser['user_type'] == 0 ? 'Admin' : 'User';
                                 ?>
                                 </td>
                                 <td class=""> <?php echo ($rowUser['isBanned'] == 0 ? 'Active' : 'Banned')?></td>
                                 <td class="">
-                                <div class="dropdown">
+                                <?php
+                                    if ($rowUser['user_id'] != $_SESSION['adminID']) {
+                                        ?>
+                                        <div class="dropdown">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16"
                                     class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
                                     >
@@ -168,18 +158,25 @@ if (!isset($_SESSION['adminID'])) {
                                                 if ($rowUser['isBanned'] == 0) {
                                                 ?>
                                                     <li><a class="dropdown-item" href="./utils/ban.php?user_id=<?php echo htmlspecialchars($rowUser['user_id']); ?>">Ban User</a></li>
+                                                    <li><a class="dropdown-item" href="./utils/promote.php?user_id=<?php echo htmlspecialchars($rowUser['user_id']); ?>">Promote to Admin</a></li>
                                                 <?php
                                                 } else {
                                                 ?>
                                                     <li><a class="dropdown-item" href="./utils/unban.php?user_id=<?php echo htmlspecialchars($rowUser['user_id']); ?>">Unban User</a></li>
                                                 <?php
                                                 }
-                
+                                            } else {
+                                                ?>
+                                                <li><a class="dropdown-item" href="./utils/demote.php?user_id=<?php echo htmlspecialchars($rowUser['user_id']); ?>">Demote to User</a></li>
+                                                <?php
                                             }
                                         ?>
                                     </ul>
                                     </div>
                                 </td>
+                                        <?php
+                                    }
+                                ?>
                         </tr>
                     <?php
                             }
