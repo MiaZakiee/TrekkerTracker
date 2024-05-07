@@ -101,7 +101,7 @@ $(document).ready(function (){
 
         // Check if any of the required fields are empty
         console.log("Origin: "+ origin);
-        document.getElementById("Booked").disabled = origin === "" || destination === "" || accommodation === "" || departureDate === "";
+        document.getElementById("Booked").disabled = departureDate === "";
     }
 
     // Add event listeners to form elements to trigger validation on change

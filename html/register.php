@@ -32,7 +32,8 @@ if (isset($_POST['registerBtn'])) {
         echo "<script language='javascript'>
                         document.querySelector('.modalBox').style.display = 'inline';
                         setTimeout(20000);
-                        setTimeout(() => location.replace('./index.php'), 1300);                   
+                        setTimeout(() =>location.replace('./index.php'), 1300);
+                        
                     </script>";
     } else {
         if (!$userRes) {

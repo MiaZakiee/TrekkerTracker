@@ -22,7 +22,7 @@
 
 <div id = "file1">
     <?php
-        include("StartUp.php");
+        include("index.php");
     ?>
 </div>
 <div id = "file2">
