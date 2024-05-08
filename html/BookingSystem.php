@@ -1,4 +1,5 @@
 <?php
+include('connect.php');
 $inPhil = ['Cebu', 'Davao'];
 
 ini_set('display_errors', 1);
@@ -105,8 +106,11 @@ function convert_and_format_date($date_string) {
                 $minutestmp = $duration_in_minutes2 % 60;
                 $duration_tmp = ($hourstmp > 0 ? "$hourstmp hr" : "") . ($minutestmp > 0 ? " $minutestmp mins" : "");
 
-            }
 
+
+            }
+//            $flights = "INSERT INTO tblflights (Origin,Destination,Date,departure_time,arrival_time) VALUES ('" . $origin . "','" . $destination . "','" . $date . "','" . $time_string1 . "','" . $time_string2 . "')";
+//            mysqli_query($connection,$flights);
             ?>
 
             <div class="time-slot">
@@ -155,12 +159,12 @@ function convert_and_format_date($date_string) {
                     <input type="hidden" name="origintmp" value="<?php echo (in_array($origin, $inPhil)) ? "Mania" : ""; ?>">
                     <input type="hidden" name="destinationtmp" value="<?php echo (in_array($origin, $inPhil)) ? $destination : ""; ?>">
                     <input type="hidden" name="Accommodation" value="<?php echo $accommodation; ?>">
-                    <input type="hidden" name="selected_time_initial" value="<?php echo $time_string1; ?>">
-                    <input type="hidden" name="selected_time_destination" value="<?php echo $time_string2; ?>">
+                    <input type="hidden" name="Departure_DT" value="<?php echo $date." ".$time_string1; ?>">
+                    <input type="hidden" name="Arrival_DT" value="<?php echo $date." ".$time_string2; ?>">
 
-                    <input type="hidden" name="timetmp" value="<?php echo (in_array($origin, $inPhil)) ? $time_stringtmp1 : "" ?>">
-                    <input type="hidden" name="desttmp" value="<?php echo (in_array($origin, $inPhil)) ? $time_stringtmp2 : ""; ?>">
-                    <input type="hidden" name="selected_date" value="<?php echo $sql_date_format; ?>">
+                    <input type="hidden" name="tmpDeparture_DT" value="<?php echo (in_array($origin, $inPhil)) ? $date." ".$time_stringtmp1 : "" ?>">
+                    <input type="hidden" name="tmpArrival_DT" value="<?php echo (in_array($origin, $inPhil)) ? $date." ".$time_stringtmp2 : ""; ?>">
+
 
                 </div>
                 <button style="float:right; width: 200px; height: 50px; margin: 100px 50px 0 0; border-radius: 20px; border: #95C0E3 2px solid; color: #B0692F; font-size: 25px; font-family: 'Roboto Light'; background: linear-gradient(to bottom, #95C0E3, #FAF8D4);" type="submit">Book</button>

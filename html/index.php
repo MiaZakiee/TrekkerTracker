@@ -94,7 +94,7 @@
                             <option>Economy</option>
 
                     </select>
-                    <button type="submit" class="btn btn-info btn-lg" id="Booked" name = "Booked" style="margin-top: 50px;">Book!</button>
+                    <button type="submit" class="btn btn-info btn-lg" id="Booked" name = "Booked" style="margin-top: 50px;" disabled>Book!</button>
                 </div>
 
                 <div class="Bookings">
