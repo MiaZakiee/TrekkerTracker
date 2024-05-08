@@ -12,12 +12,17 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
     $DTDepart = $_POST['Departure_DT'];
     $DTArrive = $_POST['Arrival_DT'];
     $tmpDTDepart = $_POST['tmpDeparture_DT'];
-    $tmpDTArrive = $_POST['tmpDeparture_DT'];
+    $tmpDTArrive = $_POST['tmpArrival_DT'];
     $accommodation = $_POST['Accommodation'];
 
 
     $sql = "INSERT INTO bookingsystem (Origin, Destination, seat_accommodation, Departure_DT, Arrival_DT) VALUES (?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($connection, $sql);
+    if($tmpDTArrive !== "" && $tmpDTDepart !== ""){
+        $sql1 = "INSERT INTO bookingsystem (Origin, Destination, seat_accommodation, Departure_DT, Arrival_DT) VALUES (?, ?, ?, ?, ?)";
+        $stmt1 = mysqli_prepare($connection, $sql1);
+
+    }
 
   // Format time strings and bind parameters
   $timego_formatted = new DateTime($DTDepart);
@@ -31,19 +36,36 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
 
     // Execute the statement
     if (mysqli_stmt_execute($stmt)) {
-      echo "Booking successful!";  // Or handle success differently
+      error_log("Booking successful for Ticket 1!");
     } else {
-      echo "Error: Booking failed. " . mysqli_error($connection);  // Handle error
+       error_log("Error: Booking failed. " . mysqli_error($connection));
     }
 
     // Close the statement
     mysqli_stmt_close($stmt);
   } else {
-    echo "Error: Statement preparation failed."; // Handle statement preparation error
+      error_log("Error: Statement preparation failed.");
+  }
+  if($stmt1){
+      $format2 = $timegotmp_formatted->format('Y-m-d H:i');
+      $format3 = $timearrivetmp_formatted->format('Y-m-d H:i');
+      mysqli_stmt_bind_param($stmt1, "sssss", $origtmp, $desttmp, $accommodation, $format2, $format3);
+
+      // Execute the statement
+      if (mysqli_stmt_execute($stmt1)) {
+          error_log("Booking successful for Ticket 2!");
+      } else {
+          error_log("Error: Booking failed. " . mysqli_error($connection));
+      }
+
+      // Close the statement
+      mysqli_stmt_close($stmt1);
+  } else {
+      error_log( "Only One Ticket"); // Handle statement preparation error
   }
 
 } else {
-  // Handle missing form data
+    error_log( "Wa wah");
 
 }
 
@@ -58,26 +80,70 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
     <link href="./css/styles.css" rel="stylesheet">
 </head>
 <body>
+
+
 <div style="width: 100vw; align-items: center;">
-    <h1 style="margin-left: 20%">Finalizing Tickets</h1>
-    <div class = "ticks">
-        <div style="flex-direction: column">
-        <p style="font-weight: bold; font-size: 30px;"><?php echo $origin; ?> to <?php echo $destination; ?></p>
-        <p style="font-size: 20px;"> <?php echo $DTDepart; ?>  --->  <?php echo $DTArrive; ?></p>
-        </div>
-        <h2 class = "spacing" >FX3R1</h2>
-        <h3 class = "spacing"> PHP 7,500</h3>
-    </div>
+
+    <h1 style="margin: 80px 0 40px 18%;">Finalizing Tickets</h1>
+    <table>
+        <tr>
+            <th>Destination</th>
+            <th>Date & Time</th>
+            <th>Flight ID</th>
+            <th>Price</th>
+        </tr>
+        <tr>
+            <td>
+                <?php echo $origin; ?> to <?php echo $destination; ?>
+            </td>
+            <td>
+                <?php
+                $date_str1 = $timego_formatted->format('F j, Y'); // Outputs May 5, 2023
+                $time_str1 = $timego_formatted->format('g:i A'); // Outputs 5:00 AM
+                $date_str2 = $timearrive_formatted->format('F j, Y'); // Outputs May 5, 2023
+                $time_str2 = $timearrive_formatted->format('g:i A'); // Outputs 5:00 AM
+
+                ?>
+                <?php echo $date_str1 . '<img src = "./icons/airplane.png" alt="Arrow" style="margin: 0 25px;">' . $date_str2 . "<br>"
+                    . "&nbsp;" .$time_str1 . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $time_str2;
+                ?>
+            </td>
+            <td>FX3R1</td>
+            <td>PHP 7,500</td>
+        </tr>
+    </table>
     <?php if($origtmp !== "" && $desttmp !== ""){ ?>
-    <div class = "ticks">
-        <div style="flex-direction: column">
-        <p style="font-weight: bold; font-size: 30px;"><?php echo $origtmp; ?> to <?php echo $desttmp; ?></p>
-        <p style="font-size: 20px;"> <?php echo $tmpDTDepart; ?>  --->  <?php echo $tmpDTArrive; ?></p>
-        </div>
-        <h2 class = "spacing">FX3R1</h2>
-        <h3 class = "spacing"> PHP 13,500</h3>
-    </div>
+        <table>
+            <tr>
+                <th>Destination</th>
+                <th>Date & Time</th>
+                <th>Flight ID</th>
+                <th>Price</th>
+            </tr>
+            <tr>
+                <td>
+                    <?php echo $origtmp; ?> to <?php echo $desttmp; ?>
+                </td>
+                <td>
+                    <?php
+                    $date_str1 = $timegotmp_formatted->format('F j, Y'); // Outputs May 5, 2023
+                    $time_str1 = $timegotmp_formatted->format('g:i A'); // Outputs 5:00 AM
+                    $date_str2 = $timearrivetmp_formatted->format('F j, Y'); // Outputs May 5, 2023
+                    $time_str2 = $timearrivetmp_formatted->format('g:i A'); // Outputs 5:00 AM
+
+                    ?>
+                    <?php echo $date_str1 . '<img src = "./icons/airplane.png" alt="Arrow" style="margin: 0 25px;">' . $date_str2 . "<br>"
+                        . "&nbsp;" .$time_str1 . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $time_str2;
+                    ?>
+                </td>
+
+                <td>FX3R1</td>
+                <td>PHP 13,500</td>
+            </tr>
+        </table>
+
     <?php } ?>
+    <button id ="coolbut" type = "button" onclick="location.href='index.php'">Back Home</button>
 </div>
 </body>
 </html>

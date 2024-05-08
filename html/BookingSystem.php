@@ -18,8 +18,8 @@ if (isset($_POST['Origin']) && isset($_POST['Destination']) && isset($_POST['Acc
     [$formatted_date, $days_since_reference] = convert_and_format_date($date);
 
     if ($formatted_date) {
-        echo "Formatted date: $formatted_date\n";
-        echo "Days since reference date: $days_since_reference\n";
+        error_log( "Formatted date: $formatted_date\n");
+        error_log( "Days since reference date: $days_since_reference\n");
         $date_object = DateTimeImmutable::createFromFormat('Y m d', $formatted_date);
 
 
@@ -70,8 +70,8 @@ function convert_and_format_date($date_string) {
 //?>
 
 <div class = "TicketChoice">
-    <form action="Finalize.php" method="post">
-    <p>Select Your Departing Flight</p>
+
+    <p style="font-size: 40px; font-weight: 500; font-family: 'Roboto Light'">Select Your Departing Flight</p>
     <h1> <?php echo $origin; ?> to <?php echo $destination; ?> </h1>
 
     <?php
@@ -95,8 +95,8 @@ function convert_and_format_date($date_string) {
                 $hourtmp1 = str_pad(floor($i+3.5), 2, '0', STR_PAD_LEFT);
                 $minutetmp1 = fmod($i+3.5, 1) * 60; // Calculate minute using modulo
 
-                $hourtmp2 = str_pad(floor($i+6.5), 2, '0', STR_PAD_LEFT);
-                $minutetmp2 = fmod($i+6.5, 1) * 60; // Calculate minute using modulo
+                $hourtmp2 = str_pad(floor($i+6), 2, '0', STR_PAD_LEFT);
+                $minutetmp2 = fmod($i+6, 1) * 60; // Calculate minute using modulo
 
                 $time_stringtmp1 = "$hourtmp1:" . str_pad($minutetmp1, 2, '0', STR_PAD_LEFT);
                 $time_stringtmp2 = "$hourtmp2:" . str_pad($minutetmp2, 2, '0', STR_PAD_LEFT);
@@ -112,7 +112,7 @@ function convert_and_format_date($date_string) {
 //            $flights = "INSERT INTO tblflights (Origin,Destination,Date,departure_time,arrival_time) VALUES ('" . $origin . "','" . $destination . "','" . $date . "','" . $time_string1 . "','" . $time_string2 . "')";
 //            mysqli_query($connection,$flights);
             ?>
-
+    <form action="Finalize.php" method="post">
             <div class="time-slot">
                 <div style="flex-direction: column">
                 <div class = "contflight">
@@ -167,16 +167,17 @@ function convert_and_format_date($date_string) {
 
 
                 </div>
-                <button style="float:right; width: 200px; height: 50px; margin: 100px 50px 0 0; border-radius: 20px; border: #95C0E3 2px solid; color: #B0692F; font-size: 25px; font-family: 'Roboto Light'; background: linear-gradient(to bottom, #95C0E3, #FAF8D4);" type="submit">Book</button>
+                <button class ="bookbtns" type="submit" style="vertical-align:middle"><span>Book</span></button>
 
             </div>
+    </form>
 
 
             <?php
         }
 
         ?>
-    </form>
+
     </div>
 
 
