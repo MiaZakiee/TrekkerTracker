@@ -3,32 +3,31 @@
 <?php
 include('connect.php');
 
-if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) && isset($_POST['origintmp']) && isset($_POST['destinationtmp']) && isset($_POST['Accommodation']) && isset($_POST['selected_date']) && isset($_POST['selected_time_initial']) && isset($_POST['selected_time_destination']) && isset($_POST['timetmp']) && isset($_POST['desttmp']) ) {
+if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) && isset($_POST['origintmp']) && isset($_POST['destinationtmp']) && isset($_POST['Accommodation']) &&  isset($_POST['Departure_DT']) && isset($_POST['Arrival_DT']) && isset($_POST['tmpDeparture_DT']) && isset($_POST['tmpArrival_DT']) ) {
 
     $origin = $_POST['selected_origin'];
     $destination = $_POST['selected_destination'];
     $origtmp = $_POST['origintmp'];
     $desttmp = $_POST['destinationtmp'];
-    $timego = $_POST['selected_time_initial'];
-    $timearrive = $_POST['selected_time_destination'];
-    $date = $_POST['selected_date'];
-    $timegotmp = $_POST['timetmp'];
-    $timearritmp = $_POST['desttmp'];
+    $DTDepart = $_POST['Departure_DT'];
+    $DTArrive = $_POST['Arrival_DT'];
+    $tmpDTDepart = $_POST['tmpDeparture_DT'];
+    $tmpDTArrive = $_POST['tmpDeparture_DT'];
     $accommodation = $_POST['Accommodation'];
 
 
-    $sql = "INSERT INTO bookingsystem (origin, destination, seat_accommodation, date, Departure_time, Arrival_time) VALUES (?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO bookingsystem (Origin, Destination, seat_accommodation, Departure_DT, Arrival_DT) VALUES (?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($connection, $sql);
 
   // Format time strings and bind parameters
-  $timego_formatted = new DateTime($timego);
-  $timearrive_formatted = new DateTime($timearrive);
-$timegotmp_formatted = (empty($timegotmp)) ? null : new DateTime($timegotmp);
-$timearrivetmp_formatted = (empty($timearritmp)) ? null : new DateTime($timearritmp);
+  $timego_formatted = new DateTime($DTDepart);
+  $timearrive_formatted = new DateTime($DTArrive);
+    $timegotmp_formatted = (empty($tmpDTDepart)) ? null : new DateTime($tmpDTDepart);
+    $timearrivetmp_formatted = (empty($tmpDTArrive)) ? null : new DateTime($tmpDTArrive);
   if ($stmt) {
-      $format = $timego_formatted->format('Y-m-d H:i:s');
-      $format1 = $timearrive_formatted->format('Y-m-d H:i:s');
-      mysqli_stmt_bind_param($stmt, "ssssss", $origin, $destination, $accommodation, $date, $format, $format1 );
+      $format = $timego_formatted->format('Y-m-d H:i');
+      $format1 = $timearrive_formatted->format('Y-m-d H:i');
+      mysqli_stmt_bind_param($stmt, "sssss", $origin, $destination, $accommodation, $format, $format1);
 
     // Execute the statement
     if (mysqli_stmt_execute($stmt)) {
@@ -64,19 +63,21 @@ $timearrivetmp_formatted = (empty($timearritmp)) ? null : new DateTime($timearri
     <div class = "ticks">
         <div style="flex-direction: column">
         <p style="font-weight: bold; font-size: 30px;"><?php echo $origin; ?> to <?php echo $destination; ?></p>
-        <p style="font-size: 20px;"> <?php echo $timego; ?>  --->  <?php echo $timearrive; ?></p>
+        <p style="font-size: 20px;"> <?php echo $DTDepart; ?>  --->  <?php echo $DTArrive; ?></p>
         </div>
         <h2 class = "spacing" >FX3R1</h2>
         <h3 class = "spacing"> PHP 7,500</h3>
     </div>
+    <?php if($origtmp !== "" && $desttmp !== ""){ ?>
     <div class = "ticks">
         <div style="flex-direction: column">
         <p style="font-weight: bold; font-size: 30px;"><?php echo $origtmp; ?> to <?php echo $desttmp; ?></p>
-        <p style="font-size: 20px;"> <?php echo $timegotmp; ?>  --->  <?php echo $timearritmp; ?></p>
+        <p style="font-size: 20px;"> <?php echo $tmpDTDepart; ?>  --->  <?php echo $tmpDTArrive; ?></p>
         </div>
         <h2 class = "spacing">FX3R1</h2>
         <h3 class = "spacing"> PHP 13,500</h3>
     </div>
+    <?php } ?>
 </div>
 </body>
 </html>
