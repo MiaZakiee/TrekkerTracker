@@ -1,32 +1,34 @@
 <?php
 include("connect.php");
-?>
-
-<?php
 
 if (isset($_POST['registerBtn'])) {
     // Retrieve data from form
     $fname = $_POST['registerFname'];
     $lname = $_POST['registerLname'];
-
-    //for tbluseraccount
     $email = $_POST['registerEmail'];
     $uname = $_POST['registerUsername'];
     $pword = hash('sha256', $_POST['registerPassword']);
 
-    //Check tbluseraccount if username is already existing. Save info if false. Prompt msg if true.
-    $sqlUser = "SELECT * FROM tbluseraccount WHERE user_username='" . $uname . "'";
-    $sqlEmail = "SELECT * FROM tbluseraccount WHERE user_email='" . $email . "'";
+    // Check if username or email already exists
+    $sqlUser = "SELECT * FROM tbluseraccount WHERE username='" . $uname . "'";
+    $sqlEmail = "SELECT * FROM tbluseraccount WHERE email='" . $email . "'";
     $userResult = mysqli_query($connection, $sqlUser);
     $emailResult = mysqli_query($connection, $sqlEmail);
-    $userRes = mysqli_num_rows($userResult) == 0;
-    $emailRes = mysqli_num_rows($emailResult) == 0;
 
-    if ($userRes && $emailRes) {
-        $sql = "Insert into tbluseraccount(user_email,user_username,user_password) values('" . $email . "','" . $uname . "','" . $pword . "')";
-        $sql2 = "Insert into tbluserprofile(user_fname,user_lname) values('" . $fname . "','" . $lname . "')";
+    // Check if username or email already exists
+    if (mysqli_num_rows($userResult) == 0 && mysqli_num_rows($emailResult) == 0) {
+        // Insert into tbluseraccount
+        $sql = "INSERT INTO tbluseraccount(email, username, password) VALUES ('$email', '$uname', '$pword')";
         mysqli_query($connection, $sql);
+
+        // Get the last inserted user_id
+        $lastUserID = mysqli_insert_id($connection);
+
+        // Insert into tbluserprofile using the last inserted user_id
+        $sql2 = "INSERT INTO tbluserprofile(user_id, fname, lname) VALUES ('$lastUserID', '$fname', '$lname')";
         mysqli_query($connection, $sql2);
+
+        // Redirect user after successful registration
         echo "<script language='javascript'>
                         document.querySelector('.modalBox').style.display = 'inline';
                         setTimeout(20000);
@@ -69,5 +71,3 @@ if (isset($_POST['registerBtn'])) {
         }
     }
 }
-
-?>

@@ -1,8 +1,11 @@
 <?php
 include("connect.php");
 
-$sql = "SELECT * from tblbookingsystem";
-$result = mysqli_query($connection, $sql);
+$sqlUser = "SELECT user_id,username,email,user_type,isBanned from tbluseraccount";
+$sqlProfile = "SELECT user_id,fname,lname from tbluserprofile";
+
+$resultUser = mysqli_query($connection, $sqlUser);
+$resultProfile = mysqli_query($connection, $sqlProfile);
 
 session_start();
 if (!isset($_SESSION['adminID'])) {
@@ -66,7 +69,7 @@ if (!isset($_SESSION['adminID'])) {
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li>
-                    <a href="./AdminDashboard.php" class="nav-link link-body-emphasis">
+                    <a href="./AdminDashboard.php" class="nav-link active" aria-current="page">
                         <svg class="bi pe-none me-2" width="16" height="16">
                             <use xlink:href="#speedometer2" />
                         </svg>
@@ -74,7 +77,7 @@ if (!isset($_SESSION['adminID'])) {
                     </a>
                 </li>
                 <li>
-                    <a href="./airlineAdminDashboard.php" class="nav-link active" aria-current="page">
+                    <a href="./airlineAdminDashboard.php" class="nav-link link-body-emphasis">
                         <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
                         Flights
                     </a>
@@ -102,38 +105,78 @@ if (!isset($_SESSION['adminID'])) {
                     </strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow">
-                    <li><a class="dropdown-item" href="./logout.php">Sign out</a></li>
+                    <li><a class="dropdown-item" href="./utils/logout.php">Sign out</a></li>
+                    
                 </ul>
             </div>
         </div>
         <div class="dashboardBody container-fluid">
-            <h2>Flight Details</h2>
-            <div class="table-responsive small">
+            <h2>User Accounts</h2>
                 <table class="table table-striped table-sm flightsTbl">
                     <thead>
                         <tr>
-                            <th scope="col">Flight ID</th>
-                            <th scope="col">Airline</th>
-                            <th scope="col">Origin</th>
-                            <th scope="col">Destination</th>
-                            <th scope="col">Departure</th>
-                            <th scope="col">Arrival</th>
-                            <th scope="col">Chartered Flight</th>
+                            <th scope="col">User Id</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">User type</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Settings</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <?php
-                            while ($row = mysqli_fetch_assoc($result)) {
+                            while (($rowUser = mysqli_fetch_assoc($resultUser)) && ($rowProfile = mysqli_fetch_assoc($resultProfile))) {
                             ?>
-                                <td class=""><?php echo $row['booking_id']; ?></td>
-                                <td class=""><?php echo $row['Origin']; ?></td>
-                                <td class=""><?php echo $row['Destination']; ?></td>
-                                <td class=""><?php echo $row['Date']; ?></td>
-                                <td class="tblContent"><?php echo $row['Date']; ?></td>
-                                <td class="tblContent"><?php echo $row['Seat_Accomodation']; ?></td>
-                                <td class=""><?php echo $row['CharterFlight']; ?></td>
+                                <td class=""><?php echo $rowProfile['user_id']; ?></td>
+                                <td class=""><?php echo $rowProfile['fname']; ?></td>
+                                <td class=""><?php echo $rowProfile['lname']; ?></td>
+                                <td class=""><?php echo $rowUser['email']; ?></td>
+                                <td class="">
+                                <?php
+                                    echo $rowUser['user_type'] == 0 ? 'Admin' : 'User';
+                                    $user_type = $rowUser['user_type'] == 0 ? 'Admin' : 'User';
+                                ?>
+                                </td>
+                                <td class=""> <?php echo ($rowUser['isBanned'] == 0 ? 'Active' : 'Banned')?></td>
+                                <td class="">
+                                <?php
+                                    if ($rowUser['user_id'] != $_SESSION['adminID']) {
+                                        ?>
+                                        <div class="dropdown">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16"
+                                    class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                                    >
+                                        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+                                    </svg>
+
+
+                                    <ul class="dropdown-menu">
+                                        <?php
+                                            if ($user_type == 'User') {
+                                                if ($rowUser['isBanned'] == 0) {
+                                                ?>
+                                                    <li><a class="dropdown-item" href="./utils/ban.php?user_id=<?php echo htmlspecialchars($rowUser['user_id']); ?>">Ban User</a></li>
+                                                    <li><a class="dropdown-item" href="./utils/promote.php?user_id=<?php echo htmlspecialchars($rowUser['user_id']); ?>">Promote to Admin</a></li>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <li><a class="dropdown-item" href="./utils/unban.php?user_id=<?php echo htmlspecialchars($rowUser['user_id']); ?>">Unban User</a></li>
+                                                <?php
+                                                }
+                                            } else {
+                                                ?>
+                                                <li><a class="dropdown-item" href="./utils/demote.php?user_id=<?php echo htmlspecialchars($rowUser['user_id']); ?>">Demote to User</a></li>
+                                                <?php
+                                            }
+                                        ?>
+                                    </ul>
+                                    </div>
+                                </td>
+                                        <?php
+                                    }
+                                ?>
                         </tr>
                     <?php
                             }
@@ -142,7 +185,6 @@ if (!isset($_SESSION['adminID'])) {
 
                     </tbody>
                 </table>
-            </div>
         </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

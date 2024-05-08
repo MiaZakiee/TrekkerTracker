@@ -1,0 +1,3 @@
+[submodule "html/airports/path/to/rapidjson"]
+	path = html/airports/path/to/rapidjson
+	url = https://github.com/Tencent/rapidjson.git
