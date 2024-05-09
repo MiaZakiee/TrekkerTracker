@@ -1,7 +1,7 @@
 <?php
 include("connect.php");
 
-$sql = "SELECT * from tblbookingsystem";
+$sql = "SELECT * from tblflights";
 $result = mysqli_query($connection, $sql);
 
 session_start();
@@ -102,7 +102,7 @@ if (!isset($_SESSION['adminID'])) {
                     </strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow">
-                    <li><a class="dropdown-item" href="./logout.php">Sign out</a></li>
+                    <li><a class="dropdown-item" href="./utils/logout.php">Sign out</a></li>
                 </ul>
             </div>
         </div>
@@ -115,6 +115,7 @@ if (!isset($_SESSION['adminID'])) {
                             <th scope="col">Flight ID</th>
                             <th scope="col">Airline</th>
                             <th scope="col">Origin</th>
+                            <th scope="col">Date</th>
                             <th scope="col">Destination</th>
                             <th scope="col">Departure</th>
                             <th scope="col">Arrival</th>
@@ -127,13 +128,18 @@ if (!isset($_SESSION['adminID'])) {
                             <?php
                             while ($row = mysqli_fetch_assoc($result)) {
                             ?>
-                                <td class=""><?php echo $row['booking_id']; ?></td>
-                                <td class=""><?php echo $row['Origin']; ?></td>
-                                <td class=""><?php echo $row['Destination']; ?></td>
-                                <td class=""><?php echo $row['Date']; ?></td>
-                                <td class="tblContent"><?php echo $row['Date']; ?></td>
-                                <td class="tblContent"><?php echo $row['Seat_Accomodation']; ?></td>
-                                <td class=""><?php echo $row['CharterFlight']; ?></td>
+                                <td class=""><?php echo $row['flight_id']; ?></td>
+                                <td class=""><?php echo $row['airline']; ?></td>
+                                <td class=""><?php echo $row['origin']; ?></td>
+                                <td class=""><?php echo $row['destination']; ?></td>
+                                <td class="tblContent"><?php echo $row['date']; ?></td>
+                                <td class="tblContent"><?php echo $row['departureDT']; ?></td>
+                                <td class=""><?php echo $row['arrivalDT']; ?></td>
+                                <td class="">false</td>
+                                <td class=""><?php echo $row['seatingCapacity']; 
+                                        echo "/"; 
+                                        echo $row['totalPassengers']; ?>
+                                </td>
                         </tr>
                     <?php
                             }

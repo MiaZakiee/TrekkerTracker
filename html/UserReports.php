@@ -102,7 +102,7 @@ if (!isset($_SESSION['adminID'])) {
                     </strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow">
-                    <li><a class="dropdown-item" href="./logout.php">Sign out</a></li>
+                    <li><a class="dropdown-item" href="./utils/logout.php">Sign out</a></li>
                 </ul>
             </div>
         </div>
