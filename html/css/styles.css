@@ -204,14 +204,14 @@ table{
     border: 2px solid black;
     border-radius: 20px;
     padding: 40px;
-    font-size: 30px;
+    font-size: 25px;
 }
 td {
     border: 2px black hidden;
     border-top: 2px black dotted;
     text-align: center;
     padding: 8px;
-    font-size: 25px;
+    font-size: 20px;
 }
 
 #coolbut {

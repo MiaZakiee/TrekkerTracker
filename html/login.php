@@ -30,16 +30,10 @@ if (isset($_POST['loginButton'])) {
         // checks if password is valid
         if ($pass == $passCheck) {
             // leads user based on their account type
-            if ($userType == 1) {
+            if ($userType == 0) {
                 $_SESSION['adminID'] = $sessionID;
                 echo "<script language='javascript'>
                         location.replace('./AdminDashboard.php');
-                    </script>";
-            }
-            else if ($userType == 2) {
-                $_SESSION['airlineID'] = $sessionID;
-                echo "<script language='javascript'>
-                        location.replace('./airlineAdminDashboard.php');
                     </script>";
             } else {
                 $_SESSION['userID'] = $sessionID;

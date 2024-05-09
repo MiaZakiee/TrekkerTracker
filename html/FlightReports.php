@@ -1,16 +1,13 @@
 <?php
 include("connect.php");
 
-$sql = "SELECT * from tblbookingsystem";
-$result = mysqli_query($connection, $sql);
-
-//session_start();
-//if (!isset($_SESSION['adminID'])) {
-//    echo "<script>
-//    location.replace('./index.php')
-//    </script>";
-//}
-//?>
+session_start();
+if (!isset($_SESSION['adminID'])) {
+    echo "<script>
+    location.replace('./index.php')   
+    </script>";
+}
+?>
 <!doctype html>
 <html lang="en" data-bs-theme="dark">
 
@@ -91,12 +88,6 @@ $result = mysqli_query($connection, $sql);
                     Flight Reports
                     </a>
                 </li>
-                <li>
-                    <a href="./BookingReports.php" class="nav-link link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-                        Booking Reports
-                    </a>
-                </li>
             </ul>
             <hr>
             <div class="dropdown">
@@ -108,37 +99,76 @@ $result = mysqli_query($connection, $sql);
                     </strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow">
-                    <li><a class="dropdown-item" href="./logout.php">Sign out</a></li>
+                    <li><a class="dropdown-item" href="./utils/logout.php">Sign out</a></li>
                 </ul>
             </div>
         </div>
         <div class="dashboardBody container-fluid">
-            <h2>Flight Details</h2>
+            <h2>Number of flights per airline</h2>
             <div class="table-responsive small">
                 <table class="table table-striped table-sm flightsTbl">
                     <thead>
                         <tr>
-                            <th scope="col">Booking Id</th>
-                            <th scope="col">Origin</th>
-                            <th scope="col">Destination</th>
-                            <th scope="col">Departure</th>
-                            <th scope="col">Arrival</th>
-                            <th scope="col">Seating class</th>
-                            <th scope="col">Chartered Flight</th>
+                            <th scope="col">Airline</th>
+                            <th scope="col">Number of flights</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <?php
+                            <?php                            
+                            $sql = "SELECT airline, COUNT(flight_id) AS flight_count FROM tblflights GROUP BY airline DESC";
+                            $result = mysqli_query($connection, $sql);
+
+
                             while ($row = mysqli_fetch_assoc($result)) {
                             ?>
-                                <td class=""><?php echo $row['booking_id']; ?></td>
-                                <td class=""><?php echo $row['Origin']; ?></td>
-                                <td class=""><?php echo $row['Destination']; ?></td>
-                                <td class=""><?php echo $row['Date']; ?></td>
-                                <td class="tblContent"><?php echo $row['Date']; ?></td>
-                                <td class="tblContent"><?php echo $row['Seat_Accomodation']; ?></td>
-                                <td class=""><?php echo $row['CharterFlight']; ?></td>
+                                <td class=""><?php echo $row['airline']; ?></td>
+                                <td class=""><?php echo $row['flight_count']; ?></td>
+                        </tr>
+                    <?php
+                            }
+
+                    ?>
+
+                    </tbody>
+                </table>
+            </div>
+                <h2>Flights that originated from the philippines</h2>
+                <table class="table table-striped table-sm flightsTbl">
+                    <thead>
+                        <tr>
+                            <th scope="col">Flight ID</th>
+                            <th scope="col">Airline</th>
+                            <th scope="col">Origin</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Destination</th>
+                            <th scope="col">Departure</th>
+                            <th scope="col">Arrival</th>
+                            <th scope="col">Chartered Flight</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <?php                            
+                            $sql = "SELECT * FROM tblflights WHERE origin IN ('Cebu', 'Manila', 'Davao')";
+                            $result = mysqli_query($connection, $sql);
+
+
+                            while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                                <td class=""><?php echo $row['flight_id']; ?></td>
+                                <td class=""><?php echo $row['airline']; ?></td>
+                                <td class=""><?php echo $row['origin']; ?></td>
+                                <td class=""><?php echo $row['destination']; ?></td>
+                                <td class="tblContent"><?php echo $row['date']; ?></td>
+                                <td class="tblContent"><?php echo $row['departureDT']; ?></td>
+                                <td class=""><?php echo $row['arrivalDT']; ?></td>
+                                <td class="">false</td>
+                                <td class=""><?php echo $row['seatingCapacity']; 
+                                        echo "/"; 
+                                        echo $row['totalPassengers']; ?>
+                                </td>
                         </tr>
                     <?php
                             }

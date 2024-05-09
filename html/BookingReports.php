@@ -2,7 +2,7 @@
 include("connect.php");
 
 
-$sql1 = "SELECT DISTINCT Seat_Accomodation from tblbookingsystem";
+$sql1 = "SELECT DISTINCT seat_accommodation from bookingsystem";
 $result1 = mysqli_query($connection, $sql1);
 
 
@@ -82,7 +82,7 @@ $result1 = mysqli_query($connection, $sql1);
                 </a>
             </li>
             <li>
-                <a href="./UserReports.php" class="nav-link active" aria-current="page">
+                <a href="./UserReports.php" class="nav-link link-body-emphasis">
                     <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
                     User reports
                 </a>
@@ -94,7 +94,7 @@ $result1 = mysqli_query($connection, $sql1);
                 </a>
             </li>
             <li>
-                <a href="./BookingReports.php" class="nav-link link-body-emphasis">
+                <a href="./BookingReports.php" class="nav-link active" aria-current="page">
                     <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
                     Booking Reports
                 </a>
@@ -103,11 +103,11 @@ $result1 = mysqli_query($connection, $sql1);
         <hr>
         <div class="dropdown">
             <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <strong>
-                    <?php
-                    echo $_SESSION["fname"], " ", $_SESSION["lname"];
-                    ?>
-                </strong>
+<!--                <strong>-->
+<!--                    --><?php
+//                    echo $_SESSION["fname"], " ", $_SESSION["lname"];
+//                    ?>
+<!--                </strong>-->
             </a>
             <ul class="dropdown-menu text-small shadow">
                 <li><a class="dropdown-item" href="./logout.php">Sign out</a></li>
@@ -117,27 +117,30 @@ $result1 = mysqli_query($connection, $sql1);
     <div class="dashboardBody container-fluid">
         <h2>Flight Details</h2>
         <div class="table-responsive small">
-            <table class="table table-striped table-sm flightsTbl">
-                <thead>
-                <tr>
-                    <th scope="col">Booking Id</th>
-                    <th scope="col">Origin</th>
-                    <th scope="col">Destination</th>
-                    <th scope="col">Departure</th>
-                    <th scope="col">Arrival</th>
-                    <th scope="col">Seating class</th>
-                    <th scope="col">Chartered Flight</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
+
+
                     <?php
                     while ($row1 = mysqli_fetch_assoc($result1)) {
-                        $seat_class = $row1['Seat_Accomodation'];
+                        $seat_class = $row1['seat_accommodation'];
 
-                        echo '<h2>' . $seat_class . ' Bookings</h2>';
+                        echo '<h2 style="margin-top: 70px">' . $seat_class . ' Bookings</h2>';
+                        ?>
+                    <table class="table table-striped table-sm flightsTbl">
+                        <thead>
+                        <tr>
+                            <th scope="col">Booking Id</th>
+                            <th scope="col">Origin</th>
+                            <th scope="col">Destination</th>
+                            <th scope="col">Departure</th>
+                            <th scope="col">Arrival</th>
+                            <th scope="col">Seating class</th>
 
-                        $sql2 = "SELECT * FROM tblbookingsystem WHERE Seat_Accomodation='" . $seat_class . "'";
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+
+                        $sql2 = "SELECT * FROM bookingsystem WHERE seat_accommodation='" . $seat_class . "'";
                         $result2 = mysqli_query($connection, $sql2);
 
                         //.. your HTML Table structure and somewhere after tbody the following PHP code goes ..
@@ -147,19 +150,18 @@ $result1 = mysqli_query($connection, $sql1);
                             echo '<td>' . $row2['booking_id'] . '</td>';
                             echo '<td>' . $row2['Origin'] . '</td>';
                             echo '<td>' . $row2['Destination'] . '</td>';
-                            echo '<td>' . $row2['departure_dt'] . '</td>';
-                            echo '<td>' . $row2['arrival_dt'] . '</td>';
-                            echo '<td>' . $row2['Seat_Accomodation'] . '</td>';
-                            echo '<td>' . $row2['CharterFlight'] . '</td>';
+                            echo '<td>' . $row2['Departure_DT'] . '</td>';
+                            echo '<td>' . $row2['Arrival_DT'] . '</td>';
+                            echo '<td>' . $row2['seat_accommodation'] . '</td>';
                             echo '</tr>';
                         }
-                    }
+                        ?>
+                        </tbody>
+                    </table>
+            <?php }?>
 
-                ?>
 
 
-                </tbody>
-            </table>
         </div>
     </div>
 </main>

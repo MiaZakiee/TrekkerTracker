@@ -109,8 +109,13 @@ function convert_and_format_date($date_string) {
 
 
             }
-//            $flights = "INSERT INTO tblflights (Origin,Destination,Date,departure_time,arrival_time) VALUES ('" . $origin . "','" . $destination . "','" . $date . "','" . $time_string1 . "','" . $time_string2 . "')";
-//            mysqli_query($connection,$flights);
+                $airlines = ['Cebu Pacific', 'Air Asia', 'Philippine Airlines'];
+                $numberOfPassengers = rand(100,299);
+                $capacity = 300;
+                $date = date("l");
+//                $flights = $connection->prepare("INSERT INTO tblflights (airline,origin,destination,date,departureDT,arrivalDT,seatingCapacity,totalPassengers) VALUES (?,?,?,?,?,?,?,?)");
+//                $flights->bind_param("ssssssii", $airlines[rand(0,2)], $origin, $destination,$date,$time_string1,$time_string2,$numberOfPassengers,$capacity);
+//                $flights->execute();
             ?>
     <form action="Finalize.php" method="post">
             <div class="time-slot">

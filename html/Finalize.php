@@ -16,7 +16,7 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
     $accommodation = $_POST['Accommodation'];
 
 
-    $sql = "INSERT INTO bookingsystem (Origin, Destination, seat_accommodation, Departure_DT, Arrival_DT) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO tblbookingsystem (Origin, Destination, Seat_Accomodation, Departure_DT, Arrival_DT) VALUES (?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($connection, $sql);
     if($tmpDTArrive !== "" && $tmpDTDepart !== ""){
         $sql1 = "INSERT INTO bookingsystem (Origin, Destination, seat_accommodation, Departure_DT, Arrival_DT) VALUES (?, ?, ?, ?, ?)";
@@ -25,14 +25,15 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
     }
 
   // Format time strings and bind parameters
-  $timego_formatted = new DateTime($DTDepart);
-  $timearrive_formatted = new DateTime($DTArrive);
+    $timego_formatted = new DateTime($DTDepart);
+    $timearrive_formatted = new DateTime($DTArrive);
     $timegotmp_formatted = (empty($tmpDTDepart)) ? null : new DateTime($tmpDTDepart);
     $timearrivetmp_formatted = (empty($tmpDTArrive)) ? null : new DateTime($tmpDTArrive);
   if ($stmt) {
       $format = $timego_formatted->format('Y-m-d H:i');
       $format1 = $timearrive_formatted->format('Y-m-d H:i');
       mysqli_stmt_bind_param($stmt, "sssss", $origin, $destination, $accommodation, $format, $format1);
+
 
     // Execute the statement
     if (mysqli_stmt_execute($stmt)) {
@@ -89,6 +90,7 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
         <tr>
             <th>Destination</th>
             <th>Date & Time</th>
+            <th>Seat Accommodation</th>
             <th>Flight ID</th>
             <th>Price</th>
         </tr>
@@ -108,6 +110,7 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
                     . "&nbsp;" .$time_str1 . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $time_str2;
                 ?>
             </td>
+            <td><?php echo $accommodation ?></td>
             <td>FX3R1</td>
             <td>PHP 7,500</td>
         </tr>
@@ -117,6 +120,7 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
             <tr>
                 <th>Destination</th>
                 <th>Date & Time</th>
+                <th>Seat Accommodation</th>
                 <th>Flight ID</th>
                 <th>Price</th>
             </tr>
@@ -136,6 +140,7 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
                         . "&nbsp;" .$time_str1 . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $time_str2;
                     ?>
                 </td>
+                <td><?php echo $accommodation ?></td>
 
                 <td>FX3R1</td>
                 <td>PHP 13,500</td>
