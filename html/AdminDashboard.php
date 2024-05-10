@@ -7,12 +7,12 @@ $sqlProfile = "SELECT user_id,fname,lname from tbluserprofile";
 $resultUser = mysqli_query($connection, $sqlUser);
 $resultProfile = mysqli_query($connection, $sqlProfile);
 
-//session_start();
-//if (!isset($_SESSION['adminID'])) {
-//    echo "<script>
-//    location.replace('./index.php')
-//    </script>";
-//}
+session_start();
+if (!isset($_SESSION['adminID'])) {
+    echo "<script>
+    location.replace('./index.php')
+    </script>";
+}
 ?>
 <!doctype html>
 <html lang="en" data-bs-theme="dark">

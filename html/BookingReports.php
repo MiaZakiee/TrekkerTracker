@@ -6,13 +6,13 @@ $sql1 = "SELECT DISTINCT seat_accommodation from bookingsystem";
 $result1 = mysqli_query($connection, $sql1);
 
 
-//session_start();
-//if (!isset($_SESSION['adminID'])) {
-//    echo "<script>
-//    location.replace('./index.php')
-//    </script>";
-//}
-//?>
+session_start();
+if (!isset($_SESSION['adminID'])) {
+    echo "<script>
+    location.replace('./index.php')
+    </script>";
+}
+?>
 <!doctype html>
 <html lang="en" data-bs-theme="dark">
 

@@ -1,4 +1,10 @@
-<link rel='stylesheet' href='styles.css'>
+<?php
+
+session_start();
+
+?>
+<link
+        rel='stylesheet' href='./css/styles.css'>
 
 <div class="container">
     <div class="rowHead">
@@ -10,8 +16,24 @@
             <li><a href="#">About</a></li>
 
         </ul>
-        <button type="button" class="btn btn-light" id="OpenLog">Log In</button>
-        <button type="button" class="btn btn-dark" id="OpenReg">Sign Up</button>
+        <?php
+        if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']) { // If the user is logged in
+            ?>
+            <!-- Code for buttons when user is logged in -->
+            <img src = "./icons/default.png" alt="userimage" style="margin: 40px 0 0 480px; max-width: 50px;max-height: 50px;">
+            <p style="font-size: 30px; margin: 40px auto 0 0"><?php echo $_SESSION['username']; ?></p>
+            <button type="button" class="btn btn-light" id = "logoutbtn" onclick="window.location.href='logout.php'">Logout</button>
+
+        <?php
+        }else { // If the user is not logged in
+            ?>
+            <!-- Code for buttons when user is NOT logged in -->
+            <button type="button" class="btn btn-light" id="OpenLog">Log In</button>
+            <button type="button" class="btn btn-dark" id="OpenReg">Sign Up</button>
+        <?php
+        }
+        ?>
     </div>
+
 
 </div>

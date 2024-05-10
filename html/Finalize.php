@@ -1,7 +1,9 @@
 
 
 <?php
+session_start();
 include('connect.php');
+
 
 if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) && isset($_POST['origintmp']) && isset($_POST['destinationtmp']) && isset($_POST['Accommodation']) &&  isset($_POST['Departure_DT']) && isset($_POST['Arrival_DT']) && isset($_POST['tmpDeparture_DT']) && isset($_POST['tmpArrival_DT']) ) {
 
@@ -74,8 +76,14 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
 
 
 
+if(!isset($_SESSION['username']) || !$_SESSION['username'] || !isset($_SESSION['userID']) || !$_SESSION['userID']) {
+    echo "<script>
+    location.replace('./loginPage.php');
+    </script>";
+}
 
 ?>
+
 <html>
 <head>
     <link href="./css/styles.css" rel="stylesheet">
@@ -148,7 +156,9 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
         </table>
 
     <?php } ?>
-    <button id ="coolbut" type = "button" onclick="location.href='index.php'">Back Home</button>
+    <button id ="coolbut" type = "button" onclick="location.href='index.php'">
+        <img src="./icons/home.png" alt="Home">
+    </button>
 </div>
 </body>
 </html>

@@ -3,13 +3,13 @@ include("connect.php");
 
 $sql = "SELECT * from tblflights";
 $result = mysqli_query($connection, $sql);
-//
-//session_start();
-//if (!isset($_SESSION['adminID'])) {
-//    echo "<script>
-//    location.replace('./index.php')
-//    </script>";
-//}
+
+session_start();
+if (!isset($_SESSION['adminID'])) {
+    echo "<script>
+    location.replace('./index.php');
+    </script>";
+}
 ?>
 <!doctype html>
 <html lang="en" data-bs-theme="dark">

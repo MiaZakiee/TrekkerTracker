@@ -85,7 +85,7 @@
     flex-direction: row;
     font-family: 'Arima Madurai', sans-serif;
     color: white;
-    justify-content: left;
+    justify-content: space-between;
     align-content: start;
     text-align: left;
     height: 120px;
@@ -118,10 +118,13 @@
     align-items: center;
     text-align: center;
 }
-#OpenLog, #OpenReg{
+#OpenLog, #OpenReg, #logoutbtn{
     position: absolute;
     top:35%;
     width: 120px;
+}
+#logoutbtn{
+    right:13%;
 }
 #OpenLog{
     right: 13%;
@@ -215,16 +218,15 @@ td {
 }
 
 #coolbut {
-    color: #ffd401;
     margin: 0 auto;
     position: relative;
-    font-size: 25px;
+
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 5px;
     background: #183153;
-    font-family: "Montserrat", sans-serif;
+
     box-shadow: 0px 6px 24px 0px rgba(0, 0, 0, 0.2);
     overflow: hidden;
     cursor: pointer;
@@ -234,7 +236,11 @@ td {
 }
 
 #coolbut:after {
-    content: url('../icons/home.png');
+    content: 'Back To Home';
+    font-weight: bold;
+    font-size: 25px;
+    color: #183153;
+    font-family: "Montserrat", sans-serif;
     width: 100%;
     height: 100%;
     background: #ffd401;
