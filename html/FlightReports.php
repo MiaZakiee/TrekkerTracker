@@ -63,6 +63,12 @@ if (!isset($_SESSION['adminID'])) {
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li>
+                    <a href="./statsPage.php" class="nav-link link-body-emphasis">
+                        <svg class="bi pe-none me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2" />
+                        </svg>
+                        Dashboard
+                    </a>
                     <a href="./AdminDashboard.php" class="nav-link link-body-emphasis">
                         <svg class="bi pe-none me-2" width="16" height="16">
                             <use xlink:href="#speedometer2" />
@@ -133,7 +139,7 @@ if (!isset($_SESSION['adminID'])) {
                     </tbody>
                 </table>
             </div>
-                <h2>Flights that originated from the philippines</h2>
+                <h2>Domestic Origin Flights</h2>
                 <table class="table table-striped table-sm flightsTbl">
                     <thead>
                         <tr>

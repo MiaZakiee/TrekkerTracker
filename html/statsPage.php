@@ -1,9 +1,6 @@
 <?php
 include("connect.php");
 
-$sql = "SELECT * from tblbookingsystem";
-$result = mysqli_query($connection, $sql);
-
 session_start();
 if (!isset($_SESSION['adminID'])) {
     echo "<script>
@@ -25,8 +22,13 @@ if (!isset($_SESSION['adminID'])) {
     <link href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <style>
-    </style>
+    
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+
     <!-- Custom styles for this template -->
     <link href="./css/sidebars.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/styles2.css">
@@ -56,8 +58,8 @@ if (!isset($_SESSION['adminID'])) {
             <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
         </symbol>
     </svg>
-
-    <main class="d-flex flex-nowrap ">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js'></script>
+    <main class="d-flex flex-nowrap">
         <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; height: 100vh;">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
                 <img src="./images/logoWhite.png" alt="logo" style="width: 50px; height: 50px;">
@@ -66,7 +68,7 @@ if (!isset($_SESSION['adminID'])) {
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li>
-                    <a href="./statsPage.php" class="nav-link link-body-emphasis">
+                    <a href="./statsPage.php" class="nav-link active" aria-current="page">
                         <svg class="bi pe-none me-2" width="16" height="16">
                             <use xlink:href="#speedometer2" />
                         </svg>
@@ -86,7 +88,7 @@ if (!isset($_SESSION['adminID'])) {
                     </a>
                 </li>
                 <li>
-                    <a href="./UserReports.php" class="nav-link active" aria-current="page">
+                    <a href="./UserReports.php" class="nav-link link-body-emphasis">
                         <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
                         User reports
                     </a>
@@ -113,43 +115,57 @@ if (!isset($_SESSION['adminID'])) {
             </div>
         </div>
         <div class="dashboardBody container-fluid">
-            <h2>Flight Details</h2>
-            <div class="table-responsive small">
-                <table class="table table-striped table-sm flightsTbl">
-                    <thead>
-                        <tr>
-                            <th scope="col">Booking Id</th>
-                            <th scope="col">Origin</th>
-                            <th scope="col">Destination</th>
-                            <th scope="col">Departure</th>
-                            <th scope="col">Arrival</th>
-                            <th scope="col">Seating class</th>
-                            <th scope="col">Chartered Flight</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <?php
-                            while ($row = mysqli_fetch_assoc($result)) {
-                            ?>
-                                <td class=""><?php echo $row['booking_id']; ?></td>
-                                <td class=""><?php echo $row['Origin']; ?></td>
-                                <td class=""><?php echo $row['Destination']; ?></td>
-                                <td class=""><?php echo $row['Date']; ?></td>
-                                <td class="tblContent"><?php echo $row['Date']; ?></td>
-                                <td class="tblContent"><?php echo $row['Seat_Accomodation']; ?></td>
-                                <td class=""><?php echo $row['CharterFlight']; ?></td>
-                        </tr>
-                    <?php
-                            }
-
-                    ?>
-
-                    </tbody>
-                </table>
-            </div>
+            <figure class="highcharts-figure">
+                <div id="chartA"></div>
+                <p class="highcharts-description">
+                </p>
+            </figure>
         </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <?php
+        $sql = "SELECT destination, COUNT(destination) AS flight_count FROM tblflights GROUP BY destination";
+        $result = mysqli_query($connection, $sql);
+        $places = [];
+        $data = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $places[] = $row['destination'];
+            $data[] = $row['flight_count'];
+        }
+        $places = json_encode($places);
+        $data = json_encode($data);
+
+    ?>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var places = <?php echo $places; ?>;
+        var counts = <?php echo $data; ?>.map(Number);  // Ensure counts are numbers
+
+        var dataSeries = places.map(function (place, index) {
+            return { name: place, y: counts[index] };  // Correctly map places to counts
+        });
+
+        Highcharts.chart('chartA', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Number of Flights toward catered cities',
+                align: 'center'
+            },
+            series: [{
+                name: 'Flights',
+                colorByPoint: true,
+                data: dataSeries
+            }]
+        });
+    });
+</script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="./script/sidebars.js"></script>
 </body>
