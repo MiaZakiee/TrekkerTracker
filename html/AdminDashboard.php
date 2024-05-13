@@ -10,7 +10,7 @@ $resultProfile = mysqli_query($connection, $sqlProfile);
 session_start();
 if (!isset($_SESSION['adminID'])) {
     echo "<script>
-    location.replace('./index.php')   
+    location.replace('./index.php')
     </script>";
 }
 ?>
@@ -98,6 +98,12 @@ if (!isset($_SESSION['adminID'])) {
                     <a href="./FlightReports.php" class="nav-link link-body-emphasis">
                         <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
                     Flight Reports
+                    </a>
+                </li>
+                <li>
+                    <a href="./BookingReports.php" class="nav-link link-body-emphasis">
+                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+                        Booking Reports
                     </a>
                 </li>
             </ul>

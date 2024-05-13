@@ -29,6 +29,8 @@ if (isset($_POST['loginButton'])) {
 
         // checks if password is valid
         if ($pass == $passCheck) {
+            $_SESSION['loggedin'] = true;
+            $_SESSION['username'] = $uname;
             // leads user based on their account type
             if ($userType == 0) {
                 $_SESSION['adminID'] = $sessionID;
@@ -69,8 +71,12 @@ if (isset($_POST['loginButton'])) {
     } else {
         // Username is not found
         echo "<script language='javascript'>
+
                             let logEmail = document.querySelector('#loginUsername');
                             let message = document.querySelector('.invalidInput_Login');
+                            let pass = document.querySelector('#loginPassword');
+                            
+                           
                             logEmail.classList.add('invalidInput');
                             logEmail.style.display = 'inline';
                             message.style.display = 'inline';

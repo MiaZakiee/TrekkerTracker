@@ -28,7 +28,7 @@
                     <form class="loginForm" method="post">
                         <div class="loginFields">
                             <div class="loginInput">
-                                <label for="loginUsername" style="font-family: Playfair Display">Email</label>
+                                <label for="loginUsername" style="font-family: Playfair Display">User Name</label>
                                 <input type="text" id="loginUsername" class="htmlForm-control loginTextField" name="loginUsername" placeholder="Enter your email" />
                                 <div class="invalidInput_Login">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
