@@ -22,7 +22,7 @@ if (!isset($_SESSION['adminID'])) {
     <link href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
+
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
@@ -83,20 +83,26 @@ if (!isset($_SESSION['adminID'])) {
                 </li>
                 <li>
                     <a href="./airlineAdminDashboard.php" class="nav-link link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+                        <svg class="bi pe-none me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2" />
+                        </svg>
                         Flights
                     </a>
                 </li>
                 <li>
                     <a href="./UserReports.php" class="nav-link link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+                        <svg class="bi pe-none me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2" />
+                        </svg>
                         User reports
                     </a>
                 </li>
                 <li>
                     <a href="./FlightReports.php" class="nav-link link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-                    Flight Reports
+                        <svg class="bi pe-none me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2" />
+                        </svg>
+                        Flight Reports
                     </a>
                 </li>
             </ul>
@@ -115,56 +121,207 @@ if (!isset($_SESSION['adminID'])) {
             </div>
         </div>
         <div class="dashboardBody container-fluid">
-            <figure class="highcharts-figure">
-                <div id="chartA"></div>
-                <p class="highcharts-description">
-                </p>
-            </figure>
-        </div>
+            <!-- Stats A -->
+            <h2>Recent Bookings</h2>
+            <div class="table-responsive small">
+                <table class="table table-striped table-sm flightsTbl">
+                    <thead>
+                        <tr>
+                            <th scope="col">Origin</th>
+                            <th scope="col">Destination</th>
+                            <th scope="col">Seat Accomodation</th>
+                            <th scope="col">Charter Flight</th>
+                            <th scope="col">Departure</th>
+                            <th scope="col">Arrival</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <?php
+                            $sql = "SELECT * FROM `tblbookingsystem` ORDER BY booking_id DESC LIMIT 5;";
+
+                            $result = mysqli_query($connection, $sql);
+
+
+                            while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                                <td class=""><?php echo $row['Origin']; ?></td>
+                                <td class=""><?php echo $row['Destination']; ?></td>
+                                <td class=""><?php echo $row['Seat_Accomodation']; ?></td>
+                                <td class=""><?php echo ($row['CharterFlight'] ? 'True' : 'False'); ?></td>
+                                <td class=""><?php echo date('Y-m-d H:i', strtotime($row['departure_dt'])); ?></td>
+                                <td class=""><?php echo date('Y-m-d H:i', strtotime($row['arrival_dt'])); ?></td>
+                        </tr>
+                    <?php
+                            }
+
+                    ?>
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- Stats B -->
+            <div class="charts d-flex flex-row">
+                <div class="dashboardBody container-fluid">
+                    <figure class="highcharts-figure">
+                        <div id="chartA"></div>
+                        <p class="highcharts-description">
+                        </p>
+                    </figure>
+                </div>
+                <div class="dashboardBody container-fluid">
+                    <figure class="highcharts-figure">
+                        <div id="chartB"></div>
+                        <p class="highcharts-description">
+                        </p>
+                    </figure>
+                </div>
+            </div>
+            <h2>Recent users</h2>
+            <div class="table-responsive small">
+                <div class="table-responsive small">
+                    <table class="table table-striped table-sm flightsTbl">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <?php
+                                $sql = "SELECT * FROM `tbluserprofile` ORDER BY user_id DESC LIMIT 5;";
+                                $result = mysqli_query($connection, $sql);
+                                $sql2 = "SELECT username,email FROM `tbluseraccount` ORDER BY user_id DESC LIMIT 5;";
+                                $result2 = mysqli_query($connection, $sql2);
+
+
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $row2 = mysqli_fetch_assoc($result2)
+                                ?>
+                                    <td class=""><?php echo $row['fname'];
+                                                    echo " ";
+                                                    echo $row['lname']; ?></td>
+                                    <td class=""><?php echo $row2['username'] ?></td>
+                                    <td class=""><?php echo $row2['email'] ?></td>
+                            </tr>
+                        <?php
+                                }
+
+                        ?>
+
+                        </tbody>
+                    </table>
+                    <table class="table table-striped table-sm flightsTbl">
+                        <thead>
+                            <tr>
+                                <th scope="col">TrekkerTracker Total number of users</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $sql = 'SELECT count(user_id) AS totalUsers from tbluserprofile';
+                            $result = mysqli_query($connection, $sql);
+                            $row = mysqli_fetch_assoc($result);
+                            ?>
+                            <tr>
+                                <td class=""><?php echo $row['totalUsers'] ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h2>List of Domestic Flights</h2>
+
+
+            </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <?php
-        $sql = "SELECT destination, COUNT(destination) AS flight_count FROM tblflights GROUP BY destination";
-        $result = mysqli_query($connection, $sql);
-        $places = [];
-        $data = [];
-        while ($row = mysqli_fetch_assoc($result)) {
-            $places[] = $row['destination'];
-            $data[] = $row['flight_count'];
-        }
-        $places = json_encode($places);
-        $data = json_encode($data);
+    $sql = "SELECT destination, COUNT(destination) AS flight_count FROM tblflights GROUP BY destination";
+    $result = mysqli_query($connection, $sql);
+    $places = [];
+    $data = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $places[] = $row['destination'];
+        $data[] = $row['flight_count'];
+    }
+    $places = json_encode($places);
+    $data = json_encode($data);
 
+
+    $sql = "SELECT Seat_Accomodation, COUNT(Seat_Accomodation) AS ac FROM tblbookingsystem GROUP BY Seat_Accomodation";
+    $result = mysqli_query($connection, $sql);
+    $accommodations = [];
+    $dataCount = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $accommodations[] = $row['Seat_Accomodation'];
+        $dataCount[] = $row['ac'];
+    }
+    $accommodations = json_encode($accommodations);
+    $dataCount = json_encode($dataCount);
     ?>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var places = <?php echo $places; ?>;
-        var counts = <?php echo $data; ?>.map(Number);  // Ensure counts are numbers
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var places = <?php echo $places; ?>;
+            var counts = <?php echo $data; ?>.map(Number); // Ensure counts are numbers
 
-        var dataSeries = places.map(function (place, index) {
-            return { name: place, y: counts[index] };  // Correctly map places to counts
-        });
+            var dataSeries = places.map(function(place, index) {
+                return {
+                    name: place,
+                    y: counts[index]
+                }; // Correctly map places to counts
+            });
 
-        Highcharts.chart('chartA', {
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
-                type: 'pie'
-            },
-            title: {
-                text: 'Number of Flights toward catered cities',
-                align: 'center'
-            },
-            series: [{
-                name: 'Flights',
-                colorByPoint: true,
-                data: dataSeries
-            }]
+            Highcharts.chart('chartA', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Number of Flights toward catered cities',
+                    align: 'center'
+                },
+                series: [{
+                    name: 'Flights',
+                    colorByPoint: true,
+                    data: dataSeries
+                }]
+            });
+
+            var accommodations = <?php echo $accommodations; ?>;
+            var accommodationsCount = <?php echo $dataCount; ?>.map(Number); // Ensure counts are numbers
+
+            var dataSeriesB = accommodations.map(function(accommodation, index) {
+                return {
+                    name: accommodation,
+                    y: accommodationsCount[index]
+                }; // Correctly map accommodations to counts
+            });
+
+            Highcharts.chart('chartB', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Seating Accomodations booked by users',
+                    align: 'center'
+                },
+                series: [{
+                    name: 'Flights',
+                    colorByPoint: true,
+                    data: dataSeriesB
+                }]
+            });
         });
-    });
-</script>
+    </script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="./script/sidebars.js"></script>

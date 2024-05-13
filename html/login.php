@@ -35,7 +35,7 @@ if (isset($_POST['loginButton'])) {
             if ($userType == 0) {
                 $_SESSION['adminID'] = $sessionID;
                 echo "<script language='javascript'>
-                        location.replace('./AdminDashboard.php');
+                        location.replace('./statsPage.php');
                     </script>";
             } else {
                 $_SESSION['userID'] = $sessionID;
@@ -56,7 +56,6 @@ if (isset($_POST['loginButton'])) {
                         location.replace('./index.php');
                     </script>";
                 }
-
             }
         } else {
             // Password does not match

@@ -8,7 +8,7 @@ $resultUser = mysqli_query($connection, $sqlUser);
 $resultProfile = mysqli_query($connection, $sqlProfile);
 
 session_start();
-if (!isset($_SESSION['adminID'])) {
+if (!isset($_SESSION['userID'])) {
     echo "<script>
     location.replace('./index.php')
     </script>";
@@ -69,49 +69,17 @@ if (!isset($_SESSION['adminID'])) {
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li>
-                    <a href="./statsPage.php" class="nav-link link-body-emphasis">
+                    <a href="./userDashboard.php" class="nav-link active" aria-current="page">
                         <svg class="bi pe-none me-2" width="16" height="16">
                             <use xlink:href="#speedometer2" />
                         </svg>
                         Dashboard
                     </a>
-                    <a href="./AdminDashboard.php" class="nav-link active" aria-current="page">
+                    <a href="./userProfile.php" class="nav-link link-body-emphasis">
                         <svg class="bi pe-none me-2" width="16" height="16">
                             <use xlink:href="#speedometer2" />
                         </svg>
-                        User Accounts
-                    </a>
-                </li>
-                <li>
-                    <a href="./airlineAdminDashboard.php" class="nav-link link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16">
-                            <use xlink:href="#speedometer2" />
-                        </svg>
-                        Flights
-                    </a>
-                </li>
-                <li>
-                    <a href="./UserReports.php" class="nav-link link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16">
-                            <use xlink:href="#speedometer2" />
-                        </svg>
-                        User reports
-                    </a>
-                </li>
-                <li>
-                    <a href="./FlightReports.php" class="nav-link link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16">
-                            <use xlink:href="#speedometer2" />
-                        </svg>
-                        Flight Reports
-                    </a>
-                </li>
-                <li>
-                    <a href="./BookingReports.php" class="nav-link link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16">
-                            <use xlink:href="#speedometer2" />
-                        </svg>
-                        Booking Reports
+                        Profile
                     </a>
                 </li>
             </ul>
@@ -131,78 +99,37 @@ if (!isset($_SESSION['adminID'])) {
             </div>
         </div>
         <div class="dashboardBody container-fluid">
-            <h2>User Accounts</h2>
-            <table class="table table-striped table-sm flightsTbl">
-                <thead>
-                    <tr>
-                        <th scope="col">User Id</th>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">User type</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Settings</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <?php
-                        while (($rowUser = mysqli_fetch_assoc($resultUser)) && ($rowProfile = mysqli_fetch_assoc($resultProfile))) {
-                        ?>
-                            <td class=""><?php echo $rowProfile['user_id']; ?></td>
-                            <td class=""><?php echo $rowProfile['fname']; ?></td>
-                            <td class=""><?php echo $rowProfile['lname']; ?></td>
-                            <td class=""><?php echo $rowUser['email']; ?></td>
-                            <td class="">
-                                <?php
-                                echo $rowUser['user_type'] == 0 ? 'Admin' : 'User';
-                                $user_type = $rowUser['user_type'] == 0 ? 'Admin' : 'User';
-                                ?>
-                            </td>
-                            <td class=""> <?php echo ($rowUser['isBanned'] == 0 ? 'Active' : 'Banned') ?></td>
-                            <td class="">
-                                <?php
-                                if ($rowUser['user_id'] != $_SESSION['adminID']) {
-                                ?>
-                                    <div class="dropdown">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16" class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
-                                        </svg>
+            <?php
+            // TODO ideally naa unta ang fk sa flight sa booking system aron mas dali ma read
+            // also what happens when another user 
+            $sql = 'SELECT count(user_id), AS totalUsers from tbluserprofile';
+            $result = mysqli_query($connection, $sql);
+            $row = mysqli_fetch_assoc($result);
 
+            if ($row['totalUsers'] == 5) {
+            ?>
+                <table class="table table-striped table-sm flightsTbl">
+                    <thead>
+                        <tr>
+                            <th scope="col">TrekkerTracker Total number of users</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                                        <ul class="dropdown-menu">
-                                            <?php
-                                            if ($user_type == 'User') {
-                                                if ($rowUser['isBanned'] == 0) {
-                                            ?>
-                                                    <li><a class="dropdown-item" href="./utils/ban.php?user_id=<?php echo htmlspecialchars($rowUser['user_id']); ?>">Ban User</a></li>
-                                                    <li><a class="dropdown-item" href="./utils/promote.php?user_id=<?php echo htmlspecialchars($rowUser['user_id']); ?>">Promote to Admin</a></li>
-                                                <?php
-                                                } else {
-                                                ?>
-                                                    <li><a class="dropdown-item" href="./utils/unban.php?user_id=<?php echo htmlspecialchars($rowUser['user_id']); ?>">Unban User</a></li>
-                                                <?php
-                                                }
-                                            } else {
-                                                ?>
-                                                <li><a class="dropdown-item" href="./utils/demote.php?user_id=<?php echo htmlspecialchars($rowUser['user_id']); ?>">Demote to User</a></li>
-                                            <?php
-                                            }
-                                            ?>
-                                        </ul>
-                                    </div>
-                            </td>
-                        <?php
-                                }
-                        ?>
-                    </tr>
-                <?php
-                        }
+                        <tr>
+                            <td class=""><?php echo $row['totalUsers'] ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            <?php
+            } else {
+            ?>
+                <h1>You Have not booked any flights with us ://</h1>
+                <h4>Book now for flights at great deals!</h4>
+            <?php
+            }
+            ?>
 
-                ?>
-
-                </tbody>
-            </table>
         </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
