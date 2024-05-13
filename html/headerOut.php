@@ -1,8 +1,4 @@
-<?php
 
-session_start();
-
-?>
 <link
         rel='stylesheet' href='./css/styles.css'>
 
@@ -14,6 +10,9 @@ session_start();
             <li><a href="#">Travel Info</a></li>
             <li><a href="#">Explore</a></li>
             <li><a href="#">About</a></li>
+            <?php if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']){ ?>
+                <li><a href="#" onclick="ShowDialog();">Your Tickets</a></li>
+            <?php } ?>
 
         </ul>
         <?php
@@ -34,6 +33,8 @@ session_start();
         }
         ?>
     </div>
+
+
 
 
 </div>

@@ -6,7 +6,7 @@ $_SESSION['userID'] = null;
 $_SESSION['fname'] = null;
 $_SESSION['lname'] = null;
 $_SESSION['adminID'] = null;
-header("Location: index.php");
+header("Location: loginPage.php");
 exit();
 
 ?>

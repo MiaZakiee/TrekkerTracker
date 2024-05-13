@@ -1,4 +1,13 @@
-
+<?php
+session_start();
+if(isset($_SESSION['message']) && $_SESSION['message'] === 'Booking Successful') {
+    echo "<script>showSuccessModal();</script>";
+    $_SESSION['message'] = '';
+}else if(isset($_SESSION['message']) && $_SESSION['message'] === 'Failed Booking'){
+    echo "<script>showFailureModal();</script>";
+    $_SESSION['message'] = '';
+}
+?>
 <html lang="en">
 
 <head>
@@ -145,8 +154,25 @@
             </div>
         </div>
     </div>
+
+
 </body>
 <script src="./script/script.js"></script>
 
 </html>
+<!-- Success Modal -->
+<div id="successModal" class="custom-modal">
+    <div class="custom-modal-content">
+        <h2>Success!</h2>
+        <p>Your booking was successful.</p>
+    </div>
+</div>
+
+<!-- Failure Modal -->
+<div id="failureModal" class="custom-modal">
+    <div class="custom-modal-content">
+        <h2>Failure!</h2>
+        <p>There was a problem with your booking.</p>
+    </div>
+</div>
 

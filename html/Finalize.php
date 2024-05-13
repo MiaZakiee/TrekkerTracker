@@ -2,7 +2,13 @@
 session_start();
 include('connect.php');
 
-if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) && isset($_POST['origintmp']) && isset($_POST['destinationtmp']) && isset($_POST['Accommodation']) && isset($_POST['Departure_DT']) && isset($_POST['Arrival_DT']) && isset($_POST['tmpDeparture_DT']) && isset($_POST['tmpArrival_DT'])) {
+if (!isset($_SESSION['username']) || !$_SESSION['username'] || !isset($_SESSION['userID']) || !$_SESSION['userID']) {
+    echo "<script>
+    location.replace('./loginPage.php');
+    </script>";
+}
+
+if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) && isset($_POST['origintmp']) && isset($_POST['destinationtmp']) && isset($_POST['Accommodation']) &&  isset($_POST['Departure_DT']) && isset($_POST['Arrival_DT']) && isset($_POST['tmpDeparture_DT']) && isset($_POST['tmpArrival_DT'])) {
 
     $origin = $_POST['selected_origin'];
     $destination = $_POST['selected_destination'];
@@ -15,61 +21,10 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
     $accommodation = $_POST['Accommodation'];
     $user_id = $_SESSION['userID']; // Fetch user_id from session variable
 
-    $sql = "INSERT INTO tblbookingsystem (user_id, Origin, Destination, Seat_Accomodation, Departure_DT, Arrival_DT) VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt = mysqli_prepare($connection, $sql);
-    if ($tmpDTArrive !== "" && $tmpDTDepart !== "") {
-        $sql1 = "INSERT INTO bookingsystem (user_id, Origin, Destination, seat_accommodation, Departure_DT, Arrival_DT) VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt1 = mysqli_prepare($connection, $sql1);
-    }
-
-    // Format time strings and bind parameters
     $timego_formatted = new DateTime($DTDepart);
     $timearrive_formatted = new DateTime($DTArrive);
     $timegotmp_formatted = (empty($tmpDTDepart)) ? null : new DateTime($tmpDTDepart);
     $timearrivetmp_formatted = (empty($tmpDTArrive)) ? null : new DateTime($tmpDTArrive);
-    if ($stmt) {
-        $format = $timego_formatted->format('Y-m-d H:i');
-        $format1 = $timearrive_formatted->format('Y-m-d H:i');
-        mysqli_stmt_bind_param($stmt, "isssss", $user_id, $origin, $destination, $accommodation, $format, $format1);
-
-        // Execute the statement
-        if (mysqli_stmt_execute($stmt)) {
-            error_log("Booking successful for Ticket 1!");
-        } else {
-            error_log("Error: Booking failed. " . mysqli_error($connection));
-        }
-
-        // Close the statement
-        mysqli_stmt_close($stmt);
-    } else {
-        error_log("Error: Statement preparation failed.");
-    }
-    // TODO error ni siya dre idk
-    if ($stmt1) {
-        $format2 = $timegotmp_formatted->format('Y-m-d H:i');
-        $format3 = $timearrivetmp_formatted->format('Y-m-d H:i');
-        mysqli_stmt_bind_param($stmt1, "isssss", $user_id, $origtmp, $desttmp, $accommodation, $format2, $format3);
-
-        // Execute the statement
-        if (mysqli_stmt_execute($stmt1)) {
-            error_log("Booking successful for Ticket 2!");
-        } else {
-            error_log("Error: Booking failed. " . mysqli_error($connection));
-        }
-
-        // Close the statement
-        mysqli_stmt_close($stmt1);
-    } else {
-        error_log("Only One Ticket"); // Handle statement preparation error
-    }
-} else {
-    error_log("Wa wah");
-}
-
-if (!isset($_SESSION['username']) || !$_SESSION['username'] || !isset($_SESSION['userID']) || !$_SESSION['userID']) {
-    echo "<script>
-    location.replace('./loginPage.php');
-    </script>";
 }
 
 ?>
@@ -151,9 +106,21 @@ if (!isset($_SESSION['username']) || !$_SESSION['username'] || !isset($_SESSION[
             </table>
 
         <?php } ?>
-        <button id="coolbut" type="button" onclick="location.href='index.php'">
-            <img src="./icons/home.png" alt="Home">
-        </button>
+        <form action="Transaction.php" method="post" id="hiddenform">
+            <input type="hidden" name="origin" value="<?php echo $origin; ?>">
+            <input type="hidden" name="destination" value="<?php echo $destination; ?>">
+            <input type="hidden" name="origin_tmp" value="<?php echo $origtmp; ?>">
+            <input type="hidden" name="destination_tmp" value="<?php echo $desttmp; ?>">
+            <input type="hidden" name="departure_dt" value="<?php echo $DTDepart; ?>">
+            <input type="hidden" name="arrival_dt" value="<?php echo $DTArrive; ?>">
+            <input type="hidden" name="tmp_departure_dt" value="<?php echo $tmpDTDepart; ?>">
+            <input type="hidden" name="tmp_arrival_dt" value="<?php echo $tmpDTArrive; ?>">
+            <input type="hidden" name="accommodation" value="<?php echo $accommodation; ?>">
+            <button id="coolbut" type="submit">
+                <img src="./icons/home.png" alt="Home">
+            </button>
+        </form>
+
     </div>
 </body>
 

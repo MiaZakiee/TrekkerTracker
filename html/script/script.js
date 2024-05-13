@@ -111,6 +111,24 @@ $(document).ready(function (){
     document.getElementById("Accommodation").addEventListener("change", validateForm);
     document.getElementById("DateInput1").addEventListener("change", validateForm);
 
+
+    function showSuccessModal() {
+        let modal = document.querySelector('#successModal');
+        modal.style.display = "block";
+        // Hide after 2 seconds
+        setTimeout(function() { modal.style.display = "none"; }, 2000);
+    }
+
+    function showFailureModal() {
+        let modal = document.querySelector('#failureModal');
+        modal.style.display = "block";
+        // Hide after 2 seconds
+        setTimeout(function() { modal.style.display = "none"; }, 2000);
+    }
+
+    window.showSuccessModal = showSuccessModal;
+    window.showFailureModal = showFailureModal;
+
 });
 function togglePass() {
     let pass = document.getElementById("regPass");
