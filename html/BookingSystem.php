@@ -6,9 +6,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// TODO so values ani dre kay dle pa date time tapos ang date pa gyud is not set 0/00/00
-// TODO also wala patay user id na ma link ani aron ma view sa admin or sa user ilang flights dats it
-
 
 if (isset($_POST['Origin']) && isset($_POST['Destination']) && isset($_POST['Accommodation']) && isset($_POST['DateInput1'])) {
 
@@ -114,14 +111,18 @@ function convert_and_format_date($date_string)
             $numberOfPassengers = rand(100, 299);
             $capacity = 300;
             $date = date("l");
-            $flights = $connection->prepare("INSERT INTO tblflights (airline,origin,destination,date,departureDT,arrivalDT,seatingCapacity,totalPassengers) VALUES (?,?,?,?,?,?,?,?)");
-            $flights->bind_param("ssssssii", $airlines[rand(0, 2)], $origin, $destination, $date, $time_string1, $time_string2, $numberOfPassengers, $capacity);
-            $flights->execute();
+            //                $flights = $connection->prepare("INSERT INTO tblflights (airline,origin,destination,date,departureDT,arrivalDT,seatingCapacity,totalPassengers) VALUES (?,?,?,?,?,?,?,?)");
+            //                $flights->bind_param("ssssssii", $airlines[rand(0,2)], $origin, $destination,$date,$time_string1,$time_string2,$numberOfPassengers,$capacity);
+            //                $flights->execute();
         ?>
             <form action="Finalize.php" method="post">
                 <div class="time-slot">
                     <div style="flex-direction: column">
                         <div class="contflight">
+                            <!--                data-time="--><?php //echo $time_string1; 
+                                                                ?><!--">-->
+
+
                             <h3>
                                 <?php echo $origin; ?> to <?php if (in_array($origin, $inPhil)) echo "Manila";
                                                             else echo $destination; ?>
