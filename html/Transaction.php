@@ -1,16 +1,16 @@
 <?php
     session_start();
-if (isset($_POST['origin']) && isset($_POST['destination']) && isset($_POST['origin_tmp']) && isset($_POST['destination_tmp']) && isset($_POST['arrival_dt']) &&  isset($_POST['tmp_departure_dt']) && isset($_POST['tmp_arrival_dt']) && isset($_POST['accommodation'])) {
+if(isset($_SESSION['origin']) && isset($_SESSION['destination']) && isset($_SESSION['originTMP']) && isset($_SESSION['destiTMP']) && isset($_SESSION['Departure_DT']) && isset($_SESSION['Arrival_DT']) && isset($_SESSION['tmpDeparture_DT']) && isset($_SESSION['tmpArrival_DT']) && isset($_SESSION['Accommodation'])) {
 
-$origin = $_POST['origin'];
-$destination = $_POST['destination'];
-$origtmp = $_POST['origin_tmp'];
-$desttmp = $_POST['destination_tmp'];
-$DTDepart = $_POST['departure_dt'];
-$DTArrive = $_POST['arrival_dt'];
-$tmpDTDepart = $_POST['tmp_departure_dt'];
-$tmpDTArrive = $_POST['tmp_arrival_dt'];
-$accommodation = $_POST['accommodation'];
+    $origin = $_SESSION['origin'];
+    $destination = $_SESSION['destination'];
+    $origtmp = $_SESSION['originTMP'];
+    $desttmp = $_SESSION['destiTMP'];
+    $DTDepart = $_SESSION['Departure_DT'];
+    $DTArrive = $_SESSION['Arrival_DT'];
+    $tmpDTDepart = $_SESSION['tmpDeparture_DT'];
+    $tmpDTArrive = $_SESSION['tmpArrival_DT'];
+    $accommodation = $_SESSION['Accommodation'];
 }
 ?>
 <!DOCTYPE html>

@@ -1,12 +1,7 @@
 <?php
 session_start();
-if(isset($_SESSION['message']) && $_SESSION['message'] === 'Booking Successful') {
-    echo "<script>showSuccessModal();</script>";
+if(!isset($_SESSION['message']))
     $_SESSION['message'] = '';
-}else if(isset($_SESSION['message']) && $_SESSION['message'] === 'Failed Booking'){
-    echo "<script>showFailureModal();</script>";
-    $_SESSION['message'] = '';
-}
 ?>
 <html lang="en">
 
@@ -52,6 +47,7 @@ if(isset($_SESSION['message']) && $_SESSION['message'] === 'Booking Successful')
     <hr>
 
 
+    <input type="hidden" id="message" value="<?php echo $_SESSION['message']; ?>">
 
     <div class="section1">
         <h1>Destinations To Go TO</h1>
@@ -155,24 +151,27 @@ if(isset($_SESSION['message']) && $_SESSION['message'] === 'Booking Successful')
         </div>
     </div>
 
+    <!-- Success Modal -->
+    <div id="successModal" class="custom-modal">
+        <div class="custom-modal-content">
+            <h1>Success!</h1>
+            <h4>Your booking was successful.</h4>
+        </div>
+    </div>
+
+
+    <!-- Failure Modal -->
+    <div id="failureModal" class="custom-modal">
+        <div class="custom-modal-content">
+            <h1 style="color: red;">Failure!</h1>
+            <h4>There was a problem with your booking.</h4>
+        </div>
+    </div>
 
 </body>
 <script src="./script/script.js"></script>
 
 </html>
-<!-- Success Modal -->
-<div id="successModal" class="custom-modal">
-    <div class="custom-modal-content">
-        <h2>Success!</h2>
-        <p>Your booking was successful.</p>
-    </div>
-</div>
+<?php     unset($_SESSION['message']);  ?>
 
-<!-- Failure Modal -->
-<div id="failureModal" class="custom-modal">
-    <div class="custom-modal-content">
-        <h2>Failure!</h2>
-        <p>There was a problem with your booking.</p>
-    </div>
-</div>
 

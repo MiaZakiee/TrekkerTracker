@@ -1,26 +1,27 @@
 <?php
 session_start();
 include ('connect.php');
-if (isset($_POST['origin']) && isset($_POST['destination']) && isset($_POST['origtmp']) && isset($_POST['desttmp']) && isset($_POST['DTDepart']) &&  isset($_POST['DTArrive']) && isset($_POST['tmpDTDepart']) && isset($_POST['tmpDTArrive']) && isset($_POST['accommodation'])) {
+if(isset($_SESSION['origin']) && isset($_SESSION['destination']) && isset($_SESSION['originTMP']) && isset($_SESSION['destiTMP']) && isset($_SESSION['Departure_DT']) && isset($_SESSION['Arrival_DT']) && isset($_SESSION['tmpDeparture_DT']) && isset($_SESSION['tmpArrival_DT']) && isset($_SESSION['Accommodation'])) {
 
-    $origin = $_POST['origin'];
-    $destination = $_POST['destination'];
-    $origtmp = $_POST['origtmp'];
-    $desttmp = $_POST['desttmp'];
-    $DTDepart = $_POST['DTDepart'];
-    $DTArrive = $_POST['DTArrive'];
-    $tmpDTDepart = $_POST['tmpDTDepart'];
-    $tmpDTArrive = $_POST['tmpDTArrive'];
-    $accommodation = $_POST['accommodation'];
+    $origin = $_SESSION['origin'];
+    $destination = $_SESSION['destination'];
+    $origtmp = $_SESSION['originTMP'];
+    $desttmp = $_SESSION['destiTMP'];
+    $DTDepart = $_SESSION['Departure_DT'];
+    $DTArrive = $_SESSION['Arrival_DT'];
+    $tmpDTDepart = $_SESSION['tmpDeparture_DT'];
+    $tmpDTArrive = $_SESSION['tmpArrival_DT'];
+    $accommodation = $_SESSION['Accommodation'];
     $user = $_SESSION['username'];
     $n = 0;
+    $p = 1;
 
 
-    $sql = "INSERT INTO tblbookingsystem (Origin, Destination, Owner, Seat_Accomodation, isCharter,Departure_DT, Arrival_DT) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO tblbookingsystem (Origin, Destination, Owner, flight_id, Seat_Accomodation, isCharter,Departure_DT, Arrival_DT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($connection, $sql);
     $sql1 = "";
     if($tmpDTArrive !== "" && $tmpDTDepart !== ""){
-        $sql1 = "INSERT INTO tblbookingsystem (Origin, Destination, Owner, Seat_Accomodation, isCharter,Departure_DT, Arrival_DT) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql1 = "INSERT INTO tblbookingsystem (Origin, Destination, Owner, flight_id, Seat_Accomodation, isCharter,Departure_DT, Arrival_DT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt1 = mysqli_prepare($connection, $sql1);
 
     }
@@ -33,10 +34,9 @@ if (isset($_POST['origin']) && isset($_POST['destination']) && isset($_POST['ori
     if ($stmt) {
         $format = $timego_formatted->format('Y-m-d H:i');
         $format1 = $timearrive_formatted->format('Y-m-d H:i');
-        mysqli_stmt_bind_param($stmt, "sssssss", $origin, $destination, $user, $accommodation, $n, $format, $format1);
+        mysqli_stmt_bind_param($stmt, "ssssssss", $origin, $destination, $user, $p, $accommodation, $n, $format, $format1);
 
 
-        // Execute the statement
         if (mysqli_stmt_execute($stmt)) {
             error_log("Booking successful for Ticket 1!");
             if($stmt1 === "")
@@ -45,7 +45,6 @@ if (isset($_POST['origin']) && isset($_POST['destination']) && isset($_POST['ori
             error_log("Error: Booking failed. " . mysqli_error($connection));
         }
 
-        // Close the statement
         mysqli_stmt_close($stmt);
 
     } else {
@@ -54,12 +53,13 @@ if (isset($_POST['origin']) && isset($_POST['destination']) && isset($_POST['ori
     if($stmt1 !== ""){
         $format2 = $timegotmp_formatted->format('Y-m-d H:i');
         $format3 = $timearrivetmp_formatted->format('Y-m-d H:i');
-        mysqli_stmt_bind_param($stmt1, "sssssss", $origtmp, $desttmp, $user, $accommodation, $n, $format2, $format3);
+        mysqli_stmt_bind_param($stmt1, "ssssssss", $origtmp, $desttmp, $user, $p, $accommodation, $n, $format2, $format3);
 
         // Execute the statement
         if (mysqli_stmt_execute($stmt1)) {
             error_log("Booking successful for Ticket 2!");
             $_SESSION['message'] = "Booking Successful";
+
 
         } else {
             error_log("Error: Booking failed. " . mysqli_error($connection));
@@ -74,9 +74,20 @@ if (isset($_POST['origin']) && isset($_POST['destination']) && isset($_POST['ori
 } else {
     error_log( "Wa wah");
     $_SESSION['message'] = "Failed Booking";
-    echo "<script>window.location.replace('./index.php')</script>";
+
 
 }
+
+unset($_SESSION['origin']);
+unset($_SESSION['destination']);
+unset($_SESSION['originTMP']);
+unset($_SESSION['destiTMP']);
+unset($_SESSION['Departure_DT']);
+unset($_SESSION['Arrival_DT']);
+unset($_SESSION['tmpDeparture_DT']);
+unset($_SESSION['tmpArrival_DT']);
+unset($_SESSION['Accommodation']);
+echo "<script>window.location.replace('./index.php')</script>";
 
 
 

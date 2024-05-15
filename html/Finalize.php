@@ -10,7 +10,7 @@ if(!isset($_SESSION['username']) || !$_SESSION['username'] || !isset($_SESSION['
     </script>";
 }
 
-if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) && isset($_POST['origintmp']) && isset($_POST['destinationtmp']) && isset($_POST['Accommodation']) &&  isset($_POST['Departure_DT']) && isset($_POST['Arrival_DT']) && isset($_POST['tmpDeparture_DT']) && isset($_POST['tmpArrival_DT']) ) {
+if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) && isset($_POST['origintmp']) && isset($_POST['destinationtmp']) && isset($_POST['Accommodation']) &&  isset($_POST['Departure_DT']) && isset($_POST['Arrival_DT']) && isset($_POST['tmpDeparture_DT']) && isset($_POST['tmpArrival_DT'])) {
 
     $origin = $_POST['selected_origin'];
     $destination = $_POST['selected_destination'];
@@ -21,6 +21,7 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
     $tmpDTDepart = $_POST['tmpDeparture_DT'];
     $tmpDTArrive = $_POST['tmpArrival_DT'];
     $accommodation = $_POST['Accommodation'];
+    $user_id = $_SESSION['userID'];
 
     $timego_formatted = new DateTime($DTDepart);
     $timearrive_formatted = new DateTime($DTArrive);
@@ -103,18 +104,32 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
         </table>
 
     <?php } ?>
-    <form action="Transaction.php" method="post" id="hiddenform">
-        <input type="hidden" name="origin" value="<?php echo $origin; ?>">
-        <input type="hidden" name="destination" value="<?php echo $destination; ?>">
-        <input type="hidden" name="origin_tmp" value="<?php echo $origtmp; ?>">
-        <input type="hidden" name="destination_tmp" value="<?php echo $desttmp; ?>">
-        <input type="hidden" name="departure_dt" value="<?php echo $DTDepart; ?>">
-        <input type="hidden" name="arrival_dt" value="<?php echo $DTArrive; ?>">
-        <input type="hidden" name="tmp_departure_dt" value="<?php echo $tmpDTDepart; ?>">
-        <input type="hidden" name="tmp_arrival_dt" value="<?php echo $tmpDTArrive; ?>">
-        <input type="hidden" name="accommodation" value="<?php echo $accommodation; ?>">
-        <button id ="coolbut" type = "submit">
-            <img src="./icons/home.png" alt="Home">
+    <form action="Transaction.php">
+        <?php
+        $_SESSION['origin'] = $origin;
+        $_SESSION['destination'] = $destination;
+        $_SESSION['originTMP'] = $origtmp;
+        $_SESSION['destiTMP'] = $desttmp;
+        $_SESSION['Departure_DT'] = $DTDepart;
+        $_SESSION['Arrival_DT'] = $DTArrive;
+        $_SESSION['tmpDeparture_DT'] = $tmpDTDepart;
+        $_SESSION['tmpArrival_DT'] = $tmpDTArrive;
+        $_SESSION['Accommodation'] = $accommodation;
+
+        ?>
+        <button class="animated-button" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24">
+                <path
+                        d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+                ></path>
+            </svg>
+            <span class="text">F I N A L I Z E</span>
+            <span class="circle"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24">
+                <path
+                        d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+                ></path>
+            </svg>
         </button>
     </form>
 

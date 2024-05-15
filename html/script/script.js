@@ -1,16 +1,32 @@
+function showSuccessModal() {
+    let modal = document.querySelector('#successModal');
+    modal.style.display = "flex";
+    setTimeout(function() { modal.style.display = "none"; }, 2000);
+}
+
+function showFailureModal() {
+    let modal = document.querySelector('#failureModal');
+    modal.style.display = "flex";
+    setTimeout(function() { modal.style.display = "none"; }, 2000);
+}
 $(document).ready(function (){
     $('#file1').show();
     $('#file2').hide();
 
     window.addEventListener('scroll', function() {
         let header = document.querySelector('.headOut');
-        if (window.scrollY > 200) { // Adjust 100 to your desired scroll position
+        if (window.scrollY > 398) { // Adjust 100 to your desired scroll position
             header.classList.add('scrolled');
         } else {
             header.classList.remove('scrolled');
         }
     });
 
+    let r = document.getElementById('message');
+    if(r.value === "Booking Successful")
+        showSuccessModal();
+    else if(r.value === "Failed Booking")
+        showFailureModal();
 
     $("#Chartered").click(function (){
         let tmp = $("#chartered\\?").text();
@@ -24,13 +40,28 @@ $(document).ready(function (){
 
     });
 
+    1
     $("#RTrip").click(function (){
+        $.ajax({
+            url: "index.php", // replace with your PHP file
+            method: "POST",
+            data: {
+                toggleIsReturn: true
+            },
+            success: function(data) {
+                console.log("Toggle isReturn success: " + data);
+            },
+            error: function() {
+                console.log("Error occurred while toggling isReturn");
+            }
+        });
         let tmp = $("#rtrip\\?").text();
         if(tmp === "No") {
+
             $("#rtrip\\?").text("Yes");
             let str = '<div id="dateInputContainer">' +
                 '<label for="DateInput2">Return Date</label>' +
-                '<input type="text" style="background-color: white;" class="form-control" id="DateInput2" placeholder="Click to Select Date">' +
+                '<input type="text" style="background-color: white;" class="form-control" id="DateInput2" placeholder="Click to Select Date" required>' +
                 '</div>';
             $('#DateInput1').after(str);
         } else {
@@ -111,23 +142,6 @@ $(document).ready(function (){
     document.getElementById("Accommodation").addEventListener("change", validateForm);
     document.getElementById("DateInput1").addEventListener("change", validateForm);
 
-
-    function showSuccessModal() {
-        let modal = document.querySelector('#successModal');
-        modal.style.display = "block";
-        // Hide after 2 seconds
-        setTimeout(function() { modal.style.display = "none"; }, 2000);
-    }
-
-    function showFailureModal() {
-        let modal = document.querySelector('#failureModal');
-        modal.style.display = "block";
-        // Hide after 2 seconds
-        setTimeout(function() { modal.style.display = "none"; }, 2000);
-    }
-
-    window.showSuccessModal = showSuccessModal;
-    window.showFailureModal = showFailureModal;
 
 });
 function togglePass() {
