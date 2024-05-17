@@ -8,12 +8,13 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-if (isset($_POST['Origin']) && isset($_POST['Destination']) && isset($_POST['Accommodation']) && isset($_POST['DateInput1'])) {
+if (isset($_POST['Origin']) && isset($_POST['Destination']) && isset($_POST['Accommodation']) && isset($_POST['DateInput1']) && isset($_POST['isReturn'])) {
 
     $origin = $_POST['Origin'];
     $destination = $_POST['Destination'];
     $accommodation = $_POST['Accommodation'];
     $date = $_POST['DateInput1'];
+    $_SESSION['isReturn'] = $_POST['isReturn'];
 
 
 }
@@ -65,6 +66,7 @@ function convert_and_format_date($date_string) {
 <html>
 <head>
     <link href="./css/styles.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -122,8 +124,6 @@ function convert_and_format_date($date_string) {
             <div class="time-slot">
                 <div style="flex-direction: column">
                 <div class = "contflight">
-<!--                data-time="--><?php //echo $time_string1; ?><!--">-->
-
 
                     <h3>
                         <?php echo $origin; ?> to <?php if(in_array($origin, $inPhil)) echo "Manila";
@@ -139,7 +139,7 @@ function convert_and_format_date($date_string) {
                 </div>
 
                 <?php
-                    if(in_array($origin, $inPhil)){
+                    if(in_array($origin, $inPhil) && !in_array($destination, $inPhil) && $destination !== "Manila"){
                         ?>
 
                     <div class ="contflight">
@@ -174,8 +174,12 @@ function convert_and_format_date($date_string) {
                 <input type="hidden" name="tmpDeparture_DT" value="<?php echo (in_array($origin, $inPhil)) ? $date." ".$time_stringtmp1 : "" ?>">
                 <input type="hidden" name="tmpArrival_DT" value="<?php echo (in_array($origin, $inPhil)) ? $date." ".$time_stringtmp2 : ""; ?>">
 
-                <button class ="bookbtns" type="submit" style="vertical-align:middle"><span>Book</span></button>
-
+                <div class="checkbox-wrapper">
+                <input id="checkbox-<?php echo $i; ?>" type="checkbox">
+                <label for="checkbox-<?php echo $i; ?>">
+                 <div class="tick_mark"></div>
+                 </label>
+                </div>
             </div>
     </form>
 
@@ -185,7 +189,7 @@ function convert_and_format_date($date_string) {
 
         ?>
     </div>
-
+<?php if($_SESSION['isReturn'] === 1){ ?>
     <p style="font-size: 40px; font-weight: 500; font-family: 'Roboto Light'">Select Your Returning Flight</p>
     <h1> <?php echo $destination; ?> to <?php echo $origin; ?> </h1>
     <div style="height:60%; overflow-y:auto; overflow-x: hidden; padding: 10px; ">
@@ -300,8 +304,9 @@ function convert_and_format_date($date_string) {
         ?>
 
     </div>
-
+<?php } ?>
     </div>
+
 
 
 

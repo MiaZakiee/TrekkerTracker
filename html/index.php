@@ -118,6 +118,7 @@ if(!isset($_SESSION['message']))
                     <label for="RTrip">Round Trip?</label>
                     <input type="checkbox" class="btn-check" id="RTrip" name="RTrip" autocomplete="off">
                     <label class="btn btn-outline-primary" id="rtrip?" for="RTrip">No</label>
+                    <input type = "hidden" name = "isReturn" id = "isReturn" value="0">
                 </div>
                 <div class="Bookings">
                     <label for="DateInput1">Departure Date</label>
@@ -154,7 +155,7 @@ if(!isset($_SESSION['message']))
     <!-- Success Modal -->
     <div id="successModal" class="custom-modal">
         <div class="custom-modal-content">
-            <h1>Success!</h1>
+            <h1 style="color: green">Success!</h1>
             <h4>Your booking was successful.</h4>
         </div>
     </div>

@@ -15,12 +15,13 @@ $(document).ready(function (){
 
     window.addEventListener('scroll', function() {
         let header = document.querySelector('.headOut');
-        if (window.scrollY > 398) { // Adjust 100 to your desired scroll position
+        if (window.scrollY > 396) { 
             header.classList.add('scrolled');
         } else {
             header.classList.remove('scrolled');
         }
     });
+    
 
     let r = document.getElementById('message');
     if(r.value === "Booking Successful")
@@ -42,32 +43,24 @@ $(document).ready(function (){
 
     1
     $("#RTrip").click(function (){
-        $.ajax({
-            url: "index.php", // replace with your PHP file
-            method: "POST",
-            data: {
-                toggleIsReturn: true
-            },
-            success: function(data) {
-                console.log("Toggle isReturn success: " + data);
-            },
-            error: function() {
-                console.log("Error occurred while toggling isReturn");
-            }
-        });
+        let r = $('#isReturn');
         let tmp = $("#rtrip\\?").text();
         if(tmp === "No") {
 
             $("#rtrip\\?").text("Yes");
+
+            r.value = 1;
             let str = '<div id="dateInputContainer">' +
                 '<label for="DateInput2">Return Date</label>' +
                 '<input type="text" style="background-color: white;" class="form-control" id="DateInput2" placeholder="Click to Select Date" required>' +
                 '</div>';
             $('#DateInput1').after(str);
         } else {
+            r.value = 0;
             $("#rtrip\\?").text("No");
             $('#dateInputContainer').remove();
         }
+        console.log(r.value);
 
     });
 
@@ -80,6 +73,14 @@ $(document).ready(function (){
         $('#eventDatePicker_DateInput1').hide();
         $('#eventDatePicker_DateInput2').show();
         initializeDatepicker('DateInput2', 'tomorrow');
+    });
+    jQuery(document).ready(function (){
+     jQuery('.time-slot :checkbox').click(function(){
+        console.log('Checkbox clicked'); // This should appear in the console when you click a checkbox.
+        if(jQuery(this).is(':checked')) {
+            jQuery('.time-slot :checkbox').not(this).prop('checked', false);
+        }
+        }); 
     });
 
     function initializeDatepicker(inputId, scene) {

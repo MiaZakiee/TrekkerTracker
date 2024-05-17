@@ -3,10 +3,38 @@
 <?php
 session_start();
 include('connect.php');
+unset($_SESSION['prev']);
 
 if(!isset($_SESSION['username']) || !$_SESSION['username'] || !isset($_SESSION['userID']) || !$_SESSION['userID']) {
+    $_SESSION['prev'] = './Finalize.php';
+    if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) && isset($_POST['origintmp']) && isset($_POST['destinationtmp']) && isset($_POST['Accommodation']) &&  isset($_POST['Departure_DT']) && isset($_POST['Arrival_DT']) && isset($_POST['tmpDeparture_DT']) && isset($_POST['tmpArrival_DT'])) {
+
+        $origin = $_POST['selected_origin'];
+        $destination = $_POST['selected_destination'];
+        $origtmp = $_POST['origintmp'];
+        $desttmp = $_POST['destinationtmp'];
+        $DTDepart = $_POST['Departure_DT'];
+        $DTArrive = $_POST['Arrival_DT'];
+        $tmpDTDepart = $_POST['tmpDeparture_DT'];
+        $tmpDTArrive = $_POST['tmpArrival_DT'];
+        $accommodation = $_POST['Accommodation'];
+        
+    
+        $_SESSION['origin'] = $origin;
+        $_SESSION['destination'] = $destination;
+        $_SESSION['originTMP'] = $origtmp;
+        $_SESSION['destiTMP'] = $desttmp;
+        $_SESSION['Departure_DT'] = $DTDepart;
+        $_SESSION['Arrival_DT'] = $DTArrive;
+        $_SESSION['tmpDeparture_DT'] = $tmpDTDepart;
+        $_SESSION['tmpArrival_DT'] = $tmpDTArrive;
+        $_SESSION['Accommodation'] = $accommodation;
+    
+    }
     echo "<script>
+   
     location.replace('./loginPage.php');
+
     </script>";
 }
 
@@ -23,12 +51,27 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
     $accommodation = $_POST['Accommodation'];
     $user_id = $_SESSION['userID'];
 
-    $timego_formatted = new DateTime($DTDepart);
-    $timearrive_formatted = new DateTime($DTArrive);
-    $timegotmp_formatted = (empty($tmpDTDepart)) ? null : new DateTime($tmpDTDepart);
-    $timearrivetmp_formatted = (empty($tmpDTArrive)) ? null : new DateTime($tmpDTArrive);
+   
 
+}else{
+    if(isset($_SESSION['origin']) && isset($_SESSION['destination']) && isset($_SESSION['originTMP']) && isset($_SESSION['destiTMP']) && isset($_SESSION['Departure_DT']) && isset($_SESSION['Arrival_DT']) && isset($_SESSION['tmpDeparture_DT']) && isset($_SESSION['tmpArrival_DT']) && isset($_SESSION['Accommodation'])) {
+
+        $origin = $_SESSION['origin'];
+        $destination = $_SESSION['destination'];
+        $origtmp = $_SESSION['originTMP'];
+        $desttmp = $_SESSION['destiTMP'];
+        $DTDepart = $_SESSION['Departure_DT'];
+        $DTArrive = $_SESSION['Arrival_DT'];
+        $tmpDTDepart = $_SESSION['tmpDeparture_DT'];
+        $tmpDTArrive = $_SESSION['tmpArrival_DT'];
+        $accommodation = $_SESSION['Accommodation'];
+        $user_id = $_SESSION['userID'];
+    }
 }
+$timego_formatted = new DateTime($DTDepart);
+$timearrive_formatted = new DateTime($DTArrive);
+$timegotmp_formatted = (empty($tmpDTDepart)) ? null : new DateTime($tmpDTDepart);
+$timearrivetmp_formatted = (empty($tmpDTArrive)) ? null : new DateTime($tmpDTArrive);
 
 ?>
 

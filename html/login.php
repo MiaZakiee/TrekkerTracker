@@ -51,7 +51,12 @@ if (isset($_POST['loginButton'])) {
                         let logEmail = document.querySelector('#loginUsername');
                         logEmail.value = '" . $uname . "';
                     </script>";
-                } else {
+                }else if(isset($_SESSION['prev'])){
+                
+                    echo "<script>
+                    location.replace('".$_SESSION['prev']."');
+                    </script>";
+                }else {
                     echo "<script language='javascript'>
                         location.replace('./index.php');
                     </script>";
