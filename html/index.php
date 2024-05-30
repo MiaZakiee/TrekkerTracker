@@ -1,8 +1,14 @@
 <?php
+include('connect.php');
 session_start();
 if(!isset($_SESSION['message']))
     $_SESSION['message'] = '';
+if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] && isset($_SESSION['username'])){   
+    $sql = "SELECT * FROM tblbookingsystem WHERE Owner = '".$_SESSION['username']."'";     
+    $result = $connection->query($sql);
+}
 ?>
+
 <html lang="en">
 
 <head>
@@ -122,7 +128,7 @@ if(!isset($_SESSION['message']))
                 </div>
                 <div class="Bookings">
                     <label for="DateInput1">Departure Date</label>
-                    <input type="text" style="background-color: white;" class="form-control" id="DateInput1" name = "DateInput1" placeholder="Click to Select Date">
+                    <input type="text" style="background-color: white;" class="form-control" id="DateInput1" name = "DateInput1" placeholder="Click to Select Date" required>
 
                 </div>
 
@@ -131,6 +137,7 @@ if(!isset($_SESSION['message']))
         </form>
         <img src="https://cdn.dribbble.com/userupload/12509456/file/original-a39fd72dbec559ebf98cdc389b6cce23.png?resize=752x">
     </div>
+
     <!-- DatePicker Modal -->
     <div class="modal fade" id="datePickerModal" tabindex="-1" aria-labelledby="datePickerModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -151,6 +158,65 @@ if(!isset($_SESSION['message']))
             </div>
         </div>
     </div>
+   
+
+<!-- Tickets Modal -->
+<div class="modal fade" id="ticketsModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="ticketsModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="ticketsModalLabel">Your Tickets</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+            <?php
+            // check if there are any tickets
+            if ($result->num_rows > 0) {
+                    echo "<table class='table'>
+                      <thead>
+                        <tr>
+                          <th scope='col'>#</th>
+                          <th scope='col'>Ticket ID</th>
+                          <th scope='col'>Origin</th>
+                          <th scope='col'>Destination</th>
+                          <th scope='col'>Departure</th>
+                          <th scope='col'>Arrival</th>
+                        </tr>
+                      </thead>
+                      <tbody>";
+                      // output data of each row
+                      $count=1;
+                      while($row = $result->fetch_assoc()) {
+                        $departureDT = new DateTime($row['Departure_DT']);
+                        $formattedDepartureDT = $departureDT->format('Y-m-d h:i A');
+                        $arrivalDT = new DateTime($row['Arrival_DT']);
+                        $formattedArrivalDT = $arrivalDT->format('Y-m-d h:i A');
+                        echo "<tr>";
+                        echo "<th scope='row'>" . $count . "</th>";
+                        echo "<td>" . $row['booking_id'] . "</td>";
+                        echo "<td>" . $row['Origin'] . "</td>";
+                        echo "<td>" . $row['Destination'] . "</td>";
+                        echo "<td>" . $formattedDepartureDT . "</td>";
+                        echo "<td>" . $formattedArrivalDT . "</td>";
+                        echo "</tr>";
+                        $count++;
+                      }
+                    echo"</tbody>
+                    </table>";
+              } else {
+                echo "You have no tickets.";
+              }
+             
+            ?>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+</div>
 
     <!-- Success Modal -->
     <div id="successModal" class="custom-modal">

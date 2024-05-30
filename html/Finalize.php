@@ -1,25 +1,30 @@
 
-
 <?php
 session_start();
 include('connect.php');
+
 unset($_SESSION['prev']);
-
-if(!isset($_SESSION['username']) || !$_SESSION['username'] || !isset($_SESSION['userID']) || !$_SESSION['userID']) {
-    $_SESSION['prev'] = './Finalize.php';
-    if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) && isset($_POST['origintmp']) && isset($_POST['destinationtmp']) && isset($_POST['Accommodation']) &&  isset($_POST['Departure_DT']) && isset($_POST['Arrival_DT']) && isset($_POST['tmpDeparture_DT']) && isset($_POST['tmpArrival_DT'])) {
-
-        $origin = $_POST['selected_origin'];
-        $destination = $_POST['selected_destination'];
-        $origtmp = $_POST['origintmp'];
-        $desttmp = $_POST['destinationtmp'];
-        $DTDepart = $_POST['Departure_DT'];
-        $DTArrive = $_POST['Arrival_DT'];
-        $tmpDTDepart = $_POST['tmpDeparture_DT'];
-        $tmpDTArrive = $_POST['tmpArrival_DT'];
-        $accommodation = $_POST['Accommodation'];
-        
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['timeslotData'])) {
+        parse_str($_POST['timeslotData'], $timeslots);
     
+    if(isset($timeslots['selected_origin']) && isset($timeslots['selected_destination'])
+    && isset($timeslots['origintmp']) && isset($timeslots['destinationtmp']) 
+    && isset($timeslots['Accommodation']) &&  isset($timeslots['Departure_DT'])
+    && isset($timeslots['Arrival_DT']) && isset($timeslots['tmpDeparture_DT']) 
+    && isset($timeslots['tmpArrival_DT'])){
+    
+    $origin = $timeslots['selected_origin'];
+    $destination = $timeslots['selected_destination'];
+    $origtmp = $timeslots['origintmp'];
+    $desttmp = $timeslots['destinationtmp'];
+    $DTDepart = $timeslots['Departure_DT'];
+    $DTArrive = $timeslots['Arrival_DT'];
+    $tmpDTDepart = $timeslots['tmpDeparture_DT'];
+    $tmpDTArrive = $timeslots['tmpArrival_DT'];
+    $accommodation = $timeslots['Accommodation'];
+    $user_id = $_SESSION['userID'];
+
         $_SESSION['origin'] = $origin;
         $_SESSION['destination'] = $destination;
         $_SESSION['originTMP'] = $origtmp;
@@ -29,32 +34,46 @@ if(!isset($_SESSION['username']) || !$_SESSION['username'] || !isset($_SESSION['
         $_SESSION['tmpDeparture_DT'] = $tmpDTDepart;
         $_SESSION['tmpArrival_DT'] = $tmpDTArrive;
         $_SESSION['Accommodation'] = $accommodation;
-    
+        
+        if($_SESSION['isReturn'] === "1"){
+            if (isset($_POST['timeslot2Data'])){
+                parse_str($_POST['timeslot2Data'], $timeslots2);
+            $_SESSION['ReturnDep'] = $timeslots2['RetDeparture_DT'];
+            $_SESSION['ReturnArri'] = $timeslots2['RetArrival_DT'];
+            $_SESSION['ReturnTmpDep'] = $timeslots2['RettmpDeparture_DT'];
+           $_SESSION['ReturnTmpArri'] = $timeslots2['RettmpArrival_DT'];
+
+        }
+    }   
+        
+        echo"this is for Proper Booking";
+        
+        error_log('This is With User!');
+
     }
-    echo "<script>
-   
-    location.replace('./loginPage.php');
+    echo json_encode(array("status" => "success"));
+    echo exit();
+    }
 
-    </script>";
 }
+if(!isset($_SESSION['username']) || !isset($_SESSION['userID'])) {
+    
+        $_SESSION['prev'] = './Finalize.php';
+        echo "<script> console.log('This is Going To Login First!'); </script>";
 
-if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) && isset($_POST['origintmp']) && isset($_POST['destinationtmp']) && isset($_POST['Accommodation']) &&  isset($_POST['Departure_DT']) && isset($_POST['Arrival_DT']) && isset($_POST['tmpDeparture_DT']) && isset($_POST['tmpArrival_DT'])) {
+        
+        echo "<script>
+       
+        location.replace('./loginPage.php');
+    
+        </script>";
+    }
 
-    $origin = $_POST['selected_origin'];
-    $destination = $_POST['selected_destination'];
-    $origtmp = $_POST['origintmp'];
-    $desttmp = $_POST['destinationtmp'];
-    $DTDepart = $_POST['Departure_DT'];
-    $DTArrive = $_POST['Arrival_DT'];
-    $tmpDTDepart = $_POST['tmpDeparture_DT'];
-    $tmpDTArrive = $_POST['tmpArrival_DT'];
-    $accommodation = $_POST['Accommodation'];
-    $user_id = $_SESSION['userID'];
-
-   
-
-}else{
-    if(isset($_SESSION['origin']) && isset($_SESSION['destination']) && isset($_SESSION['originTMP']) && isset($_SESSION['destiTMP']) && isset($_SESSION['Departure_DT']) && isset($_SESSION['Arrival_DT']) && isset($_SESSION['tmpDeparture_DT']) && isset($_SESSION['tmpArrival_DT']) && isset($_SESSION['Accommodation'])) {
+else if(isset($_SESSION['origin']) && isset($_SESSION['destination']) && isset($_SESSION['originTMP']) 
+        && isset($_SESSION['destiTMP']) && isset($_SESSION['Departure_DT']) 
+        && isset($_SESSION['Arrival_DT']) && isset($_SESSION['tmpDeparture_DT']) 
+        && isset($_SESSION['tmpArrival_DT']) && isset($_SESSION['Accommodation'])) {
+        error_log('This is From Login!');
 
         $origin = $_SESSION['origin'];
         $destination = $_SESSION['destination'];
@@ -65,13 +84,32 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
         $tmpDTDepart = $_SESSION['tmpDeparture_DT'];
         $tmpDTArrive = $_SESSION['tmpArrival_DT'];
         $accommodation = $_SESSION['Accommodation'];
-        $user_id = $_SESSION['userID'];
+        $user_id = $_SESSION['userID']; 
+
+        if($_SESSION['isReturn'] === "1"){
+            
+            $retDep = $_SESSION['ReturnDep'];
+            $retArr = $_SESSION['ReturnArri'];
+            $retTmpDep = $_SESSION['ReturnTmpDep'];
+            $retTmpArr = $_SESSION['ReturnTmpArri'];
+
+
+        }
     }
-}
+
 $timego_formatted = new DateTime($DTDepart);
 $timearrive_formatted = new DateTime($DTArrive);
 $timegotmp_formatted = (empty($tmpDTDepart)) ? null : new DateTime($tmpDTDepart);
 $timearrivetmp_formatted = (empty($tmpDTArrive)) ? null : new DateTime($tmpDTArrive);
+
+if($_SESSION['isReturn'] === "1"){
+    $timego_formatted2 = new DateTime($retDep);
+    $timearrive_formatted2 = new DateTime($retArr);
+    $timegotmp_formatted2 = (empty($retTmpDep)) ? null : new DateTime($retTmpDep);
+    $timearrivetmp_formatted2 = (empty($retTmpArr)) ? null : new DateTime($retTmpArr);
+
+}
+
 
 ?>
 
@@ -146,20 +184,81 @@ $timearrivetmp_formatted = (empty($tmpDTArrive)) ? null : new DateTime($tmpDTArr
             </tr>
         </table>
 
-    <?php } ?>
-    <form action="Transaction.php">
-        <?php
-        $_SESSION['origin'] = $origin;
-        $_SESSION['destination'] = $destination;
-        $_SESSION['originTMP'] = $origtmp;
-        $_SESSION['destiTMP'] = $desttmp;
-        $_SESSION['Departure_DT'] = $DTDepart;
-        $_SESSION['Arrival_DT'] = $DTArrive;
-        $_SESSION['tmpDeparture_DT'] = $tmpDTDepart;
-        $_SESSION['tmpArrival_DT'] = $tmpDTArrive;
-        $_SESSION['Accommodation'] = $accommodation;
 
-        ?>
+
+        <?php 
+    }
+        if($_SESSION['isReturn'] === "1"){ 
+            
+            if($origtmp !== "" && $desttmp !== ""){ ?>
+         <table>
+            <tr>
+                <th>Destination</th>
+                <th>Date & Time</th>
+                <th>Seat Accommodation</th>
+                <th>Flight ID</th>
+                <th>Price</th>
+            </tr>
+            <tr>
+                <td>
+                    <?php echo $desttmp; ?> to <?php echo $origtmp; ?>
+                </td>
+                <td>
+                
+                    <?php
+                    $date_str1 = $timegotmp_formatted2->format('F j, Y'); // Outputs May 5, 2023
+                    $time_str1 = $timegotmp_formatted2->format('g:i A'); // Outputs 5:00 AM
+                    $date_str2 = $timearrivetmp_formatted2->format('F j, Y'); // Outputs May 5, 2023
+                    $time_str2 = $timearrivetmp_formatted2->format('g:i A'); // Outputs 5:00 AM
+
+                    ?>
+                    <?php echo $date_str1 . '<img src = "./icons/airplane.png" alt="Arrow" style="margin: 0 25px;">' . $date_str2 . "<br>"
+                        . "&nbsp;" .$time_str1 . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $time_str2;
+                    ?>
+                </td>
+                <td><?php echo $accommodation ?></td>
+
+                <td>FX3R1</td>
+                <td>PHP 13,500</td>
+            </tr>
+        </table>
+       <?php } ?>
+        
+    <table>
+        <tr>
+            <th>Destination</th>
+            <th>Date & Time</th>
+            <th>Seat Accommodation</th>
+            <th>Flight ID</th>
+            <th>Price</th>
+        </tr>
+        <tr>
+            <td>
+                <?php echo $destination; ?> to <?php echo $origin; ?>
+            </td>
+            <td>
+                <?php
+                $date_str1 = $timego_formatted2->format('F j, Y'); // Outputs May 5, 2023
+                $time_str1 = $timego_formatted2->format('g:i A'); // Outputs 5:00 AM
+                $date_str2 = $timearrive_formatted2->format('F j, Y'); // Outputs May 5, 2023
+                $time_str2 = $timearrive_formatted2->format('g:i A'); // Outputs 5:00 AM
+
+                ?>
+                <?php echo $date_str1 . '<img src = "./icons/airplane.png" alt="Arrow" style="margin: 0 25px;">' . $date_str2 . "<br>"
+                    . "&nbsp;" .$time_str1 . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $time_str2;
+                ?>
+            </td>
+            <td><?php echo $accommodation ?></td>
+            <td>FX3R1</td>
+            <td>PHP 7,500</td>
+        </tr>
+    </table>
+    
+
+    <?php } ?>
+    
+    <form action="Transaction.php">
+    
         <button class="animated-button" type="submit">
             <svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24">
                 <path

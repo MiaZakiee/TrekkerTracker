@@ -1,18 +1,19 @@
 
 <link
-        rel='stylesheet' href='./css/styles.css'>
+        rel='stylesheet' href='./css/headOut.css'>
 
 <div class="container">
     <div class="rowHead">
-        <img alt="Home" style="left: 5%; position: absolute; width: 180px; height: 120px" src="https://images.unsplash.com/flagged/photo-1555685460-1d9cf532761b?q=80&w=1973&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+        <img alt="Home" id = "logo" style="left: 7%; top: 5px; position: absolute; width: 200px; height: 110px;" src="./icons/logoTrans.png">
         <ul style="display: flex; flex-direction: row; list-style-type: none">
             <li> <a href="#">Book</a></li>
             <li><a href="#">Travel Info</a></li>
             <li><a href="#">Explore</a></li>
             <li><a href="#">About</a></li>
-            <?php if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']){ ?>
-                <li><a href="#" onclick="ShowDialog();">Your Tickets</a></li>
-            <?php } ?>
+            <?php
+                if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']) ?>
+                <li><a href = '#' data-bs-toggle="modal" data-bs-target="#ticketsModal">Your Tickets</a></li>
+            
 
         </ul>
         <?php
@@ -35,6 +36,6 @@
     </div>
 
 
-'
+
 
 </div>

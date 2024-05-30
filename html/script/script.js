@@ -15,10 +15,21 @@ $(document).ready(function (){
 
     window.addEventListener('scroll', function() {
         let header = document.querySelector('.headOut');
+        let liItems = document.querySelectorAll(".rowHead a");
         if (window.scrollY > 396) { 
+            for (let i = 0; i < liItems.length; i++){
+                liItems[i].classList.add("scrolled");
+              }
             header.classList.add('scrolled');
+            document.getElementById("logo").src = "./icons/logoColor.png"; // Replace with the src of the image you want to switch to
+
         } else {
+            for (let i = 0; i < liItems.length; i++){
+                liItems[i].classList.remove("scrolled");
+              }
             header.classList.remove('scrolled');
+            document.getElementById("logo").src = "./icons/logoTrans.png"; // Replace with the src of the image you want to switch to
+
         }
     });
     
@@ -49,14 +60,15 @@ $(document).ready(function (){
 
             $("#rtrip\\?").text("Yes");
 
-            r.value = 1;
+            r.val("1");
+           
             let str = '<div id="dateInputContainer">' +
                 '<label for="DateInput2">Return Date</label>' +
-                '<input type="text" style="background-color: white;" class="form-control" id="DateInput2" placeholder="Click to Select Date" required>' +
+                '<input type="text" style="background-color: white;" class="form-control" id="DateInput2" name= "DateInput2" placeholder="Click to Select Date" required>' +
                 '</div>';
             $('#DateInput1').after(str);
         } else {
-            r.value = 0;
+            r.val("0");
             $("#rtrip\\?").text("No");
             $('#dateInputContainer').remove();
         }
@@ -74,14 +86,9 @@ $(document).ready(function (){
         $('#eventDatePicker_DateInput2').show();
         initializeDatepicker('DateInput2', 'tomorrow');
     });
-    jQuery(document).ready(function (){
-     jQuery('.time-slot :checkbox').click(function(){
-        console.log('Checkbox clicked'); // This should appear in the console when you click a checkbox.
-        if(jQuery(this).is(':checked')) {
-            jQuery('.time-slot :checkbox').not(this).prop('checked', false);
-        }
-        }); 
-    });
+
+
+   
 
     function initializeDatepicker(inputId, scene) {
         let today = new Date();
@@ -134,7 +141,7 @@ $(document).ready(function (){
 
         // Check if any of the required fields are empty
         console.log("Origin: "+ origin);
-        document.getElementById("Booked").disabled = departureDate === "" || origin === destination;
+        document.getElementById("Booked").disabled = origin === destination;
     }
 
     // Add event listeners to form elements to trigger validation on change
@@ -142,6 +149,7 @@ $(document).ready(function (){
     document.getElementById("Destination").addEventListener("change", validateForm);
     document.getElementById("Accommodation").addEventListener("change", validateForm);
     document.getElementById("DateInput1").addEventListener("change", validateForm);
+    
 
 
 });
