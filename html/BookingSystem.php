@@ -18,8 +18,6 @@ if (isset($_POST['Origin']) && isset($_POST['Destination']) && isset($_POST['Acc
     if($_SESSION['isReturn'] === "1")
         $date2 = $_POST['DateInput2'];
     
-
-
 }
 $test = 0;
 //in phil orig and destination outside phil
@@ -124,19 +122,13 @@ else
 
                         </div>
                     </div>
-
-                <?php
-                    }
-
-
-
-                ?>
+                <?php } ?>
 
                 </div>
                 <input type="hidden" name="selected_origin" value="<?php echo $origin; ?>">
                 <input type="hidden" name="selected_destination" value="<?php echo ($test === 1 || $test === 3) ? "Manila" : $destination; ?>">
 
-                <input type="hidden" name="origintmp" value="<?php echo ($test === 1 || $test === 3) ? "Mania" : ""; ?>">
+                <input type="hidden" name="origintmp" value="<?php echo ($test === 1 || $test === 3) ? "Manila" : ""; ?>">
                 <input type="hidden" name="destinationtmp" value="<?php echo ($test === 1 || $test === 3) ? $destination : ""; ?>">
                 <input type="hidden" name="Accommodation" value="<?php echo $accommodation; ?>">
                 <input type="hidden" name="Departure_DT" value="<?php echo $date." ".$time_string1; ?>">
@@ -165,7 +157,7 @@ else
     </div>
 
     
-<?php if($_SESSION['isReturn'] === "1"){ ?>
+<?php if($_SESSION['isReturn'] === "1") { ?>
     <p style="font-size: 40px; font-weight: 500; font-family: 'Roboto Light'">Select Your Returning Flight</p>
     <h1> <?php echo $destination; ?> to <?php echo $origin; ?> </h1>
     <div style="height:60%; overflow-y:auto; overflow-x: hidden; padding: 10px; ">
@@ -278,7 +270,25 @@ else
 
         </div>
 <?php } ?>
+<div style= "display: flex; flex-direction: row; justify-content: flex-end">
+<div class="form-control">
+    <input type="number" name = "passNum" required="" min ="1" max = "5" onkeydown="return false">
+    <label>
+        <span style="transition-delay:0ms">P</span> 
+        <span style="transition-delay:50ms">a</span>
+        <span style="transition-delay:100ms">s</span>
+        <span style="transition-delay:150ms">s</span>
+        <span style="transition-delay:200ms">n</span>
+        <span style="transition-delay:250ms">g</span>
+        <span style="transition-delay:300ms">e</span>
+        <span style="transition-delay:350ms">r</span>
+        <span style="transition-delay:400ms"> </span>
+        <span style="transition-delay:450ms">#</span>
+
+    </label>
+</div>
         <button type="button" class = "bookbtns" style="vertical-align:middle; " id = "finalizebtn"><span>Book</span></button>
+    </div>
     </div>
 
 

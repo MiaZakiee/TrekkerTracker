@@ -46,6 +46,13 @@ $(document).ready(function() {
     });
 
     $('#finalizebtn').on('click', function(e) {
+    let passNumVal = $('input[name=passNum]').val(); // Getting the value of passNum input
+
+    // Check if passNumVal is not empty
+    if(!passNumVal) {
+        alert('Please input passenger number before finalizing.');
+        return;
+    }
         // Check if both time slot divs have a selected checkbox
         let timeslotChecked = $('.time-slot input.toggle-check').is(':checked');
         let timeslot2Checked = $('.time-slot2 input.toggle-check1').is(':checked');
@@ -54,58 +61,65 @@ $(document).ready(function() {
     if(timeslotChecked && isReturn === "0"){   
          // Get the forms of the selected checkboxes
          let timeslotForm = $('.time-slot input.toggle-check:checked').closest('.time-slot').find('form'); 
+
          // You can now get the values from forms
          let timeslotFormData = timeslotForm.serialize(); 
          // Concatenate serialized data
-         let finalData = timeslotFormData;
+         
         console.log('NO return!');
          // Initiate the AJAX request
          $.ajax({
              url: 'Finalize.php',
              type: 'POST',
-             data: finalData,
+             data: {
+                timeslotData: timeslotFormData,
+                passNum: passNumVal
+             },
              success: function(response) {
                  console.log(response);
-                //  window.location.href = "Finalize.php";
+                 window.location.href = "Finalize.php";
              },
              error: function(jqXHR, textStatus, errorThrown) {
                  console.log(textStatus, errorThrown);
                  alert("wa wah");
              }
          });
+         
+        }else if (timeslotChecked && timeslot2Checked) {
+            let timeslotForm = $('.time-slot input.toggle-check:checked').closest('.time-slot').find('form'); 
+            let timeslot2Form = $('.time-slot2 input.toggle-check1:checked').closest('.time-slot2').find('form'); 
+    
+            // You can now get the values from forms
+            let timeslotFormData = timeslotForm.serialize(); 
+            let timeslot2FormData = timeslot2Form.serialize(); 
+    
+           console.log("Has Returning Flights");
+            
+            // Initiate the AJAX request
+            $.ajax({
+                url: 'Finalize.php',
+                type: 'POST',
+                data: {
+                    timeslotData: timeslotFormData,
+                    timeslot2Data: timeslot2FormData,
+                    passNum: passNumVal
+                },
+                success: function(response) {
+                    console.log(response);
+                    window.location.href = "Finalize.php";
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                    alert("wa wah");
+                }
+            });
+      
+           
 
     }else if(timeslotChecked && isReturn === "1" &&  !timeslot2Checked){
             alert("Pick Your Return Flight!");
 
-    }else if (timeslotChecked && timeslot2Checked) {
-        let timeslotForm = $('.time-slot input.toggle-check:checked').closest('.time-slot').find('form'); 
-        let timeslot2Form = $('.time-slot2 input.toggle-check1:checked').closest('.time-slot2').find('form'); 
-
-        // You can now get the values from forms
-        let timeslotFormData = timeslotForm.serialize(); 
-        let timeslot2FormData = timeslot2Form.serialize(); 
-
-       console.log("Has Returning Flights");
-        
-        // Initiate the AJAX request
-        $.ajax({
-            url: 'Finalize.php',
-            type: 'POST',
-            data: {
-                timeslotData: timeslotFormData,
-                timeslot2Data: timeslot2FormData
-            },
-            success: function(response) {
-                console.log(response);
-                window.location.href = "Finalize.php";
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log(textStatus, errorThrown);
-                alert("wa wah");
-            }
-        });
-  
-        }
+    }
          else {
           alert('Please select your flights before finalizing.');
         }

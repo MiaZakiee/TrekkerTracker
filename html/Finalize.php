@@ -6,7 +6,10 @@ include('connect.php');
 unset($_SESSION['prev']);
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['timeslotData'])) {
-        parse_str($_POST['timeslotData'], $timeslots);
+        if(isset($_POST['passNum']))
+            $_SESSION['PassNum'] = intval($_POST['passNum']);
+       
+    parse_str($_POST['timeslotData'], $timeslots);
     
     if(isset($timeslots['selected_origin']) && isset($timeslots['selected_destination'])
     && isset($timeslots['origintmp']) && isset($timeslots['destinationtmp']) 
@@ -46,10 +49,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }   
         
-        echo"this is for Proper Booking";
-        
-        error_log('This is With User!');
-
     }
     echo json_encode(array("status" => "success"));
     echo exit();
@@ -123,6 +122,9 @@ if($_SESSION['isReturn'] === "1"){
 <div style="width: 100vw; align-items: center;">
 
     <h1 style="margin: 80px 0 40px 18%;">Finalizing Tickets</h1>
+    <?php 
+    $passNumber = $_SESSION['PassNum'];
+    for ($i = 0; $i < $passNumber; $i++){ ?>
     <table>
         <tr>
             <th>Destination</th>
@@ -255,7 +257,8 @@ if($_SESSION['isReturn'] === "1"){
     </table>
     
 
-    <?php } ?>
+    <?php } 
+    } ?>
     
     <form action="Transaction.php">
     
