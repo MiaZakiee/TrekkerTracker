@@ -3,13 +3,10 @@ session_start();
 include('connect.php');
 
 if (!isset($_SESSION['username']) || !$_SESSION['username'] || !isset($_SESSION['userID']) || !$_SESSION['userID']) {
-    echo "<script>
-    location.replace('./loginPage.php');
-    </script>";
+    echo "<script>location.replace('./loginPage.php');</script>";
 }
 
-if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) && isset($_POST['origintmp']) && isset($_POST['destinationtmp']) && isset($_POST['Accommodation']) &&  isset($_POST['Departure_DT']) && isset($_POST['Arrival_DT']) && isset($_POST['tmpDeparture_DT']) && isset($_POST['tmpArrival_DT'])) {
-
+if (isset($_POST['selected_origin'], $_POST['selected_destination'], $_POST['origintmp'], $_POST['destinationtmp'], $_POST['Accommodation'], $_POST['Departure_DT'], $_POST['Arrival_DT'], $_POST['tmpDeparture_DT'], $_POST['tmpArrival_DT'], $_POST['item_id'])) {
     $origin = $_POST['selected_origin'];
     $destination = $_POST['selected_destination'];
     $origtmp = $_POST['origintmp'];
@@ -19,6 +16,8 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
     $tmpDTDepart = $_POST['tmpDeparture_DT'];
     $tmpDTArrive = $_POST['tmpArrival_DT'];
     $accommodation = $_POST['Accommodation'];
+    $item_id = $_POST['item_id']; // Add item_id here
+    $item_id2 = $_POST['item_id2']; // Add item_id here
     $user_id = $_SESSION['userID']; // Fetch user_id from session variable
 
     $timego_formatted = new DateTime($DTDepart);
@@ -29,9 +28,6 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
 
 ?>
 
-
-?>
-
 <html>
 
 <head>
@@ -39,7 +35,6 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
 </head>
 
 <body>
-
 
     <div style="width: 100vw; align-items: center;">
 
@@ -58,11 +53,10 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
                 </td>
                 <td>
                     <?php
-                    $date_str1 = $timego_formatted->format('F j, Y'); // Outputs May 5, 2023
-                    $time_str1 = $timego_formatted->format('g:i A'); // Outputs 5:00 AM
-                    $date_str2 = $timearrive_formatted->format('F j, Y'); // Outputs May 5, 2023
-                    $time_str2 = $timearrive_formatted->format('g:i A'); // Outputs 5:00 AM
-
+                    $date_str1 = $timego_formatted->format('F j, Y');
+                    $time_str1 = $timego_formatted->format('g:i A');
+                    $date_str2 = $timearrive_formatted->format('F j, Y');
+                    $time_str2 = $timearrive_formatted->format('g:i A');
                     ?>
                     <?php echo $date_str1 . '<img src = "./icons/airplane.png" alt="Arrow" style="margin: 0 25px;">' . $date_str2 . "<br>"
                         . "&nbsp;" . $time_str1 . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $time_str2;
@@ -88,23 +82,20 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
                     </td>
                     <td>
                         <?php
-                        $date_str1 = $timegotmp_formatted->format('F j, Y'); // Outputs May 5, 2023
-                        $time_str1 = $timegotmp_formatted->format('g:i A'); // Outputs 5:00 AM
-                        $date_str2 = $timearrivetmp_formatted->format('F j, Y'); // Outputs May 5, 2023
-                        $time_str2 = $timearrivetmp_formatted->format('g:i A'); // Outputs 5:00 AM
-
+                        $date_str1 = $timegotmp_formatted->format('F j, Y');
+                        $time_str1 = $timegotmp_formatted->format('g:i A');
+                        $date_str2 = $timearrivetmp_formatted->format('F j, Y');
+                        $time_str2 = $timearrivetmp_formatted->format('g:i A');
                         ?>
                         <?php echo $date_str1 . '<img src = "./icons/airplane.png" alt="Arrow" style="margin: 0 25px;">' . $date_str2 . "<br>"
                             . "&nbsp;" . $time_str1 . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . $time_str2;
                         ?>
                     </td>
                     <td><?php echo $accommodation ?></td>
-
                     <td>FX3R1</td>
                     <td>PHP 13,500</td>
                 </tr>
             </table>
-
         <?php } ?>
         <form action="Transaction.php" method="post" id="hiddenform">
             <input type="hidden" name="origin" value="<?php echo $origin; ?>">
@@ -116,6 +107,8 @@ if (isset($_POST['selected_origin']) && isset($_POST['selected_destination']) &&
             <input type="hidden" name="tmp_departure_dt" value="<?php echo $tmpDTDepart; ?>">
             <input type="hidden" name="tmp_arrival_dt" value="<?php echo $tmpDTArrive; ?>">
             <input type="hidden" name="accommodation" value="<?php echo $accommodation; ?>">
+            <input type="hidden" name="item_id" value="<?php echo $item_id; ?>"> <!-- Include item_id here -->
+            <input type="hidden" name="item_id2" value="<?php echo $item_id2; ?>">
             <button id="coolbut" type="submit">
                 <img src="./icons/home.png" alt="Home">
             </button>

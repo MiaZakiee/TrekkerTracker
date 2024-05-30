@@ -78,20 +78,18 @@ if (!isset($_SESSION['adminID'])) {
                 </li>
                 <li>
                     <a href="./airlineAdminDashboard.php" class="nav-link link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+                        <svg class="bi pe-none me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2" />
+                        </svg>
                         Flights
                     </a>
                 </li>
                 <li>
-                    <a href="./UserReports.php" class="nav-link link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-                        User reports
-                    </a>
-                </li>
-                <li>
                     <a href="./FlightReports.php" class="nav-link active" aria-current="page">
-                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-                    Flight Reports
+                        <svg class="bi pe-none me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2" />
+                        </svg>
+                        Flight Reports
                     </a>
                 </li>
             </ul>
@@ -121,7 +119,7 @@ if (!isset($_SESSION['adminID'])) {
                     </thead>
                     <tbody>
                         <tr>
-                            <?php                            
+                            <?php
                             $sql = "SELECT airline, COUNT(flight_id) AS flight_count FROM tblflights GROUP BY airline DESC";
                             $result = mysqli_query($connection, $sql);
 
@@ -139,51 +137,49 @@ if (!isset($_SESSION['adminID'])) {
                     </tbody>
                 </table>
             </div>
-                <h2>Domestic Origin Flights</h2>
-                <table class="table table-striped table-sm flightsTbl">
-                    <thead>
-                        <tr>
-                            <th scope="col">Flight ID</th>
-                            <th scope="col">Airline</th>
-                            <th scope="col">Origin</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Destination</th>
-                            <th scope="col">Departure</th>
-                            <th scope="col">Arrival</th>
-                            <th scope="col">Chartered Flight</th>
-                            <th scope="col">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <?php                            
-                            $sql = "SELECT * FROM tblflights WHERE origin IN ('Cebu', 'Manila', 'Davao')";
-                            $result = mysqli_query($connection, $sql);
+            <h2>Domestic Origin Flights</h2>
+            <table class="table table-striped table-sm flightsTbl">
+                <thead>
+                    <tr>
+                        <th scope="col">Flight ID</th>
+                        <th scope="col">Airline</th>
+                        <th scope="col">Origin</th>
+                        <th scope="col">Destination</th>
+                        <th scope="col">Departure</th>
+                        <th scope="col">Arrival</th>
+                        <th scope="col">Chartered Flight</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <?php
+                        $sql = "SELECT * FROM tblflights WHERE origin IN ('Cebu', 'Manila', 'Davao')";
+                        $result = mysqli_query($connection, $sql);
 
 
-                            while ($row = mysqli_fetch_assoc($result)) {
-                            ?>
-                                <td class=""><?php echo $row['flight_id']; ?></td>
-                                <td class=""><?php echo $row['airline']; ?></td>
-                                <td class=""><?php echo $row['origin']; ?></td>
-                                <td class=""><?php echo $row['destination']; ?></td>
-                                <td class="tblContent"><?php echo $row['date']; ?></td>
-                                <td class="tblContent"><?php echo $row['departureDT']; ?></td>
-                                <td class=""><?php echo $row['arrivalDT']; ?></td>
-                                <td class="">false</td>
-                                <td class=""><?php echo $row['seatingCapacity']; 
-                                        echo "/"; 
-                                        echo $row['totalPassengers']; ?>
-                                </td>
-                        </tr>
-                    <?php
-                            }
+                        while ($row = mysqli_fetch_assoc($result)) {
+                        ?>
+                            <td class=""><?php echo $row['flight_id']; ?></td>
+                            <td class=""><?php echo $row['airline']; ?></td>
+                            <td class=""><?php echo $row['origin']; ?></td>
+                            <td class=""><?php echo $row['destination']; ?></td>
+                            <td class="tblContent"><?php echo $row['departureDT']; ?></td>
+                            <td class=""><?php echo $row['arrivalDT']; ?></td>
+                            <td class="">false</td>
+                            <td class=""><?php echo $row['seatingCapacity'];
+                                            echo "/";
+                                            echo $row['totalPassengers']; ?>
+                            </td>
+                    </tr>
+                <?php
+                        }
 
-                    ?>
+                ?>
 
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
+        </div>
         </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

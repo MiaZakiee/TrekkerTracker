@@ -1,17 +1,52 @@
 <?php
 include("connect.php");
 
-$sqlUser = "SELECT user_id,username,email,user_type,isBanned from tbluseraccount";
-$sqlProfile = "SELECT user_id,fname,lname from tbluserprofile";
-
-$resultUser = mysqli_query($connection, $sqlUser);
-$resultProfile = mysqli_query($connection, $sqlProfile);
-
 session_start();
 if (!isset($_SESSION['userID'])) {
     echo "<script>
     location.replace('./index.php')
     </script>";
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $user_id = $_SESSION['userID'];
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
+
+    // Check if passwords match
+    if (!empty($password) && $password !== $confirm_password) {
+        echo "Passwords do not match!";
+        exit;
+    }
+
+    // Check if username is unique
+    $check_username = "SELECT user_id FROM tbluseraccount WHERE username = '$username' AND user_id != '$user_id'";
+    $res_username = mysqli_query($connection, $check_username);
+    if (mysqli_num_rows($res_username) > 0) {
+        echo "Username is already taken!";
+        exit;
+    }
+
+    // Check if email is unique
+    $check_email = "SELECT user_id FROM tbluseraccount WHERE email = '$email' AND user_id != '$user_id'";
+    $res_email = mysqli_query($connection, $check_email);
+    if (mysqli_num_rows($res_email) > 0) {
+        echo "Email is already taken!";
+        exit;
+    }
+
+    // Update user account
+    if (!empty($password)) {
+        $hashed_password = password_hash($password, 'sha256');
+        $update_account = "UPDATE tbluseraccount SET username = '$username', email = '$email', password = '$hashed_password' WHERE user_id = '$user_id'";
+    } else {
+        $update_account = "UPDATE tbluseraccount SET username = '$username', email = '$email' WHERE user_id = '$user_id'";
+    }
+    mysqli_query($connection, $update_account);
+
+    echo "<script>alert('Profile updated successfully!'); location.replace('./userProfile.php');</script>";
 }
 ?>
 <!doctype html>
@@ -27,7 +62,8 @@ if (!isset($_SESSION['userID'])) {
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sidebars/">
     <link href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet
+    " integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
     </style>
     <!-- Custom styles for this template -->
@@ -41,40 +77,18 @@ if (!isset($_SESSION['userID'])) {
             <title>Bootstrap</title>
             <path fill-rule="evenodd" clip-rule="evenodd" d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z"></path>
         </symbol>
-        <symbol id="home" viewBox="0 0 16 16">
-            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
-        </symbol>
-        <symbol id="speedometer2" viewBox="0 0 16 16">
-            <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z" />
-            <path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z" />
-        </symbol>
-        <symbol id="table" viewBox="0 0 16 16">
-            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z" />
-        </symbol>
-        <symbol id="people-circle" viewBox="0 0 16 16">
-            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-        </symbol>
-        <symbol id="grid" viewBox="0 0 16 16">
-            <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
-        </symbol>
+        <!-- Add other SVG symbols here if needed -->
     </svg>
 
     <main class="d-flex flex-nowrap ">
         <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; height: 100vh;">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <a href="./index.php" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
                 <img src="./images/logoWhite.png" alt="logo" style="width: 50px; height: 50px;">
                 <span class="fs-4" style="font-family: Signika">TrekkerTracker</span>
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li>
-                    <a href="./userDashboard.php" class="nav-link link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16">
-                            <use xlink:href="#speedometer2" />
-                        </svg>
-                        Dashboard
-                    </a>
                     <a href="./userProfile.php" class="nav-link active" aria-current="page">
                         <svg class="bi pe-none me-2" width="16" height="16">
                             <use xlink:href="#speedometer2" />
@@ -99,11 +113,180 @@ if (!isset($_SESSION['userID'])) {
             </div>
         </div>
         <div class="dashboardBody container-fluid">
+            <form class="userProfile" method="post" action="">
+                <h3>Profile</h3>
+                <?php
+                $user_id = $_SESSION['userID'];
+                $queryB = "SELECT username, email FROM tbluseraccount WHERE user_id = '" . $user_id . "'";
+                $resB = mysqli_query($connection, $queryB);
+                $rowB = mysqli_fetch_assoc($resB);
+                ?>
+                <input type="hidden" id="orig_username" value="<?php echo $rowB['username']; ?>">
+                <input type="hidden" id="orig_email" value="<?php echo $rowB['email']; ?>">
+
+                <div class="d-flex flex-row" style="margin-bottom:50px; margin-left: 100px;">
+                    <img src="./images/profileA.jpg" class="img-thumbnail" style="height: 200px; width: 200px;">
+                    <div class="d-flex flex-column">
+                        <h1><?php echo $_SESSION["fname"] . ' ' . $_SESSION["lname"]; ?></h1>
+                        <div class="d-flex justify-content-between">
+                            <h4>Details</h4>
+                            <h4 id="editLabel" onclick="toggleEdit()">edit</h4>
+                        </div>
+                        <style>
+                            .updateLabel {
+                                width: 150px;
+                            }
+                        </style>
+                        <div class="d-flex flex-row">
+                            <h6 class="updateLabel">Name</h6>
+                            <input class="" id="fieldFname" type="text" name="fname" value="<?php echo $_SESSION['fname'] ?>" disabled>
+                            <input class="" id="fieldLname" type="text" name="lname" value="<?php echo $_SESSION['lname'] ?>" disabled>
+                        </div>
+
+                        <div class="d-flex flex-row">
+                            <h6 class="updateLabel">Username</h6>
+                            <input class="updateField" id="fieldUname" type="text" name="username" value="<?php echo $rowB['username'] ?>" disabled>
+                        </div>
+                        <div class="d-flex flex-row">
+                            <h6 class="updateLabel">Email</h6>
+                            <input class="updateField" id="fieldEmail" type="email" name="email" value="<?php echo $rowB['email'] ?>" disabled>
+                        </div>
+                        <div class="d-flex flex-row">
+                            <h6 class="updateLabel">Password</h6>
+                            <input class="updateField" id="fieldPass" type="password" name="password" placeholder="********" disabled>
+                        </div>
+                        <div class="d-flex flex-row">
+                            <h6 class="updateLabel confirmPass" style="display:none;">Confirm Password</h6>
+                            <input class="updateField confirmPass" id="fieldPassConfirm" type="password" name="confirm_password" style="display:none;" value="">
+                        </div>
+                        <button type="submit" class="btn btn-success confirmPass" style="display:none;">Save Changes</button>
+                    </div>
+                </div>
+            </form>
+            <div class="TicketsBooked d-flex flex-column" style="width: 100%">
+                <h3>Tickets</h3>
+                <?php
+                $tickets = "SELECT DISTINCT
+                    b.Seat_Accomodation,
+                    b.CharterFlight,
+                    b.flight_id,
+                    f.airline,
+                    f.origin,
+                    f.destination,
+                    f.departureDT
+                FROM 
+                    tblbookingsystem b
+                INNER JOIN 
+                    tblflights f ON b.flight_id = f.flight_id
+                WHERE 
+                    b.user_id = '{$_SESSION['userID']}'";
+
+                // Execute the query
+                $resC = mysqli_query($connection, $tickets);
+
+                // Check if the query was successful
+                if ($resC === false) {
+                    // Query failed, output the error
+                    echo "Error executing query: " . mysqli_error($connection);
+                    exit; // Stop further execution
+                }
+
+                // Fetch the results
+                if (mysqli_num_rows($resC) > 0) {
+                    // Output the results
+                    while ($rowC = mysqli_fetch_assoc($resC)) {
+                ?>
+                        <div class="ticket" style="
+                        /* background: #CAF4FF; */
+                        width: 80%;
+                        border: 2px solid white;
+                        border-radius: 10px;
+                        padding: 20px;
+                        margin-bottom: 30px;
+
+                        display: flex;
+                        justify-content: center;
+                        flex-direction: column;
+                        margin-left: 100px
+                        ">
+                            <div class="ticket d-flex flex-row" style="
+                                justify-content: space-between;
+                                
+                            ">
+                                <h1><?php echo $rowC['airline']; ?></h1>
+                                <h1><?php echo $rowC['Seat_Accomodation']; ?></h1>
+                            </div>
+                            <hr>
+                            <div class="d-flex">
+                                <div class="left" style="width: 50%">
+                                    <h6>PASSANGER TICKET AND BAGGAGE CHECK</h6>
+                                    <h6>NAME OF PASSENGER</h6>
+                                    <h4><?php echo $_SESSION['fname'] . ' ';
+                                        echo $_SESSION['lname'] ?></h4>
+                                    <br>
+                                    <br>
+                                    <h4>From: <?php echo $rowC['origin'] ?></h4>
+                                    <h4>To: <?php echo $rowC['destination'] ?></h4>
+                                </div>
+                                <div class="right" style="
+                                    margin-top:100px;
+                                    margin-left:100px
+                                ">
+                                    <h4>Boarding Date: <?php echo (new DateTime($rowC['departureDT']))->format('Y-m-d'); ?></h4>
+                                    <h4>Boarding Time: <?php echo (new DateTime($rowC['departureDT']))->format('H:i'); ?></h4>
+                                    <h4>Accommodation: <?php echo $rowC['Seat_Accomodation']; ?></h4>
+                                </div>
+                            </div>
+                        </div>
+                <?php
+                    }
+                } else {
+                    // No rows returned
+                    echo "You have no bookings with us :(";
+                }
+                ?>
+            </div>
 
         </div>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-r4NyKXgx9MuvIlSFwTL2RIL7/nkYoNi4aj9HV/JwD1iHEd9Jhgy9U7XOpLyb7o+l" crossorigin="anonymous"></script>
     <script src="./script/sidebars.js"></script>
+    <script>
+        function toggleEdit() {
+            var elements = document.querySelectorAll(".updateField");
+            var editLabel = document.getElementById("editLabel");
+            var isEditing = editLabel.innerText.toLowerCase() === "edit";
+
+            elements.forEach(function(element) {
+                element.disabled = !isEditing;
+                if (!isEditing) {
+                    // Revert to original values if cancelling
+                    switch (element.id) {
+                        case 'fieldUname':
+                            element.value = document.getElementById('orig_username').value;
+                            break;
+                        case 'fieldEmail':
+                            element.value = document.getElementById('orig_email').value;
+                            break;
+                    }
+                }
+            });
+
+            var confirmPassElements = document.querySelectorAll(".confirmPass");
+            confirmPassElements.forEach(function(element) {
+                element.style.display = isEditing ? "block" : "none";
+            });
+
+            editLabel.innerText = isEditing ? "cancel" : "edit";
+        }
+    </script>
 </body>
 
 </html>
+
+<!-- TODO
+        ANG PROBLEMS KAY
+        - DLE MA BUTANG SA TBLFLIGHTS AND 
+-->

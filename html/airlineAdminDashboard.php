@@ -81,26 +81,18 @@ if (!isset($_SESSION['adminID'])) {
                 </li>
                 <li>
                     <a href="./airlineAdminDashboard.php" class="nav-link active" aria-current="page">
-                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+                        <svg class="bi pe-none me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2" />
+                        </svg>
                         Flights
                     </a>
                 </li>
                 <li>
-                    <a href="./UserReports.php" class="nav-link link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-                        User reports
-                    </a>
-                </li>
-                <li>
                     <a href="./FlightReports.php" class="nav-link link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-                    Flight Reports
-                    </a>
-                </li>
-                <li>
-                    <a href="./BookingReports.php" class="nav-link link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-                        Booking Reports
+                        <svg class="bi pe-none me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2" />
+                        </svg>
+                        Flight Reports
                     </a>
                 </li>
             </ul>
@@ -127,7 +119,6 @@ if (!isset($_SESSION['adminID'])) {
                             <th scope="col">Flight ID</th>
                             <th scope="col">Airline</th>
                             <th scope="col">Origin</th>
-                            <th scope="col">Date</th>
                             <th scope="col">Destination</th>
                             <th scope="col">Departure</th>
                             <th scope="col">Arrival</th>
@@ -144,13 +135,12 @@ if (!isset($_SESSION['adminID'])) {
                                 <td class=""><?php echo $row['airline']; ?></td>
                                 <td class=""><?php echo $row['origin']; ?></td>
                                 <td class=""><?php echo $row['destination']; ?></td>
-                                <td class="tblContent"><?php echo $row['date']; ?></td>
                                 <td class="tblContent"><?php echo $row['departureDT']; ?></td>
                                 <td class=""><?php echo $row['arrivalDT']; ?></td>
                                 <td class="">false</td>
-                                <td class=""><?php echo $row['seatingCapacity']; 
-                                        echo "/"; 
-                                        echo $row['totalPassengers']; ?>
+                                <td class=""><?php echo $row['seatingCapacity'];
+                                                echo "/";
+                                                echo $row['totalPassengers']; ?>
                                 </td>
                         </tr>
                     <?php

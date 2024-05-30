@@ -90,14 +90,6 @@ if (!isset($_SESSION['adminID'])) {
                     </a>
                 </li>
                 <li>
-                    <a href="./UserReports.php" class="nav-link link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16">
-                            <use xlink:href="#speedometer2" />
-                        </svg>
-                        User reports
-                    </a>
-                </li>
-                <li>
                     <a href="./FlightReports.php" class="nav-link link-body-emphasis">
                         <svg class="bi pe-none me-2" width="16" height="16">
                             <use xlink:href="#speedometer2" />
@@ -231,7 +223,7 @@ if (!isset($_SESSION['adminID'])) {
                         </tbody>
                     </table>
                 </div>
-                <h2>List of Domestic Flights</h2>
+                <!-- <h2>List of Domestic Flights</h2> -->
 
 
             </div>

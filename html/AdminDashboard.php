@@ -91,14 +91,6 @@ if (!isset($_SESSION['adminID'])) {
                     </a>
                 </li>
                 <li>
-                    <a href="./UserReports.php" class="nav-link link-body-emphasis">
-                        <svg class="bi pe-none me-2" width="16" height="16">
-                            <use xlink:href="#speedometer2" />
-                        </svg>
-                        User reports
-                    </a>
-                </li>
-                <li>
                     <a href="./FlightReports.php" class="nav-link link-body-emphasis">
                         <svg class="bi pe-none me-2" width="16" height="16">
                             <use xlink:href="#speedometer2" />
