@@ -1,87 +1,159 @@
 <?php
 session_start();
 include('connect.php');
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Check if all necessary fields are provided in the form submission
 if (
-    isset($_POST['origin']) && isset($_POST['DTArrive']) && isset($_POST['item_id'])
-    && isset($_POST['destination']) && isset($_POST['tmpDTDepart'])
-    && isset($_POST['origtmp']) && isset($_POST['tmpDTArrive'])
-    && isset($_POST['desttmp']) && isset($_POST['accommodation'])
-    && isset($_POST['DTDepart'])
+    isset($_SESSION['origin']) && isset($_SESSION['destination']) && isset($_SESSION['originTMP'])
+    && isset($_SESSION['destiTMP']) && isset($_SESSION['Departure_DT']) && isset($_SESSION['Arrival_DT'])
+    && isset($_SESSION['tmpDeparture_DT']) && isset($_SESSION['tmpArrival_DT'])
+    && isset($_SESSION['Accommodation'])
 ) {
-    // Retrieve all form data
-    $origin = $_POST['origin'];
-    $destination = $_POST['destination'];
-    $origtmp = $_POST['origtmp'];
-    $desttmp = $_POST['desttmp'];
-    $DTDepart = $_POST['DTDepart'];
-    $DTArrive = $_POST['DTArrive'];
-    $tmpDTDepart = $_POST['tmpDTDepart'];
-    $tmpDTArrive = $_POST['tmpDTArrive'];
-    $accommodation = $_POST['accommodation'];
-    $item_id = $_POST['item_id']; // Retrieve item_id here
-    $item_id2 = $_POST['item_id2']; // Retrieve item_id here
-    $user_id = $_SESSION['userID']; // Fetch user_id from session variable
-    $charter = 0;
 
-    // Insert into tblBookings
-    $sql = "INSERT INTO tblbookingsystem (user_id, flight_id, Origin, Destination, Seat_Accomodation, CharterFlight, departure_dt, arrival_dt) VALUES (?,?,?,?,?,?,?,?)";
-    $booking = $connection->prepare($sql);
+    $origin = $_SESSION['origin'];
+    $destination = $_SESSION['destination'];
+    $origtmp = $_SESSION['originTMP'];
+    $desttmp = $_SESSION['destiTMP'];
+    $DTDepart = $_SESSION['Departure_DT'];
+    $DTArrive = $_SESSION['Arrival_DT'];
+    $tmpDTDepart = $_SESSION['tmpDeparture_DT'];
+    $tmpDTArrive = $_SESSION['tmpArrival_DT'];
+    $accommodation = $_SESSION['Accommodation'];
+    $user = $_SESSION['username'];
+    $n = 0;
+    $p = 1;
 
-    // Check if the prepare() method was successful
-    if ($booking === false) {
-        die('Prepare failed: ' . htmlspecialchars($connection->error));
-    }
+    $passNumber = $_SESSION['PassNum'];
+    for ($i = 0; $i < $passNumber; $i++) {
 
-    $booking->bind_param("iissssss", $user_id, $item_id, $origin, $destination, $accommodation, $charter, $DTDepart, $DTArrive);
-
-    // Execute the prepared statement
-    $booking->execute();
-
-    // Check if the booking was successfully inserted
-    if ($booking->affected_rows > 0) {
-        echo "Booking successful!";
-    } else {
-        echo "Booking failed: " . htmlspecialchars($booking->error);
-    }
-
-    // Close the statement
-    $booking->close();
-
-    if ($tmpDTArrive !== "" && $tmpDTDepart !== "") {
-        // $sql1 = "INSERT INTO tblbookingsystem (Origin, Destination, Owner, Seat_Accomodation, isCharter,Departure_DT, Arrival_DT) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        // $sql2 = $connection->prepare("INSERT INTO tblbookingsytem (user_id, flight_id, Origin, Destination, Seat_Accomodation, charter, DTDepart, DTArrive) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        // $sql2->bind_param("iissssss", $user_id, $item_id, $origtmp, $desttmp, $accommodation, $charter, $tmpDTDepart, $tmpDTArrive);
-        // $sql2->execute();
-
-        // Insert into tblBookings
-        $sql2 = "INSERT INTO tblbookingsystem (user_id, flight_id, Origin, Destination, Seat_Accomodation, CharterFlight, departure_dt, arrival_dt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        $booking2 = $connection->prepare($sql2);
-
-        // Check if the prepare() method was successful
-        if ($booking2 === false) {
-            die('Prepare failed: ' . htmlspecialchars($connection->error));
+        $sql = "INSERT INTO tblbookingsystem (Origin, Destination, Owner, flight_id, Seat_Accomodation, isCharter,Departure_DT, Arrival_DT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = mysqli_prepare($connection, $sql);
+        $sql1 = "";
+        if ($tmpDTArrive !== "" && $tmpDTDepart !== "") {
+            $sql1 = "INSERT INTO tblbookingsystem (Origin, Destination, Owner, flight_id, Seat_Accomodation, isCharter,Departure_DT, Arrival_DT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $stmt1 = mysqli_prepare($connection, $sql1);
         }
 
-        $booking2->bind_param("iissssss", $user_id, $item_id2, $origtmp, $desttmp, $accommodation, $charter, $tmpDTDepart, $tmpDTArrive);
+        // Format time strings and bind parameters
+        $timego_formatted = new DateTime($DTDepart);
+        $timearrive_formatted = new DateTime($DTArrive);
+        $timegotmp_formatted = (empty($tmpDTDepart)) ? null : new DateTime($tmpDTDepart);
+        $timearrivetmp_formatted = (empty($tmpDTArrive)) ? null : new DateTime($tmpDTArrive);
+        if ($stmt) {
+            $format = $timego_formatted->format('Y-m-d H:i');
+            $format1 = $timearrive_formatted->format('Y-m-d H:i');
+            mysqli_stmt_bind_param($stmt, "ssssssss", $origin, $destination, $user, $p, $accommodation, $n, $format, $format1);
 
-        // Execute the prepared statement
-        $booking2->execute();
 
-        // Check if the booking was successfully inserted
-        if ($booking2->affected_rows > 0) {
-            echo "Booking successful!";
+            if (mysqli_stmt_execute($stmt)) {
+                error_log("Booking successful for Ticket 1!");
+                if (!isset($stmt1))
+                    $_SESSION['message'] = "Booking Successful";
+            } else {
+                error_log("Error: Booking failed. " . mysqli_error($connection));
+            }
+
+            mysqli_stmt_close($stmt);
         } else {
-            echo "Booking failed: " . htmlspecialchars($booking->error);
+            error_log("Error: Statement preparation failed.");
         }
 
-        // Close the statement
-        $booking2->close();
+        if (isset($stmt1)) {
+            $format2 = $timegotmp_formatted->format('Y-m-d H:i');
+            $format3 = $timearrivetmp_formatted->format('Y-m-d H:i');
+            mysqli_stmt_bind_param($stmt1, "ssssssss", $origtmp, $desttmp, $user, $p, $accommodation, $n, $format2, $format3);
+
+            // Execute the statement
+            if (mysqli_stmt_execute($stmt1)) {
+                error_log("Booking successful for Ticket 2!");
+                $_SESSION['message'] = "Booking Successful";
+            } else {
+                error_log("Error: Booking failed. " . mysqli_error($connection));
+            }
+
+            // Close the statement
+            mysqli_stmt_close($stmt1);
+        } else {
+            error_log("Only One Ticket"); // Handle statement preparation error
+        }
+
+        if ($_SESSION['isReturn'] === "1") {
+
+            $RetDTDepart = $_SESSION['ReturnDep'];
+            $RetDTArrive = $_SESSION['ReturnArri'];
+            $RettmpDTDepart = $_SESSION['ReturnTmpDep'];
+            $RettmpDTArrive = $_SESSION['ReturnTmpArri'];
+
+
+
+            $sql = "INSERT INTO tblbookingsystem (Origin, Destination, Owner, flight_id, Seat_Accomodation, isCharter,Departure_DT, Arrival_DT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $stmt = mysqli_prepare($connection, $sql);
+            $sql1 = "";
+            if ($tmpDTArrive !== "" && $tmpDTDepart !== "") {
+                $sql1 = "INSERT INTO tblbookingsystem (Origin, Destination, Owner, flight_id, Seat_Accomodation, isCharter,Departure_DT, Arrival_DT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                $stmt1 = mysqli_prepare($connection, $sql1);
+            }
+
+            // Format time strings and bind parameters
+            $timego_formatted = new DateTime($RetDTDepart);
+            $timearrive_formatted = new DateTime($RetDTArrive);
+            $timegotmp_formatted = (empty($tmpDTDepart)) ? null : new DateTime($RettmpDTDepart);
+            $timearrivetmp_formatted = (empty($tmpDTArrive)) ? null : new DateTime($RettmpDTArrive);
+            if (isset($stmt1)) {
+                $format2 = $timegotmp_formatted->format('Y-m-d H:i');
+                $format3 = $timearrivetmp_formatted->format('Y-m-d H:i');
+                mysqli_stmt_bind_param($stmt1, "ssssssss", $desttmp, $origtmp, $user, $p, $accommodation, $n, $format2, $format3);
+
+                // Execute the statement
+                if (mysqli_stmt_execute($stmt1)) {
+                    error_log("Booking successful for Returning Ticket 1!");
+                    $_SESSION['message'] = "Booking Successful";
+                } else {
+                    error_log("Error: Booking failed. " . mysqli_error($connection));
+                }
+
+                // Close the statement
+                mysqli_stmt_close($stmt1);
+            }
+
+            if ($stmt) {
+                $format = $timego_formatted->format('Y-m-d H:i');
+                $format1 = $timearrive_formatted->format('Y-m-d H:i');
+                mysqli_stmt_bind_param($stmt, "ssssssss", $destination, $origin, $user, $p, $accommodation, $n, $format, $format1);
+
+
+                if (mysqli_stmt_execute($stmt)) {
+                    error_log("Booking successful for Returning Ticket 2!");
+                    if ($stmt1 === "")
+                        $_SESSION['message'] = "Booking Successful";
+                } else {
+                    error_log("Error: Booking failed. " . mysqli_error($connection));
+                }
+
+                mysqli_stmt_close($stmt);
+            } else {
+                error_log("Error: Statement preparation failed.");
+            }
+        }
     }
 } else {
-    // Handle missing fields gracefully
-    echo "Required fields are missing.";
+    error_log("Wa wah");
+    $_SESSION['message'] = "Failed Booking";
 }
+
+
+unset($_SESSION['origin']);
+unset($_SESSION['destination']);
+unset($_SESSION['originTMP']);
+unset($_SESSION['destiTMP']);
+unset($_SESSION['Departure_DT']);
+unset($_SESSION['Arrival_DT']);
+unset($_SESSION['tmpDeparture_DT']);
+unset($_SESSION['tmpArrival_DT']);
+unset($_SESSION['Accommodation']);
+unset($_SESSION['ReturnDep']);
+unset($_SESSION['ReturnArri']);
+unset($_SESSION['ReturnTmpDep']);
+unset($_SESSION['ReturnTmpArri']);
+unset($_SESSION['isReturn']);
+
+
+echo "<script>window.location.replace('./index.php')</script>";

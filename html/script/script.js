@@ -1,16 +1,44 @@
+function showSuccessModal() {
+    let modal = document.querySelector('#successModal');
+    modal.style.display = "flex";
+    setTimeout(function() { modal.style.display = "none"; }, 2000);
+}
+
+function showFailureModal() {
+    let modal = document.querySelector('#failureModal');
+    modal.style.display = "flex";
+    setTimeout(function() { modal.style.display = "none"; }, 2000);
+}
 $(document).ready(function (){
     $('#file1').show();
     $('#file2').hide();
 
     window.addEventListener('scroll', function() {
         let header = document.querySelector('.headOut');
-        if (window.scrollY > 200) { // Adjust 100 to your desired scroll position
+        let liItems = document.querySelectorAll(".rowHead a");
+        if (window.scrollY > 396) { 
+            for (let i = 0; i < liItems.length; i++){
+                liItems[i].classList.add("scrolled");
+              }
             header.classList.add('scrolled');
+            document.getElementById("logo").src = "./icons/logoColor.png"; // Replace with the src of the image you want to switch to
+
         } else {
+            for (let i = 0; i < liItems.length; i++){
+                liItems[i].classList.remove("scrolled");
+              }
             header.classList.remove('scrolled');
+            document.getElementById("logo").src = "./icons/logoTrans.png"; // Replace with the src of the image you want to switch to
+
         }
     });
+    
 
+    let r = document.getElementById('message');
+    if(r.value === "Booking Successful")
+        showSuccessModal();
+    else if(r.value === "Failed Booking")
+        showFailureModal();
 
     $("#Chartered").click(function (){
         let tmp = $("#chartered\\?").text();
@@ -24,19 +52,27 @@ $(document).ready(function (){
 
     });
 
+    1
     $("#RTrip").click(function (){
+        let r = $('#isReturn');
         let tmp = $("#rtrip\\?").text();
         if(tmp === "No") {
+
             $("#rtrip\\?").text("Yes");
+
+            r.val("1");
+           
             let str = '<div id="dateInputContainer">' +
                 '<label for="DateInput2">Return Date</label>' +
-                '<input type="text" style="background-color: white;" class="form-control" id="DateInput2" placeholder="Click to Select Date">' +
+                '<input type="text" style="background-color: white;" class="form-control" id="DateInput2" name= "DateInput2" placeholder="Click to Select Date" required>' +
                 '</div>';
             $('#DateInput1').after(str);
         } else {
+            r.val("0");
             $("#rtrip\\?").text("No");
             $('#dateInputContainer').remove();
         }
+        console.log(r.value);
 
     });
 
@@ -50,6 +86,9 @@ $(document).ready(function (){
         $('#eventDatePicker_DateInput2').show();
         initializeDatepicker('DateInput2', 'tomorrow');
     });
+
+
+   
 
     function initializeDatepicker(inputId, scene) {
         let today = new Date();
@@ -102,7 +141,7 @@ $(document).ready(function (){
 
         // Check if any of the required fields are empty
         console.log("Origin: "+ origin);
-        document.getElementById("Booked").disabled = departureDate === "" || origin === destination;
+        document.getElementById("Booked").disabled = origin === destination;
     }
 
     // Add event listeners to form elements to trigger validation on change
@@ -110,24 +149,8 @@ $(document).ready(function (){
     document.getElementById("Destination").addEventListener("change", validateForm);
     document.getElementById("Accommodation").addEventListener("change", validateForm);
     document.getElementById("DateInput1").addEventListener("change", validateForm);
+    
 
-
-    function showSuccessModal() {
-        let modal = document.querySelector('#successModal');
-        modal.style.display = "block";
-        // Hide after 2 seconds
-        setTimeout(function() { modal.style.display = "none"; }, 2000);
-    }
-
-    function showFailureModal() {
-        let modal = document.querySelector('#failureModal');
-        modal.style.display = "block";
-        // Hide after 2 seconds
-        setTimeout(function() { modal.style.display = "none"; }, 2000);
-    }
-
-    window.showSuccessModal = showSuccessModal;
-    window.showFailureModal = showFailureModal;
 
 });
 function togglePass() {

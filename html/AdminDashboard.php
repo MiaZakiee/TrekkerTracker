@@ -87,6 +87,9 @@ if (!isset($_SESSION['adminID'])) {
                         <svg class="bi pe-none me-2" width="16" height="16">
                             <use xlink:href="#speedometer2" />
                         </svg>
+                        <svg class="bi pe-none me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2" />
+                        </svg>
                         Flights
                     </a>
                 </li>
@@ -96,10 +99,17 @@ if (!isset($_SESSION['adminID'])) {
                             <use xlink:href="#speedometer2" />
                         </svg>
                         Flight Reports
+                        <svg class="bi pe-none me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2" />
+                        </svg>
+                        Flight Reports
                     </a>
                 </li>
                 <li>
                     <a href="./BookingReports.php" class="nav-link link-body-emphasis">
+                        <svg class="bi pe-none me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2" />
+                        </svg>
                         <svg class="bi pe-none me-2" width="16" height="16">
                             <use xlink:href="#speedometer2" />
                         </svg>
@@ -146,10 +156,37 @@ if (!isset($_SESSION['adminID'])) {
                             <td class=""><?php echo $rowProfile['lname']; ?></td>
                             <td class=""><?php echo $rowUser['email']; ?></td>
                             <td class="">
+            <table class="table table-striped table-sm flightsTbl">
+                <thead>
+                    <tr>
+                        <th scope="col">User Id</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">User type</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Settings</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <?php
+                        while (($rowUser = mysqli_fetch_assoc($resultUser)) && ($rowProfile = mysqli_fetch_assoc($resultProfile))) {
+                        ?>
+                            <td class=""><?php echo $rowProfile['user_id']; ?></td>
+                            <td class=""><?php echo $rowProfile['fname']; ?></td>
+                            <td class=""><?php echo $rowProfile['lname']; ?></td>
+                            <td class=""><?php echo $rowUser['email']; ?></td>
+                            <td class="">
                                 <?php
                                 echo $rowUser['user_type'] == 0 ? 'Admin' : 'User';
                                 $user_type = $rowUser['user_type'] == 0 ? 'Admin' : 'User';
+                                echo $rowUser['user_type'] == 0 ? 'Admin' : 'User';
+                                $user_type = $rowUser['user_type'] == 0 ? 'Admin' : 'User';
                                 ?>
+                            </td>
+                            <td class=""> <?php echo ($rowUser['isBanned'] == 0 ? 'Active' : 'Banned') ?></td>
+                            <td class="">
                             </td>
                             <td class=""> <?php echo ($rowUser['isBanned'] == 0 ? 'Active' : 'Banned') ?></td>
                             <td class="">
@@ -160,12 +197,21 @@ if (!isset($_SESSION['adminID'])) {
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16" class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
                                         </svg>
+                                if ($rowUser['user_id'] != $_SESSION['adminID']) {
+                                ?>
+                                    <div class="dropdown">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16" class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
+                                        </svg>
 
 
                                         <ul class="dropdown-menu">
                                             <?php
+                                        <ul class="dropdown-menu">
+                                            <?php
                                             if ($user_type == 'User') {
                                                 if ($rowUser['isBanned'] == 0) {
+                                            ?>
                                             ?>
                                                     <li><a class="dropdown-item" href="./utils/ban.php?user_id=<?php echo htmlspecialchars($rowUser['user_id']); ?>">Ban User</a></li>
                                                     <li><a class="dropdown-item" href="./utils/promote.php?user_id=<?php echo htmlspecialchars($rowUser['user_id']); ?>">Promote to Admin</a></li>
@@ -179,7 +225,10 @@ if (!isset($_SESSION['adminID'])) {
                                                 ?>
                                                 <li><a class="dropdown-item" href="./utils/demote.php?user_id=<?php echo htmlspecialchars($rowUser['user_id']); ?>">Demote to User</a></li>
                                             <?php
+                                            <?php
                                             }
+                                            ?>
+                                        </ul>
                                             ?>
                                         </ul>
                                     </div>
@@ -190,9 +239,19 @@ if (!isset($_SESSION['adminID'])) {
                     </tr>
                 <?php
                         }
+                            </td>
+                        <?php
+                                }
+                        ?>
+                    </tr>
+                <?php
+                        }
 
                 ?>
+                ?>
 
+                </tbody>
+            </table>
                 </tbody>
             </table>
         </div>

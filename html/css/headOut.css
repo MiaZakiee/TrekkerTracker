@@ -1,0 +1,56 @@
+a:link {
+    color: white; /* Standard link color */
+  }
+  
+  a:visited {
+    color: white; /* Color for links already visited */
+  }
+  
+  a:hover {
+    color: #95C0E3; /* Color when hovering over the link */
+  }
+
+  a:focus {
+    color: #95C0E3; /* Color when the link is focused */
+  }
+
+  a:active {
+    color: white; /* Color when clicking the link */
+  }
+
+  .rowHead{
+    display: flex;
+    flex-direction: row;
+    font-family: 'Arima Madurai', sans-serif;
+    color: white;
+    justify-content: space-between;
+    align-content: start;
+    text-align: left;
+    height: 120px;
+    font-size: 20px;
+
+
+}
+.rowHead li{
+    font-size: 25px;
+    margin: 50px 25px;
+}
+.rowHead a.scrolled{
+    color: #FFCC70;
+
+}
+#OpenLog, #OpenReg, #logoutbtn{
+    position: absolute;
+    top:35%;
+    width: 120px;
+}
+#logoutbtn{
+    right:9%;
+}
+#OpenLog{
+    right: 13%;
+}
+#OpenReg{
+
+    right: 5%;
+}
