@@ -10,6 +10,14 @@ if (!isset($_SESSION['adminID'])) {
     location.replace('./index.php');
     </script>";
 }
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cancel_flight_id'])) {
+    $flight_id = $_POST['cancel_flight_id'];
+    $update_sql = "UPDATE tblflights SET isCancelled = 1 WHERE flight_id = '$flight_id'";
+    mysqli_query($connection, $update_sql);
+    header("Location: airlineAdminDashboard.php"); // Refresh the page to show the updated status
+    exit();
+}
 ?>
 <!doctype html>
 <html lang="en" data-bs-theme="dark">
@@ -59,7 +67,7 @@ if (!isset($_SESSION['adminID'])) {
 
     <main class="d-flex flex-nowrap ">
         <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px; height: 100vh;">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <a href="./statsPage.php" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
                 <img src="./images/logoWhite.png" alt="logo" style="width: 50px; height: 50px;">
                 <span class="fs-4" style="font-family: Signika">TrekkerTracker</span>
             </a>
@@ -122,32 +130,31 @@ if (!isset($_SESSION['adminID'])) {
                             <th scope="col">Destination</th>
                             <th scope="col">Departure</th>
                             <th scope="col">Arrival</th>
-                            <th scope="col">Chartered Flight</th>
+                            <th scope="col">Seating Capacity</th>
                             <th scope="col">Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <?php
-                            while ($row = mysqli_fetch_assoc($result)) {
-                            ?>
-                                <td class=""><?php echo $row['flight_id']; ?></td>
-                                <td class=""><?php echo $row['airline']; ?></td>
-                                <td class=""><?php echo $row['origin']; ?></td>
-                                <td class=""><?php echo $row['destination']; ?></td>
-                                <td class="tblContent"><?php echo $row['departureDT']; ?></td>
-                                <td class=""><?php echo $row['arrivalDT']; ?></td>
-                                <td class="">false</td>
-                                <td class=""><?php echo $row['seatingCapacity'];
-                                                echo "/";
-                                                echo $row['totalPassengers']; ?>
+                        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                            <tr>
+                                <td><?php echo $row['flight_id']; ?></td>
+                                <td><?php echo $row['airline']; ?></td>
+                                <td><?php echo $row['origin']; ?></td>
+                                <td><?php echo $row['destination']; ?></td>
+                                <td><?php echo $row['departureDT']; ?></td>
+                                <td><?php echo $row['arrivalDT']; ?></td>
+                                <td><?php echo $row['isCancelled'] ? 'Cancelled' : 'Scheduled'; ?></td>
+                                <td>
+                                    <?php if (!$row['isCancelled']) { ?>
+                                        <form method="POST" action="airlineAdminDashboard.php">
+                                            <input type="hidden" name="cancel_flight_id" value="<?php echo $row['flight_id']; ?>">
+                                            <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                                        </form>
+                                    <?php } ?>
                                 </td>
-                        </tr>
-                    <?php
-                            }
-
-                    ?>
-
+                            </tr>
+                        <?php } ?>
+                        <tr>
                     </tbody>
                 </table>
             </div>

@@ -122,7 +122,6 @@ if (!isset($_SESSION['adminID'])) {
                             <th scope="col">Origin</th>
                             <th scope="col">Destination</th>
                             <th scope="col">Seat Accomodation</th>
-                            <th scope="col">Charter Flight</th>
                             <th scope="col">Departure</th>
                             <th scope="col">Arrival</th>
                         </tr>
@@ -140,7 +139,6 @@ if (!isset($_SESSION['adminID'])) {
                                 <td class=""><?php echo $row['Origin']; ?></td>
                                 <td class=""><?php echo $row['Destination']; ?></td>
                                 <td class=""><?php echo $row['Seat_Accomodation']; ?></td>
-                                <td class=""><?php echo ($row['CharterFlight'] ? 'True' : 'False'); ?></td>
                                 <td class=""><?php echo date('Y-m-d H:i', strtotime($row['departure_dt'])); ?></td>
                                 <td class=""><?php echo date('Y-m-d H:i', strtotime($row['arrival_dt'])); ?></td>
                         </tr>
